@@ -1,0 +1,11 @@
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Domain\bin\Debug\net8.0\PetCareBooking.Domain.deps.json
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Domain\bin\Debug\net8.0\PetCareBooking.Domain.dll
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Domain\bin\Debug\net8.0\PetCareBooking.Domain.pdb
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Domain\obj\Debug\net8.0\PetCareBooking.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Domain\obj\Debug\net8.0\PetCareBooking.Domain.AssemblyInfoInputs.cache
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Domain\obj\Debug\net8.0\PetCareBooking.Domain.AssemblyInfo.cs
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Domain\obj\Debug\net8.0\PetCareBooking.Domain.csproj.CoreCompileInputs.cache
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Domain\obj\Debug\net8.0\PetCareBooking.Domain.dll
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Domain\obj\Debug\net8.0\refint\PetCareBooking.Domain.dll
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Domain\obj\Debug\net8.0\PetCareBooking.Domain.pdb
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Domain\obj\Debug\net8.0\ref\PetCareBooking.Domain.dll

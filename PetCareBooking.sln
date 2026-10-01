@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36603.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetCareBooking.API", "PetCareBooking.API\PetCareBooking.API.csproj", "{3426C29D-5290-422E-AE84-DF10D1C423C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetCareBooking.Domain", "PetCareBooking.Domain\PetCareBooking.Domain.csproj", "{063751F2-2F59-45EE-B712-21AAD0DF953E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetCareBooking.Application", "PetCareBooking.Application\PetCareBooking.Application.csproj", "{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetCareBooking.Persistence", "PetCareBooking.Persistence\PetCareBooking.Persistence.csproj", "{E2EE13E6-AA8A-44B2-83FC-7F818CD429E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetCareBooking.Infrastructure", "PetCareBooking.Infrastructure\PetCareBooking.Infrastructure.csproj", "{593591CE-F543-4E65-BAE5-BBB7803EA72B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3426C29D-5290-422E-AE84-DF10D1C423C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3426C29D-5290-422E-AE84-DF10D1C423C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3426C29D-5290-422E-AE84-DF10D1C423C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3426C29D-5290-422E-AE84-DF10D1C423C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{063751F2-2F59-45EE-B712-21AAD0DF953E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{063751F2-2F59-45EE-B712-21AAD0DF953E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{063751F2-2F59-45EE-B712-21AAD0DF953E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{063751F2-2F59-45EE-B712-21AAD0DF953E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2EE13E6-AA8A-44B2-83FC-7F818CD429E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2EE13E6-AA8A-44B2-83FC-7F818CD429E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2EE13E6-AA8A-44B2-83FC-7F818CD429E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2EE13E6-AA8A-44B2-83FC-7F818CD429E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{593591CE-F543-4E65-BAE5-BBB7803EA72B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{593591CE-F543-4E65-BAE5-BBB7803EA72B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{593591CE-F543-4E65-BAE5-BBB7803EA72B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{593591CE-F543-4E65-BAE5-BBB7803EA72B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2859C6B-34EB-45A7-92F9-4D64FA11989F}
+	EndGlobalSection
+EndGlobal

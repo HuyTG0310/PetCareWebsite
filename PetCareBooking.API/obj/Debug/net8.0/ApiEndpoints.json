@@ -1,0 +1,44 @@
+[
+  {
+    "ContainingType": "PetCareBooking.API.Controllers.ServicesController",
+    "Method": "GetAllServices",
+    "RelativePath": "api/Services",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetCareBooking.API.Controllers.ServicesController",
+    "Method": "CreateService",
+    "RelativePath": "api/Services",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "PetCareBooking.Application.Features.Services.Commands.CreateService.CreateServiceCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetCareBooking.API.Controllers.ServicesController",
+    "Method": "GetServiceById",
+    "RelativePath": "api/Services/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
