@@ -1,39 +1,49 @@
-﻿//using MediatR;
-//using PetCareBooking.Application.Common.Models;
-//using PetCareBooking.Application.DTOs;
-//using PetCareBooking.Application.Interfaces;
-//using PetCareBooking.Domain.Entities;
+﻿using MediatR;
+using PetCareBooking.Application.Common.Models;
+using PetCareBooking.Application.DTOs.Service;
+using PetCareBooking.Application.Interfaces;
+using PetCareBooking.Domain.Entities;
 
-//namespace PetCareBooking.Application.Features.Services.Queries.GetAllServices
-//{
-//    public class GetAllServicesQueryHandler : IRequestHandler<GetAllServicesQuery, ApiResponse<IEnumerable<ServiceDTO>>>
-//    {
-//        private readonly IGenericRepository<Service> _repository;
+namespace PetCareBooking.Application.Features.Services.Queries.GetAllServices
+{
+    public class GetAllServicesQueryHandler : IRequestHandler<GetAllServicesQuery, ApiResponse<List<ServiceResponseDTO>>>
+    {
+        private readonly IGenericRepository<Service> _repository;
 
-//        public GetAllServicesQueryHandler(IGenericRepository<Service> repository)
-//        {
-//            _repository = repository;
-//        }
+        public GetAllServicesQueryHandler(IGenericRepository<Service> repository)
+        {
+            _repository = repository;
+        }
 
-//        public async Task<ApiResponse<IEnumerable<ServiceDTO>>> Handle(GetAllServicesQuery request, CancellationToken cancellationToken)
-//        {
-//            var services = await _repository.GetAllAsync();
+        public async Task<ApiResponse<List<ServiceResponseDTO>>> Handle(GetAllServicesQuery request, CancellationToken cancellationToken)
+        {
+            // Sử dụng FindAsync với predicate x => true để lấy toàn bộ danh sách, đồng thời include "ServicePrices"
+            var services = await _repository.FindAsync(x => true, "ServicePrices");
 
-//            var serviceDtos = services.Select(s => new ServiceDTO
-//            {
-//                Id = s.Id,
-//                ServiceName = s.ServiceName,
-//                ServiceType = s.ServiceType,
-//                Price = s.Price,
-//                Status = s.Status
-//            }).ToList();
+            var serviceDTOs = services.Select(s => new ServiceResponseDTO
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description,
+                ServiceType = s.ServiceType,
+                IsActive = s.IsActive,
+                Prices = s.ServicePrices.Select(p => new ServicePriceResponseDTO
+                {
+                    Id = p.Id,
+                    MinWeight = p.MinWeight,
+                    MaxWeight = p.MaxWeight,
+                    Price = p.Price,
+                    PricingUnit = p.PricingUnit
+                }).ToList()
+            }).ToList();
 
-//            return new ApiResponse<IEnumerable<ServiceDTO>>
-//            {
-//                IsSuccess = true,
-//                StatusCode = 200,
-//                Result = serviceDtos
-//            };
-//        }
-//    }
-//}
+            return new ApiResponse<List<ServiceResponseDTO>>
+            {
+                IsSuccess = true,
+                StatusCode = 200,
+                Message = "Get all services successfully.",
+                Result = serviceDTOs
+            };
+        }
+    }
+}
