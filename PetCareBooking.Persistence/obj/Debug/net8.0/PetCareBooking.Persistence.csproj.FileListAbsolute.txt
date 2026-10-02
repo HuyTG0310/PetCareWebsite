@@ -15,3 +15,4 @@ D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Persistence\obj\Debug\ne
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Persistence\obj\Debug\net8.0\refint\PetCareBooking.Persistence.dll
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Persistence\obj\Debug\net8.0\PetCareBooking.Persistence.pdb
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Persistence\obj\Debug\net8.0\ref\PetCareBooking.Persistence.dll
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Persistence\obj\Debug\net8.0\PetCareBooking.Persistence.sourcelink.json

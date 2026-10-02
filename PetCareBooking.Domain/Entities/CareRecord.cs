@@ -1,8 +1,9 @@
-﻿namespace PetCareBooking.Domain.Entities
+﻿using PetCareBooking.Domain.Common;
+
+namespace PetCareBooking.Domain.Entities
 {
-    public class CareRecord
+    public class CareRecord : BaseEntity
     {
-        public Guid Id { get; set; }
         public Guid BookingItemId { get; set; }
         public Guid StaffId { get; set; }
         public DateTime RecordDate { get; set; }

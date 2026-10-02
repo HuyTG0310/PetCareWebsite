@@ -6,16 +6,6 @@
   },
   "paths": {
     "/api/Services": {
-      "get": {
-        "tags": [
-          "Services"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
       "post": {
         "tags": [
           "Services"
@@ -45,29 +35,6 @@
           }
         }
       }
-    },
-    "/api/Services/{id}": {
-      "get": {
-        "tags": [
-          "Services"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
     }
   },
   "components": {
@@ -75,11 +42,7 @@
       "CreateServiceCommand": {
         "type": "object",
         "properties": {
-          "serviceName": {
-            "type": "string",
-            "nullable": true
-          },
-          "serviceType": {
+          "name": {
             "type": "string",
             "nullable": true
           },
@@ -87,21 +50,58 @@
             "type": "string",
             "nullable": true
           },
-          "durationMinutes": {
-            "type": "integer",
-            "format": "int32",
+          "serviceType": {
+            "$ref": "#/components/schemas/ServiceType"
+          },
+          "prices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServicePriceDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PricingUnit": {
+        "enum": [
+          "Per_Turn",
+          "Per_Day",
+          "Item"
+        ],
+        "type": "string"
+      },
+      "ServicePriceDTO": {
+        "type": "object",
+        "properties": {
+          "minWeight": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           },
-          "pricingUnit": {
-            "type": "string",
+          "maxWeight": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           },
           "price": {
             "type": "number",
             "format": "double"
+          },
+          "pricingUnit": {
+            "$ref": "#/components/schemas/PricingUnit"
           }
         },
         "additionalProperties": false
+      },
+      "ServiceType": {
+        "enum": [
+          "Grooming",
+          "Boarding",
+          "Diet",
+          "Care"
+        ],
+        "type": "string"
       }
     }
   }

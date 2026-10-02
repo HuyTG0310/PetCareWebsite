@@ -1,10 +1,10 @@
-﻿using PetCareBooking.Domain.Enums;
+﻿using PetCareBooking.Domain.Common;
+using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Domain.Entities
 {
-    public class Promotion
+    public class Promotion : BaseEntity
     {
-        public Guid Id { get; set; }
         public string Code { get; set; } = null!;
         public DiscountType DiscountType { get; set; }
         public decimal DiscountValue { get; set; }

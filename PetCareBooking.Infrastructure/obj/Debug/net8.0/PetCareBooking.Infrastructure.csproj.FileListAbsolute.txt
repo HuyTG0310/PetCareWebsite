@@ -15,3 +15,4 @@ D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Infrastructure\obj\Debug
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Infrastructure\obj\Debug\net8.0\refint\PetCareBooking.Infrastructure.dll
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Infrastructure\obj\Debug\net8.0\PetCareBooking.Infrastructure.pdb
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Infrastructure\obj\Debug\net8.0\ref\PetCareBooking.Infrastructure.dll
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Infrastructure\obj\Debug\net8.0\PetCareBooking.Infrastructure.sourcelink.json

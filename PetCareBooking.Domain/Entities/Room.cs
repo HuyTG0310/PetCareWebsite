@@ -1,10 +1,10 @@
-﻿using PetCareBooking.Domain.Enums;
+﻿using PetCareBooking.Domain.Common;
+using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Domain.Entities
 {
-    public class Room
+    public class Room : BaseEntity
     {
-        public Guid Id { get; set; }
         public Guid RoomTypeId { get; set; }
         public string RoomName { get; set; } = null!;
         public RoomStatus Status { get; set; }

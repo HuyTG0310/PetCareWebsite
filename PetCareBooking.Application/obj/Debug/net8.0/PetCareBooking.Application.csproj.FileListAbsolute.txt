@@ -13,3 +13,4 @@ D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Application\obj\Debug\ne
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Application\obj\Debug\net8.0\refint\PetCareBooking.Application.dll
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Application\obj\Debug\net8.0\PetCareBooking.Application.pdb
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Application\obj\Debug\net8.0\ref\PetCareBooking.Application.dll
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.Application\obj\Debug\net8.0\PetCareBooking.Application.sourcelink.json
