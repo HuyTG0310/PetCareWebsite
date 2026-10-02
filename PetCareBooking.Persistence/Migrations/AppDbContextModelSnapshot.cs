@@ -50,6 +50,9 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("DECIMAL(18,2)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
@@ -71,6 +74,9 @@ namespace PetCareBooking.Persistence.Migrations
 
                     b.Property<Guid>("BookingId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("PetId")
                         .HasColumnType("uniqueidentifier");
@@ -111,6 +117,9 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("DECIMAL(18,2)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BookingId");
@@ -136,6 +145,9 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Property<Guid>("BookingItemId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("HealthStatus")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -153,6 +165,9 @@ namespace PetCareBooking.Persistence.Migrations
 
                     b.Property<Guid>("StaffId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -203,6 +218,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -256,6 +274,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
@@ -276,6 +297,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Weight")
                         .HasColumnType("DECIMAL(5,2)");
@@ -299,6 +323,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("CurrentUsage")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -320,6 +347,9 @@ namespace PetCareBooking.Persistence.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("DATETIME");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -356,6 +386,9 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Property<Guid>("ServiceId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BookingItemId")
@@ -378,6 +411,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWSEQUENTIALID()");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
@@ -386,6 +422,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -417,6 +456,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWSEQUENTIALID()");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("RoomName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -432,6 +474,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasDefaultValue("Available");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RoomTypeId");
@@ -446,6 +491,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWSEQUENTIALID()");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("NVARCHAR(MAX)");
 
@@ -453,6 +501,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -465,6 +516,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWSEQUENTIALID()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("NVARCHAR(MAX)");
@@ -484,6 +538,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Services");
@@ -495,6 +552,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWSEQUENTIALID()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal?>("MaxWeight")
                         .HasColumnType("DECIMAL(5,2)");
@@ -515,6 +575,9 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Property<Guid>("ServiceId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ServiceId");
@@ -528,6 +591,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWSEQUENTIALID()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -555,6 +621,9 @@ namespace PetCareBooking.Persistence.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasDefaultValue("Active");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("YearsOfExperience")
                         .ValueGeneratedOnAdd()

@@ -1,7 +1,9 @@
-
+﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PetCareBooking.API.Middlewares;
 using PetCareBooking.Application;
+using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +32,39 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod()
         .AllowAnyHeader());
 });
+
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+}).ConfigureApiBehaviorOptions(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        // Thu thập tất cả thông báo lỗi từ ModelState
+        var errors = context.ModelState
+            .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+            .SelectMany(x => x.Value!.Errors)
+            .Select(x => x.ErrorMessage)
+            .ToList();
+
+        // Đóng gói vào format chuẩn của hệ thống
+        var apiResponse = new ApiResponse<object>
+        {
+            IsSuccess = false,
+            StatusCode = 400,
+            // Nối các lỗi lại thành 1 chuỗi dễ đọc, hoặc bạn có thể tạo thêm property List<string> Errors trong ApiResponse
+            Message = string.Join(" | ", errors),
+            Result = null
+        };
+
+        return new BadRequestObjectResult(apiResponse);
+    };
+});
+
+
+
+
 
 var app = builder.Build();
 

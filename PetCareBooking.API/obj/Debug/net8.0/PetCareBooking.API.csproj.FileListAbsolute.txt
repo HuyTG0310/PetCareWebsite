@@ -155,3 +155,5 @@ D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.API\bin\Debug\net8.0\Flu
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.API\bin\Debug\net8.0\MediatR.dll
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.API\bin\Debug\net8.0\MediatR.Contracts.dll
 D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.API\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.API\obj\Debug\net8.0\PetCareBooking.API.sourcelink.json
+D:\2026-2027\FA 26\PRN222\PetCareBooking\PetCareBooking.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

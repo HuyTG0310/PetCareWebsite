@@ -3,9 +3,8 @@ using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Domain.Entities
 {
-    public class Staff
+    public class Staff : BaseEntity
     {
-        public Guid Id { get; set; }
         public string Email { get; set; } = null!;
         public string PasswordHash { get; set; } = null!;
         public string FullName { get; set; } = null!;
