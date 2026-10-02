@@ -46,6 +46,18 @@
         }
       }
     },
+    "/api/Services/all": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Services/{id}": {
       "get": {
         "tags": [

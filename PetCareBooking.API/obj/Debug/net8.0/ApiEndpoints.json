@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "PetCareBooking.API.Controllers.ServicesController",
-    "Method": "GetAllServices",
+    "Method": "GetActiveServices",
     "RelativePath": "api/Services",
     "HttpMethod": "GET",
     "IsController": true,
@@ -76,6 +76,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetCareBooking.API.Controllers.ServicesController",
+    "Method": "GetAllServicesForAdmin",
+    "RelativePath": "api/Services/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

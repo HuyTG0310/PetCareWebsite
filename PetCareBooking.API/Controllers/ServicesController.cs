@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.Services.Commands.CreateService;
 using PetCareBooking.Application.Features.Services.Commands.DeleteService;
 using PetCareBooking.Application.Features.Services.Commands.UpdateService;
+using PetCareBooking.Application.Features.Services.Queries.GetActiveServices;
 using PetCareBooking.Application.Features.Services.Queries.GetAllServices;
 using PetCareBooking.Application.Features.Services.Queries.GetServiceById;
 
@@ -19,8 +20,17 @@ namespace PetCareBooking.API.Controllers
             _mediator = mediator;
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> GetAllServices()
+        public async Task<IActionResult> GetActiveServices()
+        {
+            var response = await _mediator.Send(new GetActiveServicesQuery());
+            return StatusCode(response.StatusCode, response);
+        }
+
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllServicesForAdmin()
         {
             var response = await _mediator.Send(new GetAllServicesQuery());
             return StatusCode(response.StatusCode, response);
