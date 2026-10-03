@@ -4,24 +4,24 @@ using PetCareBooking.Application.DTOs.Service;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
 
-namespace PetCareBooking.Application.Features.Services.Queries.GetAllServices
+namespace PetCareBooking.Application.Features.Services.Queries.GetActiveServices
 {
-    public class GetAllServicesQueryHandler : IRequestHandler<GetAllServicesQuery, ApiResponse<PagedResult<ServiceListResponseDTO>>>
+    public class GetActiveServicesQueryHandler : IRequestHandler<GetActiveServicesQuery, ApiResponse<PagedResult<ServiceListResponseDTO>>>
     {
         private readonly IGenericRepository<Service> _repository;
 
-        public GetAllServicesQueryHandler(IGenericRepository<Service> repository)
+        public GetActiveServicesQueryHandler(IGenericRepository<Service> repository)
         {
             _repository = repository;
         }
 
-        public async Task<ApiResponse<PagedResult<ServiceListResponseDTO>>> Handle(GetAllServicesQuery request, CancellationToken cancellationToken)
+        public async Task<ApiResponse<PagedResult<ServiceListResponseDTO>>> Handle(GetActiveServicesQuery request, CancellationToken cancellationToken)
         {
             if (request.PageNumber < 1) request.PageNumber = 1;
             if (request.PageSize < 1) request.PageSize = 10;
             if (request.PageSize > 100) request.PageSize = 100;
 
-            var services = await _repository.FindAsync(x => true);
+            var services = await _repository.FindAsync(x => x.IsActive == true);
 
             int totalCount = services.Count();
 
@@ -43,7 +43,7 @@ namespace PetCareBooking.Application.Features.Services.Queries.GetAllServices
             {
                 IsSuccess = true,
                 StatusCode = 200,
-                Message = "Get all services successfully.",
+                Message = "Get active services successfully.",
                 Result = new PagedResult<ServiceListResponseDTO>
                 {
                     Items = serviceDTOs,
