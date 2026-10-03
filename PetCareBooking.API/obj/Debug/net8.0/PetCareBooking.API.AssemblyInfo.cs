@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PetCareBooking.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7f42e9fb85be891838e0d94e98c88efbe3b5c4a5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4d2226e42c324769fc5c0f8cbb32bb95946a34cc")]
 [assembly: System.Reflection.AssemblyProductAttribute("PetCareBooking.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PetCareBooking.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

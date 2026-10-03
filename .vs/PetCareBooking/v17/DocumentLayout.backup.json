@@ -3,28 +3,180 @@
   "WorkspaceRootPath": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\searchservices\\searchservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\searchservices\\searchservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3426C29D-5290-422E-AE84-DF10D1C423C4}|PetCareBooking.API\\PetCareBooking.API.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.api\\controllers\\bookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3426C29D-5290-422E-AE84-DF10D1C423C4}|PetCareBooking.API\\PetCareBooking.API.csproj|solutionrelative:petcarebooking.api\\controllers\\bookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\searchservicesforadmin\\searchservicesforadminqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\searchservicesforadmin\\searchservicesforadminqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\searchbookings\\searchbookingsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\searchbookings\\searchbookingsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\searchcustomerbookings\\searchcustomerbookingsqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\searchcustomerbookings\\searchcustomerbookingsqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\searchcustomerbookings\\searchcustomerbookingsqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\searchcustomerbookings\\searchcustomerbookingsqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\searchcustomerbookings\\searchcustomerbookingsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\searchcustomerbookings\\searchcustomerbookingsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\searchbookings\\searchbookingsqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\searchbookings\\searchbookingsqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\searchbookings\\searchbookingsqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\searchbookings\\searchbookingsqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\updatebookingstatus\\updatebookingstatuscommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\updatebookingstatus\\updatebookingstatuscommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\cancelbooking\\cancelbookingcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\cancelbooking\\cancelbookingcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\cancelbooking\\cancelbookingcommandvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\cancelbooking\\cancelbookingcommandvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\createbooking\\createbookingcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\createbooking\\createbookingcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\updatebookingitemstatus\\updatebookingitemstatuscommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\updatebookingitemstatus\\updatebookingitemstatuscommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\updatebookingstatus\\updatebookingstatuscommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\updatebookingstatus\\updatebookingstatuscommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\updatebookingstatus\\updatebookingstatuscommandvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\updatebookingstatus\\updatebookingstatuscommandvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\updatebookingitemstatus\\updatebookingitemstatuscommandvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\updatebookingitemstatus\\updatebookingitemstatuscommandvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\getadminbookings\\getadminbookingsqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\getadminbookings\\getadminbookingsqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\getcustomerbookings\\getcustomerbookingsqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\getcustomerbookings\\getcustomerbookingsqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\createbooking\\createbookingcommandvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\createbooking\\createbookingcommandvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\getbookingbyid\\getbookingbyidqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\getbookingbyid\\getbookingbyidqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\getadminbookings\\getadminbookingsqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\getadminbookings\\getadminbookingsqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\getcustomerbookings\\getcustomerbookingsqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\getcustomerbookings\\getcustomerbookingsqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\getbookingbyid\\getbookingbyidqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\getbookingbyid\\getbookingbyidqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\createbooking\\createbookingcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\createbooking\\createbookingcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dtos\\booking\\bookingitemrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dtos\\booking\\bookingitemrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\cancelbooking\\cancelbookingcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\cancelbooking\\cancelbookingcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\commands\\updatebookingitemstatus\\updatebookingitemstatuscommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\commands\\updatebookingitemstatus\\updatebookingitemstatuscommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\getadminbookings\\getadminbookingsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\getadminbookings\\getadminbookingsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\getcustomerbookings\\getcustomerbookingsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\getcustomerbookings\\getcustomerbookingsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\bookings\\queries\\getbookingbyid\\getbookingbyidquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\bookings\\queries\\getbookingbyid\\getbookingbyidquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dtos\\booking\\bookingresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dtos\\booking\\bookingresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dtos\\booking\\bookinglistresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dtos\\booking\\bookinglistresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dtos\\booking\\bookingitemresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dtos\\booking\\bookingitemresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\getactiveservices\\getactiveservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\getactiveservices\\getactiveservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\getallservices\\getallservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\getallservices\\getallservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\getservicebyid\\getservicebyidqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\getservicebyid\\getservicebyidqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\searchservices\\searchservicesquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\searchservices\\searchservicesquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\searchservices\\searchservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\searchservices\\searchservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\searchservicesforadmin\\searchservicesforadminquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\searchservicesforadmin\\searchservicesforadminquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\common\\models\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\common\\models\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\searchservicesforadmin\\searchservicesforadminqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\searchservicesforadmin\\searchservicesforadminqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\getactiveservices\\getactiveservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\getactiveservices\\getactiveservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\commands\\createservice\\createservicecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\commands\\createservice\\createservicecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dtos\\service\\servicepricedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dtos\\service\\servicepricedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dtos\\service\\servicelistresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dtos\\service\\servicelistresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dtos\\service\\serviceresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dtos\\service\\serviceresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\common\\models\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\common\\models\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\getactiveservices\\getactiveservicesquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -35,20 +187,12 @@
       "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\commands\\createservice\\createservicecommandvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\getservicebyid\\getservicebyidqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\getservicebyid\\getservicebyidqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\getservicebyid\\getservicebyidquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\getservicebyid\\getservicebyidquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\getservicebyid\\getservicebyidqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\getservicebyid\\getservicebyidqueryvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\getallservices\\getallservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\queries\\getallservices\\getallservicesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\queries\\getallservices\\getallservicesquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -83,20 +227,12 @@
       "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\commands\\createservice\\createservicecommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\features\\services\\commands\\createservice\\createservicecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\features\\services\\commands\\createservice\\createservicecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{3426C29D-5290-422E-AE84-DF10D1C423C4}|PetCareBooking.API\\PetCareBooking.API.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.api\\controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3426C29D-5290-422E-AE84-DF10D1C423C4}|PetCareBooking.API\\PetCareBooking.API.csproj|solutionrelative:petcarebooking.api\\controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dtos\\service\\servicelistresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dtos\\service\\servicelistresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\common\\models\\pagedresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -127,16 +263,8 @@
       "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\interfaces\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dtos\\service\\serviceresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dtos\\service\\serviceresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dtos\\service\\servicepriceresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dtos\\service\\servicepriceresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.application\\dtos\\service\\servicepricedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98D66BD1-7E41-4489-91A1-DC581EEFB1DC}|PetCareBooking.Application\\PetCareBooking.Application.csproj|solutionrelative:petcarebooking.application\\dtos\\service\\servicepricedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3426C29D-5290-422E-AE84-DF10D1C423C4}|PetCareBooking.API\\PetCareBooking.API.csproj|d:\\2026-2027\\fa 26\\prn222\\petcarebooking\\petcarebooking.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -298,7 +426,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 17,
           "Children": [
             {
               "$type": "Bookmark",
@@ -351,6 +479,422 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "SearchCustomerBookingsQueryHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQueryHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQueryHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQueryHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQueryHandler.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAowE4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T09:09:06.391Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SearchCustomerBookingsQueryValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQueryValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQueryValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQueryValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQueryValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T09:09:02.398Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SearchCustomerBookingsQuery.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQuery.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQuery.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQuery.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchCustomerBookings\\SearchCustomerBookingsQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T09:08:57.026Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SearchBookingsQueryHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQueryHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQueryHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQueryHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQueryHandler.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAowB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T09:02:21.652Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SearchBookingsQuery.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQuery.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQuery.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQuery.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T09:02:11.363Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BookingsController.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\Controllers\\BookingsController.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.API\\Controllers\\BookingsController.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\Controllers\\BookingsController.cs",
+              "RelativeToolTip": "PetCareBooking.API\\Controllers\\BookingsController.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAcwDYAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:22:13.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SearchBookingsQueryValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQueryValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQueryValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQueryValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\SearchBookings\\SearchBookingsQueryValidator.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwB0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T09:02:16.546Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "UpdateBookingItemStatusCommandHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommandHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommandHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommandHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommandHandler.cs",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAAAKUAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:19:14.343Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CreateBookingCommandHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommandHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommandHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommandHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommandHandler.cs",
+              "ViewState": "AgIAAMwAAAAAAAAAAAAowM0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:10:32.6Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "UpdateBookingStatusCommand.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommand.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommand.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommand.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:35:05.402Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CancelBookingCommandValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommandValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommandValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommandValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommandValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:28:00.8Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CancelBookingCommandHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommandHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommandHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommandHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommandHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:21:26.998Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UpdateBookingStatusCommandHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommandHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommandHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommandHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommandHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:35:15.959Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "UpdateBookingStatusCommandValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommandValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommandValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommandValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingStatus\\UpdateBookingStatusCommandValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:35:10.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "GetAdminBookingsQueryValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQueryValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQueryValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQueryValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQueryValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:28:29.487Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "GetCustomerBookingsQueryValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQueryValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQueryValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQueryValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQueryValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:28:09.523Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "CreateBookingCommandValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommandValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommandValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommandValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommandValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:04:55.132Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "UpdateBookingItemStatusCommandValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommandValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommandValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommandValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommandValidator.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAgwB4AAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:27:33.992Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "GetBookingByIdQueryValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQueryValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQueryValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQueryValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQueryValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:28:06.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "GetAdminBookingsQueryHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQueryHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQueryHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQueryHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQueryHandler.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAowBAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:19:05.156Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "GetCustomerBookingsQueryHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQueryHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQueryHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQueryHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQueryHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:18:54.276Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "GetBookingByIdQueryHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQueryHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQueryHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQueryHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQueryHandler.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAwwC8AAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:18:14.557Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "CancelBookingCommand.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommand.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommand.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommand.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CancelBooking\\CancelBookingCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:06:43.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "UpdateBookingItemStatusCommand.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommand.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommand.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommand.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\UpdateBookingItemStatus\\UpdateBookingItemStatusCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:06:35.357Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "GetAdminBookingsQuery.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQuery.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQuery.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQuery.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetAdminBookings\\GetAdminBookingsQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:06:23.653Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "GetCustomerBookingsQuery.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQuery.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQuery.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQuery.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetCustomerBookings\\GetCustomerBookingsQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:06:21.438Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "CreateBookingCommand.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommand.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommand.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommand.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Commands\\CreateBooking\\CreateBookingCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAoAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:04:47.539Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "BookingItemRequestDTO.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Booking\\BookingItemRequestDTO.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\DTOs\\Booking\\BookingItemRequestDTO.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Booking\\BookingItemRequestDTO.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\DTOs\\Booking\\BookingItemRequestDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T07:55:21.324Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "GetBookingByIdQuery.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQuery.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQuery.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQuery.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Bookings\\Queries\\GetBookingById\\GetBookingByIdQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:06:00.062Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "BookingItemResponseDTO.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Booking\\BookingItemResponseDTO.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\DTOs\\Booking\\BookingItemResponseDTO.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Booking\\BookingItemResponseDTO.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\DTOs\\Booking\\BookingItemResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:04:18.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "BookingListResponseDTO.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Booking\\BookingListResponseDTO.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\DTOs\\Booking\\BookingListResponseDTO.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Booking\\BookingListResponseDTO.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\DTOs\\Booking\\BookingListResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:04:36.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "BookingResponseDTO.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Booking\\BookingResponseDTO.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\DTOs\\Booking\\BookingResponseDTO.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Booking\\BookingResponseDTO.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\DTOs\\Booking\\BookingResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T08:04:30.726Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
               "Title": "SearchServicesQuery.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServices\\SearchServicesQuery.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServices\\SearchServicesQuery.cs",
@@ -363,98 +907,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SearchServicesQueryHandler.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServices\\SearchServicesQueryHandler.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServices\\SearchServicesQueryHandler.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServices\\SearchServicesQueryHandler.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServices\\SearchServicesQueryHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T10:19:00.163Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SearchServicesForAdminQuery.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQuery.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQuery.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQuery.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQuery.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T10:21:28.224Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SearchServicesForAdminQueryHandler.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQueryHandler.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQueryHandler.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQueryHandler.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQueryHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T10:21:43.785Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "GetActiveServicesQuery.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQuery.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQuery.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQuery.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQuery.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T10:05:58.961Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "GetActiveServicesQueryHandler.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQueryHandler.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQueryHandler.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQueryHandler.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQueryHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAACHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T10:06:08.986Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ApiResponse.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Common\\Models\\ApiResponse.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Common\\Models\\ApiResponse.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Common\\Models\\ApiResponse.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Common\\Models\\ApiResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-28T06:19:22.589Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "CreateServiceCommandValidator.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandValidator.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandValidator.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandValidator.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandValidator.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAgwBUAAABlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-28T06:21:01.142Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 34,
               "Title": "GetServiceByIdQueryHandler.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQueryHandler.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQueryHandler.cs",
@@ -467,33 +920,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "GetServiceByIdQuery.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQuery.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQuery.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQuery.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQuery.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-28T05:56:44.273Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "GetServiceByIdQueryValidator.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQueryValidator.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQueryValidator.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQueryValidator.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQueryValidator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABDAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T07:33:44.527Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 33,
               "Title": "GetAllServicesQueryHandler.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetAllServices\\GetAllServicesQueryHandler.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetAllServices\\GetAllServicesQueryHandler.cs",
@@ -506,111 +933,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "GetAllServicesQuery.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetAllServices\\GetAllServicesQuery.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetAllServices\\GetAllServicesQuery.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetAllServices\\GetAllServicesQuery.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\GetAllServices\\GetAllServicesQuery.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 32,
+              "Title": "GetActiveServicesQueryHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQueryHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQueryHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQueryHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQueryHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAACHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-28T07:16:39.184Z",
+              "WhenOpened": "2026-10-02T10:06:08.986Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "UpdateServiceCommandHandler.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandHandler.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandHandler.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandHandler.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandHandler.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAAowDMAAAARAAAAAAAAAA==",
+              "DocumentIndex": 36,
+              "Title": "SearchServicesQueryHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServices\\SearchServicesQueryHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServices\\SearchServicesQueryHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServices\\SearchServicesQueryHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServices\\SearchServicesQueryHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAACUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T07:43:42.453Z",
+              "WhenOpened": "2026-10-02T10:19:00.163Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "UpdateServiceCommandValidator.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandValidator.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandValidator.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandValidator.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandValidator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAJAAAAAAAAAA==",
+              "DocumentIndex": 37,
+              "Title": "SearchServicesForAdminQuery.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQuery.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQuery.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQuery.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T07:43:16.694Z",
+              "WhenOpened": "2026-10-02T10:21:28.224Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "UpdateServiceCommand.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommand.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommand.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommand.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABDAAAAAAAAAA==",
+              "DocumentIndex": 38,
+              "Title": "SearchServicesForAdminQueryHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQueryHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQueryHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQueryHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\SearchServicesForAdmin\\SearchServicesForAdminQueryHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T07:42:33.68Z",
+              "WhenOpened": "2026-10-02T10:21:43.785Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "DeleteServiceCommandValidator.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandValidator.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandValidator.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandValidator.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandValidator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T09:49:43.654Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "DeleteServiceCommandHandler.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandHandler.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandHandler.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandHandler.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandHandler.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAowCgAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T09:49:53.295Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "DeleteServiceCommand.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommand.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommand.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommand.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T09:49:26.213Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "CreateServiceCommandHandler.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandHandler.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandHandler.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandHandler.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandHandler.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAowAYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-28T05:48:23.957Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 39,
               "Title": "CreateServiceCommand.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommand.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommand.cs",
@@ -623,33 +998,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "ServicesController.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\Controllers\\ServicesController.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.API\\Controllers\\ServicesController.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\Controllers\\ServicesController.cs",
-              "RelativeToolTip": "PetCareBooking.API\\Controllers\\ServicesController.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAAwGYAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-28T05:59:41.683Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "DependencyInjection.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DependencyInjection.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\DependencyInjection.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DependencyInjection.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\DependencyInjection.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAABTAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-28T06:04:08.958Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 41,
               "Title": "ServiceListResponseDTO.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Service\\ServiceListResponseDTO.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Application\\DTOs\\Service\\ServiceListResponseDTO.cs",
@@ -662,7 +1011,228 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 42,
+              "Title": "ServiceResponseDTO.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Service\\ServiceResponseDTO.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\DTOs\\Service\\ServiceResponseDTO.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Service\\ServiceResponseDTO.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\DTOs\\Service\\ServiceResponseDTO.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAA1wBQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T07:23:25.216Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "ServicePriceDTO.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Service\\ServicePriceDTO.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\DTOs\\Service\\ServicePriceDTO.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Service\\ServicePriceDTO.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\DTOs\\Service\\ServicePriceDTO.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAqwAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T01:24:52.509Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "ApiResponse.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Common\\Models\\ApiResponse.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Common\\Models\\ApiResponse.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Common\\Models\\ApiResponse.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Common\\Models\\ApiResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-28T06:19:22.589Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "GetActiveServicesQuery.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQuery.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQuery.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQuery.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\GetActiveServices\\GetActiveServicesQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T10:05:58.961Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "CreateServiceCommandValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandValidator.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAgwBUAAABlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-28T06:21:01.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "GetServiceByIdQuery.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQuery.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQuery.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQuery.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-28T05:56:44.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "GetServiceByIdQueryValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQueryValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQueryValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQueryValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\GetServiceById\\GetServiceByIdQueryValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T07:33:44.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "GetAllServicesQuery.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetAllServices\\GetAllServicesQuery.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Queries\\GetAllServices\\GetAllServicesQuery.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Queries\\GetAllServices\\GetAllServicesQuery.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Queries\\GetAllServices\\GetAllServicesQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-28T07:16:39.184Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "UpdateServiceCommandHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandHandler.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAowDMAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T07:43:42.453Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "UpdateServiceCommandValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommandValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T07:43:16.694Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "UpdateServiceCommand.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommand.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommand.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommand.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\UpdateService\\UpdateServiceCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T07:42:33.68Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "DeleteServiceCommandValidator.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandValidator.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandValidator.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandValidator.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T09:49:43.654Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "DeleteServiceCommandHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommandHandler.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAowCgAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T09:49:53.295Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "DeleteServiceCommand.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommand.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommand.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommand.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\DeleteService\\DeleteServiceCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T09:49:26.213Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "CreateServiceCommandHandler.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandHandler.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandHandler.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandHandler.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\Features\\Services\\Commands\\CreateService\\CreateServiceCommandHandler.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAowAYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-28T05:48:23.957Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "ServicesController.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\Controllers\\ServicesController.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.API\\Controllers\\ServicesController.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\Controllers\\ServicesController.cs",
+              "RelativeToolTip": "PetCareBooking.API\\Controllers\\ServicesController.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAAwGYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-28T05:59:41.683Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "PetCareBooking.Application\\DependencyInjection.cs",
+              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DependencyInjection.cs",
+              "RelativeToolTip": "PetCareBooking.Application\\DependencyInjection.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-28T06:04:08.958Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
               "Title": "PagedResult.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Common\\Models\\PagedResult.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Application\\Common\\Models\\PagedResult.cs",
@@ -675,7 +1245,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 59,
               "Title": "PetCareBooking.API.csproj",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\PetCareBooking.API.csproj",
               "RelativeDocumentMoniker": "PetCareBooking.API\\PetCareBooking.API.csproj",
@@ -687,7 +1257,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 60,
               "Title": ".gitignore",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\.gitignore",
               "RelativeDocumentMoniker": ".gitignore",
@@ -699,7 +1269,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 61,
               "Title": "GlobalExceptionHandler.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\Middlewares\\GlobalExceptionHandler.cs",
               "RelativeDocumentMoniker": "PetCareBooking.API\\Middlewares\\GlobalExceptionHandler.cs",
@@ -711,7 +1281,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 63,
               "Title": "UnitOfWork.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Persistence\\Repositories\\UnitOfWork.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Persistence\\Repositories\\UnitOfWork.cs",
@@ -723,7 +1293,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 62,
               "Title": "GenericRepository.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Persistence\\Repositories\\GenericRepository.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Persistence\\Repositories\\GenericRepository.cs",
@@ -735,7 +1305,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 64,
               "Title": "IGenericRepository.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Interfaces\\IGenericRepository.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Application\\Interfaces\\IGenericRepository.cs",
@@ -747,19 +1317,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "ServiceResponseDTO.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Service\\ServiceResponseDTO.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\DTOs\\Service\\ServiceResponseDTO.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Service\\ServiceResponseDTO.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\DTOs\\Service\\ServiceResponseDTO.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAA5wBQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T07:23:25.216Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 65,
               "Title": "ServicePriceResponseDTO.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Service\\ServicePriceResponseDTO.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Application\\DTOs\\Service\\ServicePriceResponseDTO.cs",
@@ -771,19 +1329,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "ServicePriceDTO.cs",
-              "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Service\\ServicePriceDTO.cs",
-              "RelativeDocumentMoniker": "PetCareBooking.Application\\DTOs\\Service\\ServicePriceDTO.cs",
-              "ToolTip": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\DTOs\\Service\\ServicePriceDTO.cs",
-              "RelativeToolTip": "PetCareBooking.Application\\DTOs\\Service\\ServicePriceDTO.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAqwAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T01:24:52.509Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 67,
               "Title": "PaymentTransaction.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\PaymentTransaction.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\PaymentTransaction.cs",
@@ -795,7 +1341,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 66,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\Program.cs",
               "RelativeDocumentMoniker": "PetCareBooking.API\\Program.cs",
@@ -807,7 +1353,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 68,
               "Title": "ValidationBehavior.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Common\\Behaviors\\ValidationBehavior.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Application\\Common\\Behaviors\\ValidationBehavior.cs",
@@ -819,7 +1365,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 69,
               "Title": "RolePermission.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\RolePermission.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\RolePermission.cs",
@@ -831,7 +1377,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 70,
               "Title": "Room.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\Room.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\Room.cs",
@@ -843,7 +1389,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 71,
               "Title": "RoomType.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\RoomType.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\RoomType.cs",
@@ -855,7 +1401,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 72,
               "Title": "Service.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\Service.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\Service.cs",
@@ -867,7 +1413,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 73,
               "Title": "ServicePrice.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\ServicePrice.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\ServicePrice.cs",
@@ -879,7 +1425,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 74,
               "Title": "Staff.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\Staff.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\Staff.cs",
@@ -891,7 +1437,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 75,
               "Title": "StaffRole.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\StaffRole.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\StaffRole.cs",
@@ -903,7 +1449,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 76,
               "Title": "Role.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\Role.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\Role.cs",
@@ -915,7 +1461,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 77,
               "Title": "Review.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\Review.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\Review.cs",
@@ -927,7 +1473,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 78,
               "Title": "Promotion.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\Promotion.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\Promotion.cs",
@@ -939,7 +1485,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 79,
               "Title": "Pet.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\Pet.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\Pet.cs",
@@ -951,7 +1497,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 80,
               "Title": "Permission.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\Permission.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\Permission.cs",
@@ -963,7 +1509,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 81,
               "Title": "Customer.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\Customer.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\Customer.cs",
@@ -975,7 +1521,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 82,
               "Title": "CareRecord.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\CareRecord.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\CareRecord.cs",
@@ -987,7 +1533,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 83,
               "Title": "BookingItem.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\BookingItem.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\BookingItem.cs",
@@ -999,7 +1545,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 84,
               "Title": "Booking.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Entities\\Booking.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Entities\\Booking.cs",
@@ -1011,7 +1557,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 85,
               "Title": "BaseEntity.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Common\\BaseEntity.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Common\\BaseEntity.cs",
@@ -1023,7 +1569,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 86,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\appsettings.json",
               "RelativeDocumentMoniker": "PetCareBooking.API\\appsettings.json",
@@ -1035,7 +1581,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 87,
               "Title": "PricingUnit.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Enums\\PricingUnit.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Enums\\PricingUnit.cs",
@@ -1047,7 +1593,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 88,
               "Title": "ServiceType.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Enums\\ServiceType.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Enums\\ServiceType.cs",
@@ -1059,7 +1605,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 89,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Persistence\\AppDbContext.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Persistence\\AppDbContext.cs",
@@ -1071,7 +1617,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 90,
               "Title": "BookingItemStatus.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Enums\\BookingItemStatus.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Enums\\BookingItemStatus.cs",
@@ -1083,7 +1629,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 91,
               "Title": "BookingStatus.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Enums\\BookingStatus.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Enums\\BookingStatus.cs",
@@ -1095,7 +1641,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 92,
               "Title": "DiscountType.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Enums\\DiscountType.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Enums\\DiscountType.cs",
@@ -1107,7 +1653,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 61,
+              "DocumentIndex": 93,
               "Title": "RoomStatus.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Enums\\RoomStatus.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Enums\\RoomStatus.cs",
@@ -1119,7 +1665,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 62,
+              "DocumentIndex": 94,
               "Title": "PetSpecies.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Enums\\PetSpecies.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Enums\\PetSpecies.cs",
@@ -1131,7 +1677,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 63,
+              "DocumentIndex": 95,
               "Title": "StaffStatus.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\Enums\\StaffStatus.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\Enums\\StaffStatus.cs",
@@ -1143,7 +1689,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 67,
+              "DocumentIndex": 99,
               "Title": "launchSettings.json",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "PetCareBooking.API\\Properties\\launchSettings.json",
@@ -1155,7 +1701,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 65,
+              "DocumentIndex": 97,
               "Title": "PetCareBooking.Domain.csproj",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\PetCareBooking.Domain.csproj",
               "RelativeDocumentMoniker": "PetCareBooking.Domain\\PetCareBooking.Domain.csproj",
@@ -1167,7 +1713,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 66,
+              "DocumentIndex": 98,
               "Title": "PetCareBooking.Infrastructure.csproj",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Infrastructure\\PetCareBooking.Infrastructure.csproj",
               "RelativeDocumentMoniker": "PetCareBooking.Infrastructure\\PetCareBooking.Infrastructure.csproj",
@@ -1179,7 +1725,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 64,
+              "DocumentIndex": 96,
               "Title": "DependencyInjection.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Persistence\\DependencyInjection.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Persistence\\DependencyInjection.cs",
@@ -1191,7 +1737,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 68,
+              "DocumentIndex": 100,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.API\\appsettings.Development.json",
               "RelativeDocumentMoniker": "PetCareBooking.API\\appsettings.Development.json",
@@ -1203,7 +1749,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 69,
+              "DocumentIndex": 101,
               "Title": "PetCareBooking.Application.csproj",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\PetCareBooking.Application.csproj",
               "RelativeDocumentMoniker": "PetCareBooking.Application\\PetCareBooking.Application.csproj",
@@ -1215,7 +1761,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 70,
+              "DocumentIndex": 102,
               "Title": "PetCareBooking.Persistence.csproj",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Persistence\\PetCareBooking.Persistence.csproj",
               "RelativeDocumentMoniker": "PetCareBooking.Persistence\\PetCareBooking.Persistence.csproj",
@@ -1227,7 +1773,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 71,
+              "DocumentIndex": 103,
               "Title": "IUnitOfWork.cs",
               "DocumentMoniker": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\Interfaces\\IUnitOfWork.cs",
               "RelativeDocumentMoniker": "PetCareBooking.Application\\Interfaces\\IUnitOfWork.cs",
