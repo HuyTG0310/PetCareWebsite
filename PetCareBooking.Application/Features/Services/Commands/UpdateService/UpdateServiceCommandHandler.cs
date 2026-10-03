@@ -41,6 +41,9 @@ namespace PetCareBooking.Application.Features.Services.Commands.UpdateService
             existingService.ServiceType = request.ServiceType;
             existingService.IsActive = request.IsActive;
 
+
+            _serviceRepository.Update(existingService);
+
             if (existingService.ServicePrices != null && existingService.ServicePrices.Any())
             {
                 // Phải dùng .ToList() để tạo bản sao tĩnh trước khi xóa, tránh lỗi Collection was modified

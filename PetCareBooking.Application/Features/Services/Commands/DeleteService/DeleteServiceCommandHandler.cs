@@ -38,7 +38,7 @@ namespace PetCareBooking.Application.Features.Services.Commands.DeleteService
                 return new ApiResponse<Guid>
                 {
                     IsSuccess = false,
-                    StatusCode = 400, // Bad Request vì thao tác dư thừa
+                    StatusCode = 400, 
                     Message = "This service is already deleted (inactive).",
                     Result = service.Id
                 };

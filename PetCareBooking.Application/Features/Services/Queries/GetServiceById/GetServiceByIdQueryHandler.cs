@@ -17,7 +17,6 @@ namespace PetCareBooking.Application.Features.Services.Queries.GetServiceById
 
         public async Task<ApiResponse<ServiceResponseDTO>> Handle(GetServiceByIdQuery request, CancellationToken cancellationToken)
         {
-            // Sử dụng FindAsync để include bảng giá, sau đó lấy phần tử đầu tiên
             var services = await _repository.FindAsync(s => s.Id == request.Id, "ServicePrices");
             var service = services.FirstOrDefault();
 

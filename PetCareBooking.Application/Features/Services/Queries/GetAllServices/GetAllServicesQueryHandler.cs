@@ -6,7 +6,7 @@ using PetCareBooking.Domain.Entities;
 
 namespace PetCareBooking.Application.Features.Services.Queries.GetAllServices
 {
-    public class GetAllServicesQueryHandler : IRequestHandler<GetAllServicesQuery, ApiResponse<List<ServiceResponseDTO>>>
+    public class GetAllServicesQueryHandler : IRequestHandler<GetAllServicesQuery, ApiResponse<PagedResult<ServiceListResponseDTO>>>
     {
         private readonly IGenericRepository<Service> _repository;
 
@@ -15,34 +15,42 @@ namespace PetCareBooking.Application.Features.Services.Queries.GetAllServices
             _repository = repository;
         }
 
-        public async Task<ApiResponse<List<ServiceResponseDTO>>> Handle(GetAllServicesQuery request, CancellationToken cancellationToken)
+        public async Task<ApiResponse<PagedResult<ServiceListResponseDTO>>> Handle(GetAllServicesQuery request, CancellationToken cancellationToken)
         {
-            // Sử dụng FindAsync với predicate x => true để lấy toàn bộ danh sách, đồng thời include "ServicePrices"
-            var services = await _repository.FindAsync(x => true, "ServicePrices");
+            if (request.PageNumber < 1) request.PageNumber = 1;
+            if (request.PageSize < 1) request.PageSize = 10;
+            if (request.PageSize > 100) request.PageSize = 100;
 
-            var serviceDTOs = services.Select(s => new ServiceResponseDTO
+            var services = await _repository.FindAsync(x => true);
+
+            int totalCount = services.Count();
+
+            var paginatedServices = services
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
+            var serviceDTOs = paginatedServices.Select(s => new ServiceListResponseDTO
             {
                 Id = s.Id,
                 Name = s.Name,
                 Description = s.Description,
                 ServiceType = s.ServiceType,
-                IsActive = s.IsActive,
-                Prices = s.ServicePrices.Select(p => new ServicePriceResponseDTO
-                {
-                    Id = p.Id,
-                    MinWeight = p.MinWeight,
-                    MaxWeight = p.MaxWeight,
-                    Price = p.Price,
-                    PricingUnit = p.PricingUnit
-                }).ToList()
+                IsActive = s.IsActive
             }).ToList();
 
-            return new ApiResponse<List<ServiceResponseDTO>>
+            return new ApiResponse<PagedResult<ServiceListResponseDTO>>
             {
                 IsSuccess = true,
                 StatusCode = 200,
                 Message = "Get all services successfully.",
-                Result = serviceDTOs
+                Result = new PagedResult<ServiceListResponseDTO>
+                {
+                    Items = serviceDTOs,
+                    TotalCount = totalCount,
+                    PageNumber = request.PageNumber,
+                    PageSize = request.PageSize
+                }
             };
         }
     }
