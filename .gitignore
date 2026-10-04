@@ -2,8 +2,8 @@
 .vs/
 
 # .NET
-bin/
-obj/
+[Bb]in/
+[Oo]bj/
 
 # User-specific files
 *.user

@@ -9,6 +9,7 @@ namespace PetCareBooking.Domain.Entities
         public Guid? PromotionId { get; set; }
         public decimal TotalPrice { get; set; }
         public BookingStatus Status { get; set; }
+        public string? CancellationReason { get; set; }
         public virtual Customer Customer { get; set; } = null!;
         public virtual Promotion? Promotion { get; set; }
         public virtual ICollection<BookingItem> BookingItems { get; set; } = new List<BookingItem>();

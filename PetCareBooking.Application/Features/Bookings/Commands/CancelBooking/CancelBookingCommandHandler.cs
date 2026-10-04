@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
@@ -60,6 +60,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
 
             // 4. Update booking status
             booking.Status = BookingStatus.Cancelled;
+            booking.CancellationReason = request.CancellationReason;
             _bookingRepository.Update(booking);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
