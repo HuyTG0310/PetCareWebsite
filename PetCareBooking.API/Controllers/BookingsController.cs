@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.Bookings.Commands.CancelBooking;
+using PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CreateBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingItemStatus;
 using PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings;
@@ -131,6 +132,17 @@ namespace PetCareBooking.API.Controllers
         {
             command.BookingId = bookingId;
             command.ItemId = itemId;
+            var response = await _mediator.Send(command);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// Check-in all eligible items in a booking (1-click check-in for entire appointment)
+        /// </summary>
+        [HttpPut("{id:guid}/check-in")]
+        public async Task<IActionResult> CheckInBooking(Guid id)
+        {
+            var command = new CheckInBookingCommand { Id = id };
             var response = await _mediator.Send(command);
             return StatusCode(response.StatusCode, response);
         }
