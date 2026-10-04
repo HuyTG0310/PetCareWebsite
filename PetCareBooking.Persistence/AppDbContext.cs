@@ -10,25 +10,25 @@ public class AppDbContext : DbContext
     {
     }
 
-    // --- PHẦN 1: RBAC & NHÂN SỰ ---
+    // --- PHáº¦N 1: RBAC & NHÃ‚N Sá»° ---
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<RolePermission> RolePermissions { get; set; }
     public DbSet<Staff> Staffs { get; set; }
     public DbSet<StaffRole> StaffRoles { get; set; }
 
-    // --- PHẦN 2: KHÁCH HÀNG & THÚ CƯNG ---
+    // --- PHáº¦N 2: KHÃCH HÃ€NG & THÃš CÆ¯NG ---
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Pet> Pets { get; set; }
 
-    // --- PHẦN 3: DỊCH VỤ & PHÒNG ---
+    // --- PHáº¦N 3: Dá»ŠCH Vá»¤ & PHÃ’NG ---
     public DbSet<Service> Services { get; set; }
     public DbSet<ServicePrice> ServicePrices { get; set; }
     public DbSet<RoomType> RoomTypes { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Promotion> Promotions { get; set; }
 
-    // --- PHẦN 4: VẬN HÀNH (SHOPPING CART) ---
+    // --- PHáº¦N 4: Váº¬N HÃ€NH (SHOPPING CART) ---
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<BookingItem> BookingItems { get; set; }
     public DbSet<CareRecord> CareRecords { get; set; }
@@ -39,7 +39,7 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // ==========================================
-        // PHẦN 1: HỆ THỐNG PHÂN QUYỀN (RBAC) & NHÂN SỰ
+        // PHáº¦N 1: Há»† THá»NG PHÃ‚N QUYá»€N (RBAC) & NHÃ‚N Sá»°
         // ==========================================
 
         modelBuilder.Entity<Permission>(entity =>
@@ -109,7 +109,7 @@ public class AppDbContext : DbContext
         });
 
         // ==========================================
-        // PHẦN 2: KHÁCH HÀNG & THÚ CƯNG
+        // PHáº¦N 2: KHÃCH HÃ€NG & THÃš CÆ¯NG
         // ==========================================
 
         modelBuilder.Entity<Customer>(entity =>
@@ -148,7 +148,7 @@ public class AppDbContext : DbContext
         });
 
         // ==========================================
-        // PHẦN 3: CẤU HÌNH DỊCH VỤ, PHÒNG & KHUYẾN MÃI
+        // PHáº¦N 3: Cáº¤U HÃŒNH Dá»ŠCH Vá»¤, PHÃ’NG & KHUYáº¾N MÃƒI
         // ==========================================
 
         modelBuilder.Entity<Service>(entity =>
@@ -229,7 +229,7 @@ public class AppDbContext : DbContext
         });
 
         // ==========================================
-        // PHẦN 4: VẬN HÀNH DỊCH VỤ (SHOPPING CART)
+        // PHáº¦N 4: Váº¬N HÃ€NH Dá»ŠCH Vá»¤ (SHOPPING CART)
         // ==========================================
 
         modelBuilder.Entity<Booking>(entity =>
@@ -243,6 +243,9 @@ public class AppDbContext : DbContext
                   .HasMaxLength(20)
                   .HasConversion<string>()
                   .HasDefaultValue(BookingStatus.Pending);
+
+            entity.Property(e => e.CancellationReason)
+                  .HasMaxLength(500);
 
             entity.HasOne(e => e.Customer)
                   .WithMany()
@@ -325,10 +328,10 @@ public class AppDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
 
-            // Đảm bảo mỗi BookingItem chỉ được review 1 lần
+            // Äáº£m báº£o má»—i BookingItem chá»‰ Ä‘Æ°á»£c review 1 láº§n
             entity.HasIndex(e => e.BookingItemId).IsUnique();
 
-            // Ràng buộc mức độ đánh giá từ 1 đến 5
+            // RÃ ng buá»™c má»©c Ä‘á»™ Ä‘Ã¡nh giÃ¡ tá»« 1 Ä‘áº¿n 5
             entity.ToTable(t => t.HasCheckConstraint("CK_Review_Rating", "Rating >= 1 AND Rating <= 5"));
 
             entity.Property(e => e.CreatedAt).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()");
