@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Interfaces;
 using System.Linq.Expressions;
 
@@ -15,6 +15,7 @@ namespace PetCareBooking.Persistence.Repositories
             _dbSet = context.Set<T>();
         }
 
+        public IQueryable<T> GetQueryable() => _dbSet.AsQueryable();
         public async Task<T?> GetByIdAsync(Guid id) => await _dbSet.FindAsync(id);
 
         public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();

@@ -1,18 +1,27 @@
 # Visual Studio
 .vs/
+<<<<<<< HEAD
+=======
 
 # .NET
 [Bb]in/
 [Oo]bj/
 
 # User-specific files
+>>>>>>> origin/master
 *.user
 *.suo
+*.userosscache
+*.sln.docstates
 
-# Visual Studio Code
+# .NET Build Outputs
+**/[Bb]in/
+**/[Oo]bj/
+[Bb]in/
+[Oo]bj/
+
+# IDE
 .vscode/
-
-# JetBrains Rider
 .idea/
 
 # Logs
