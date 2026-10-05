@@ -31,23 +31,37 @@ namespace PetCareBooking.Application.Features.Customers.Commands.UpdateCustomer
                 };
             }
 
-            // Kiểm tra xem Số điện thoại mới có bị trùng với người khác hay không
-            var isPhoneExisted = await _repository.GetQueryable()
-                .AnyAsync(c => c.PhoneNumber == request.PhoneNumber && c.Id != request.Id, cancellationToken);
-
-            if (isPhoneExisted)
+            // Chỉ cập nhật Họ và tên nếu được truyền lên
+            if (!string.IsNullOrWhiteSpace(request.FullName))
             {
-                return new ApiResponse<bool>
-                {
-                    IsSuccess = false,
-                    StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Số điện thoại này đã được sử dụng bởi khách hàng khác."
-                };
+                customer.FullName = request.FullName;
             }
 
-            customer.FullName = request.FullName;
-            customer.PhoneNumber = request.PhoneNumber;
-            customer.Address = request.Address;
+            // Chỉ cập nhật và kiểm tra trùng Số điện thoại nếu được truyền lên
+            if (!string.IsNullOrWhiteSpace(request.PhoneNumber))
+            {
+                var isPhoneExisted = await _repository.GetQueryable()
+                    .AnyAsync(c => c.PhoneNumber == request.PhoneNumber && c.Id != request.Id, cancellationToken);
+
+                if (isPhoneExisted)
+                {
+                    return new ApiResponse<bool>
+                    {
+                        IsSuccess = false,
+                        StatusCode = StatusCodes.Status400BadRequest,
+                        Message = "Số điện thoại này đã được sử dụng bởi khách hàng khác."
+                    };
+                }
+
+                customer.PhoneNumber = request.PhoneNumber;
+            }
+
+            // Cập nhật Địa chỉ nếu được truyền lên (cho phép truyền rỗng hoặc địa chỉ mới)
+            if (request.Address != null)
+            {
+                customer.Address = request.Address;
+            }
+
             customer.UpdatedAt = DateTime.UtcNow;
 
             _repository.Update(customer);
