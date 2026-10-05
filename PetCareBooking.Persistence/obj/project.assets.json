@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net8.0": {
       "Azure.Core/1.35.0": {
@@ -44,6 +44,15 @@
           "lib/netstandard2.0/Azure.Identity.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "BCrypt.Net-Next/4.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/BCrypt-Net-Next.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/BCrypt-Net-Next.dll": {}
         }
       },
       "FluentValidation/12.1.1": {
@@ -1025,9 +1034,11 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "BCrypt.Net-Next": "4.2.0",
           "FluentValidation.DependencyInjectionExtensions": "12.1.1",
           "MediatR": "14.2.0",
           "Microsoft.AspNetCore.Http.Abstractions": "2.3.13",
+          "Microsoft.EntityFrameworkCore": "8.0.10",
           "PetCareBooking.Domain": "1.0.0"
         },
         "compile": {
@@ -1090,6 +1101,31 @@
         "azureicon.png",
         "lib/netstandard2.0/Azure.Identity.dll",
         "lib/netstandard2.0/Azure.Identity.xml"
+      ]
+    },
+    "BCrypt.Net-Next/4.2.0": {
+      "sha512": "gwLD2KfCuwQesP17aVh4h6lpiMPEVt5Lbpndo0ej903hNUUTtyxt3ARdDjmuydBRTAUICc7OVKVbaOvc6SQYXA==",
+      "type": "package",
+      "path": "bcrypt.net-next/4.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bcrypt.net-next.4.2.0.nupkg.sha512",
+        "bcrypt.net-next.nuspec",
+        "ico.png",
+        "lib/net10.0/BCrypt-Net-Next.dll",
+        "lib/net10.0/BCrypt.Net-Next.xml",
+        "lib/net462/BCrypt-Net-Next.dll",
+        "lib/net462/BCrypt.Net-Next.xml",
+        "lib/net472/BCrypt-Net-Next.dll",
+        "lib/net472/BCrypt.Net-Next.xml",
+        "lib/net48/BCrypt-Net-Next.dll",
+        "lib/net48/BCrypt.Net-Next.xml",
+        "lib/netstandard2.0/BCrypt-Net-Next.dll",
+        "lib/netstandard2.0/BCrypt.Net-Next.xml",
+        "lib/netstandard2.1/BCrypt-Net-Next.dll",
+        "lib/netstandard2.1/BCrypt.Net-Next.xml",
+        "readme.md"
       ]
     },
     "FluentValidation/12.1.1": {
@@ -2670,23 +2706,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\huytr\\.nuget\\packages\\": {},
+    "C:\\Users\\DELL\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Persistence\\PetCareBooking.Persistence.csproj",
+      "projectUniqueName": "D:\\KI 7\\SWD392\\PetCareWebsite\\PetCareBooking.Persistence\\PetCareBooking.Persistence.csproj",
       "projectName": "PetCareBooking.Persistence",
-      "projectPath": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Persistence\\PetCareBooking.Persistence.csproj",
-      "packagesPath": "C:\\Users\\huytr\\.nuget\\packages\\",
-      "outputPath": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Persistence\\obj\\",
+      "projectPath": "D:\\KI 7\\SWD392\\PetCareWebsite\\PetCareBooking.Persistence\\PetCareBooking.Persistence.csproj",
+      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+      "outputPath": "D:\\KI 7\\SWD392\\PetCareWebsite\\PetCareBooking.Persistence\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\huytr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2695,18 +2731,19 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
+        "D:\\KI 6\\Fsoft\\nexus_share_contracts\\Nexus.Shared.Contracts\\nupkgs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\PetCareBooking.Application.csproj": {
-              "projectPath": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Application\\PetCareBooking.Application.csproj"
+            "D:\\KI 7\\SWD392\\PetCareWebsite\\PetCareBooking.Application\\PetCareBooking.Application.csproj": {
+              "projectPath": "D:\\KI 7\\SWD392\\PetCareWebsite\\PetCareBooking.Application\\PetCareBooking.Application.csproj"
             },
-            "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\PetCareBooking.Domain.csproj": {
-              "projectPath": "D:\\2026-2027\\FA 26\\PRN222\\PetCareBooking\\PetCareBooking.Domain\\PetCareBooking.Domain.csproj"
+            "D:\\KI 7\\SWD392\\PetCareWebsite\\PetCareBooking.Domain\\PetCareBooking.Domain.csproj": {
+              "projectPath": "D:\\KI 7\\SWD392\\PetCareWebsite\\PetCareBooking.Domain\\PetCareBooking.Domain.csproj"
             }
           }
         }
@@ -2721,10 +2758,11 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.400"
     },
     "frameworks": {
       "net8.0": {
+        "framework": "net8.0",
         "targetAlias": "net8.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Relational": {
@@ -2747,26 +2785,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.31, 8.0.31]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.31, 8.0.31]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[8.0.31, 8.0.31]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.318/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
