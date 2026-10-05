@@ -317,4 +317,3 @@ D:\KI 7\SWD392\PetCareWebsite\PetCareBooking.API\obj\Debug\net8.0\PetCareBooking
 D:\KI 7\SWD392\PetCareWebsite\PetCareBooking.API\obj\Debug\net8.0\PetCareBooking.API.genruntimeconfig.cache
 D:\KI 7\SWD392\PetCareWebsite\PetCareBooking.API\obj\Debug\net8.0\ref\PetCareBooking.API.dll
 D:\KI 7\SWD392\PetCareWebsite\PetCareBooking.API\bin\Debug\net8.0\BCrypt-Net-Next.dll
-D:\KI 7\SWD392\PetCareWebsite\PetCareBooking.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
