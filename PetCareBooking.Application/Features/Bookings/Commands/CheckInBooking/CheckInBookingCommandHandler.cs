@@ -4,15 +4,15 @@ using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
 using PetCareBooking.Domain.Enums;
 
-namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
+namespace PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking
 {
-    public class CancelBookingCommandHandler : IRequestHandler<CancelBookingCommand, ApiResponse<Guid>>
+    public class CheckInBookingCommandHandler : IRequestHandler<CheckInBookingCommand, ApiResponse<Guid>>
     {
         private readonly IGenericRepository<Booking> _bookingRepository;
         private readonly IGenericRepository<BookingItem> _bookingItemRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CancelBookingCommandHandler(
+        public CheckInBookingCommandHandler(
             IGenericRepository<Booking> bookingRepository,
             IGenericRepository<BookingItem> bookingItemRepository,
             IUnitOfWork unitOfWork)
@@ -22,7 +22,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ApiResponse<Guid>> Handle(CancelBookingCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponse<Guid>> Handle(CheckInBookingCommand request, CancellationToken cancellationToken)
         {
             // 1. Validate booking exists
             var bookings = await _bookingRepository.FindAsync(b => b.Id == request.Id, "BookingItems");
@@ -39,29 +39,40 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                 };
             }
 
-            // 2. Validate booking can be cancelled
+            // 2. Validate booking is not in a terminal state
             if (booking.Status == BookingStatus.Completed || booking.Status == BookingStatus.Cancelled)
             {
                 return new ApiResponse<Guid>
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = $"Cannot cancel booking with status {booking.Status}.",
+                    Message = $"Cannot check-in booking with status {booking.Status}.",
                     Result = Guid.Empty
                 };
             }
 
-            // 3. Cancel all booking items
-            foreach (var item in booking.BookingItems)
+            // 3. Find eligible items to check in (Pending or Confirmed)
+            var eligibleItems = booking.BookingItems
+                .Where(bi => bi.Status == BookingItemStatus.Pending || bi.Status == BookingItemStatus.Confirmed)
+                .ToList();
+
+            if (!eligibleItems.Any())
             {
-                item.Status = BookingItemStatus.Cancelled;
-                _bookingItemRepository.Update(item);
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "No pending or confirmed items found to check-in.",
+                    Result = booking.Id
+                };
             }
 
-            // 4. Update booking status
-            booking.Status = BookingStatus.Cancelled;
-            booking.CancellationReason = request.CancellationReason;
-            _bookingRepository.Update(booking);
+            // 4. Update all eligible items to Checked_In
+            foreach (var item in eligibleItems)
+            {
+                item.Status = BookingItemStatus.Checked_In;
+                _bookingItemRepository.Update(item);
+            }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -69,7 +80,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
             {
                 IsSuccess = true,
                 StatusCode = 200,
-                Message = "Booking cancelled successfully.",
+                Message = $"Check-in successfully for {eligibleItems.Count} item(s) in this booking.",
                 Result = booking.Id
             };
         }

@@ -1,4 +1,4 @@
-using PetCareBooking.Domain.Enums;
+﻿using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Application.DTOs.Booking
 {
@@ -13,6 +13,7 @@ namespace PetCareBooking.Application.DTOs.Booking
         public decimal DiscountAmount { get; set; }
         public decimal TotalPrice { get; set; }
         public BookingStatus Status { get; set; }
+        public string? CancellationReason { get; set; }
         public DateTime CreatedAt { get; set; }
         public List<BookingItemResponseDTO> BookingItems { get; set; } = new List<BookingItemResponseDTO>();
     }

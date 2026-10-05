@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Booking;
 using PetCareBooking.Application.Interfaces;
@@ -64,6 +64,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingById
                 DiscountAmount = discountAmount,
                 TotalPrice = booking.TotalPrice,
                 Status = booking.Status,
+                CancellationReason = booking.CancellationReason,
                 CreatedAt = booking.CreatedAt,
                 BookingItems = booking.BookingItems.Select(bi => new BookingItemResponseDTO
                 {

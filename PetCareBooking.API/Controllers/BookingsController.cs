@@ -1,12 +1,15 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.Bookings.Commands.CancelBooking;
+using PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CreateBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingItemStatus;
 using PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings;
 using PetCareBooking.Application.Features.Bookings.Queries.GetBookingById;
 using PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookings;
+using PetCareBooking.Application.Features.Bookings.Queries.GetStaffGroomingTasks;
 using PetCareBooking.Application.Features.Bookings.Queries.SearchBookings;
+using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.API.Controllers
 {
@@ -36,21 +39,44 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Get customer's bookings with optional filtering
+        /// Get customer''s bookings with optional filtering
         /// </summary>
         [HttpGet("customer/{customerId:guid}")]
         public async Task<IActionResult> GetCustomerBookings(
             Guid customerId,
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 10,
-            [FromQuery] int? status = null)
+            [FromQuery] BookingStatus? status = null)
         {
             var query = new GetCustomerBookingsQuery
             {
                 CustomerId = customerId,
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                Status = status.HasValue ? (Domain.Enums.BookingStatus)status.Value : null
+                Status = status
+            };
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// Get assigned grooming tasks for a specific staff member
+        /// </summary>
+        [HttpGet("staff/{staffId:guid}/grooming-tasks")]
+        public async Task<IActionResult> GetStaffGroomingTasks(
+            Guid staffId,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] BookingItemStatus? status = null,
+            [FromQuery] DateTime? date = null)
+        {
+            var query = new GetStaffGroomingTasksQuery
+            {
+                StaffId = staffId,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Status = status,
+                Date = date
             };
             var response = await _mediator.Send(query);
             return StatusCode(response.StatusCode, response);
@@ -60,7 +86,7 @@ namespace PetCareBooking.API.Controllers
         public async Task<IActionResult> GetAdminBookings(
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 10,
-            [FromQuery] int? status = null,
+            [FromQuery] BookingStatus? status = null,
             [FromQuery] DateTime? dateFrom = null,
             [FromQuery] DateTime? dateTo = null)
         {
@@ -68,7 +94,7 @@ namespace PetCareBooking.API.Controllers
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                Status = status.HasValue ? (Domain.Enums.BookingStatus)status.Value : null,
+                Status = status,
                 DateFrom = dateFrom,
                 DateTo = dateTo
             };
@@ -79,7 +105,7 @@ namespace PetCareBooking.API.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> SearchBookings(
             [FromQuery] string? keyword = null,
-            [FromQuery] int? status = null,
+            [FromQuery] BookingStatus? status = null,
             [FromQuery] DateTime? dateFrom = null,
             [FromQuery] DateTime? dateTo = null,
             [FromQuery] int pageNumber = 1,
@@ -88,7 +114,7 @@ namespace PetCareBooking.API.Controllers
             var query = new SearchBookingsQuery
             {
                 Keyword = keyword,
-                Status = status.HasValue ? (Domain.Enums.BookingStatus)status.Value : null,
+                Status = status,
                 DateFrom = dateFrom,
                 DateTo = dateTo,
                 PageNumber = pageNumber,
@@ -106,6 +132,17 @@ namespace PetCareBooking.API.Controllers
         {
             command.BookingId = bookingId;
             command.ItemId = itemId;
+            var response = await _mediator.Send(command);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// Check-in all eligible items in a booking (1-click check-in for entire appointment)
+        /// </summary>
+        [HttpPut("{id:guid}/check-in")]
+        public async Task<IActionResult> CheckInBooking(Guid id)
+        {
+            var command = new CheckInBookingCommand { Id = id };
             var response = await _mediator.Send(command);
             return StatusCode(response.StatusCode, response);
         }

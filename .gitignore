@@ -1,5 +1,14 @@
 # Visual Studio
 .vs/
+<<<<<<< HEAD
+=======
+
+# .NET
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+>>>>>>> origin/master
 *.user
 *.suo
 *.userosscache
