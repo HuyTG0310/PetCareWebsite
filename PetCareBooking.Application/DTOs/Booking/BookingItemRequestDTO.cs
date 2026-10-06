@@ -8,6 +8,7 @@ namespace PetCareBooking.Application.DTOs.Booking
         public DateTime? ScheduledEndAt { get; set; }
         public decimal Quantity { get; set; } = 1;
         public Guid? RoomId { get; set; }
+        public Guid? RoomTypeId { get; set; }
         public Guid? StaffId { get; set; }
     }
 }
