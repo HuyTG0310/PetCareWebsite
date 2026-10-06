@@ -1,4 +1,4 @@
-﻿using PetCareBooking.Domain.Common;
+using PetCareBooking.Domain.Common;
 
 namespace PetCareBooking.Domain.Entities
 {
@@ -10,6 +10,10 @@ namespace PetCareBooking.Domain.Entities
         public string PhoneNumber { get; set; } = null!;
         public string? Address { get; set; }
         public bool IsActive { get; set; }
+
+        public string? OtpCode { get; set; }
+        public DateTime? OtpExpiry { get; set; }
+
         public virtual ICollection<Pet> Pets { get; set; } = new List<Pet>();
     }
 }
