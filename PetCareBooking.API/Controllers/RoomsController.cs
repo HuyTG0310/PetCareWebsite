@@ -4,6 +4,7 @@ using PetCareBooking.Application.Features.Rooms.Commands.CreateRoom;
 using PetCareBooking.Application.Features.Rooms.Commands.DeleteRoom;
 using PetCareBooking.Application.Features.Rooms.Commands.UpdateRoom;
 using PetCareBooking.Application.Features.Rooms.Commands.UpdateRoomStatus;
+using PetCareBooking.Application.Features.Rooms.Queries.GetAvailableRooms;
 using PetCareBooking.Application.Features.Rooms.Queries.GetRoomById;
 using PetCareBooking.Application.Features.Rooms.Queries.GetRooms;
 
@@ -35,6 +36,16 @@ namespace PetCareBooking.API.Controllers
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetRooms([FromQuery] GetRoomsQuery query)
+        {
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// Lấy danh sách các phòng cụ thể còn trống theo khoảng thời gian lưu trú (dành cho lễ tân xếp phòng)
+        /// </summary>
+        [HttpGet("available")]
+        public async Task<IActionResult> GetAvailableRooms([FromQuery] GetAvailableRoomsQuery query)
         {
             var response = await _mediator.Send(query);
             return StatusCode(response.StatusCode, response);
