@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.RoomTypes.Commands.CreateRoomType;
+using PetCareBooking.Application.Features.RoomTypes.Commands.DeleteRoomType;
 using PetCareBooking.Application.Features.RoomTypes.Commands.UpdateRoomType;
 using PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeById;
 using PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypes;
@@ -60,6 +61,17 @@ namespace PetCareBooking.API.Controllers
         public async Task<IActionResult> UpdateRoomType(Guid id, [FromBody] UpdateRoomTypeCommand command)
         {
             command.Id = id;
+            var response = await _mediator.Send(command);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// Xóa loại phòng theo ID (chỉ xóa khi không còn phòng nào bên trong)
+        /// </summary>
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteRoomType(Guid id)
+        {
+            var command = new DeleteRoomTypeCommand { Id = id };
             var response = await _mediator.Send(command);
             return StatusCode(response.StatusCode, response);
         }
