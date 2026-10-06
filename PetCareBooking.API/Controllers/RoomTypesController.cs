@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.RoomTypes.Commands.CreateRoomType;
+using PetCareBooking.Application.Features.RoomTypes.Commands.UpdateRoomType;
 using PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeById;
 using PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypes;
 
@@ -49,6 +50,17 @@ namespace PetCareBooking.API.Controllers
         {
             var query = new GetRoomTypeByIdQuery { Id = id };
             var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// Cập nhật thông tin loại phòng theo ID
+        /// </summary>
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateRoomType(Guid id, [FromBody] UpdateRoomTypeCommand command)
+        {
+            command.Id = id;
+            var response = await _mediator.Send(command);
             return StatusCode(response.StatusCode, response);
         }
     }
