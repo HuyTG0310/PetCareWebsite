@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.RoomTypes.Commands.CreateRoomType;
+using PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypes;
 
 namespace PetCareBooking.API.Controllers
 {
@@ -22,6 +23,20 @@ namespace PetCareBooking.API.Controllers
         public async Task<IActionResult> CreateRoomType([FromBody] CreateRoomTypeCommand command)
         {
             var response = await _mediator.Send(command);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// Lấy danh sách tất cả loại phòng (kèm số lượng phòng và tìm kiếm theo từ khóa)
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetRoomTypes([FromQuery] string? searchTerm)
+        {
+            var query = new GetRoomTypesQuery
+            {
+                SearchTerm = searchTerm
+            };
+            var response = await _mediator.Send(query);
             return StatusCode(response.StatusCode, response);
         }
     }
