@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.RoomTypes.Commands.CreateRoomType;
 using PetCareBooking.Application.Features.RoomTypes.Commands.DeleteRoomType;
 using PetCareBooking.Application.Features.RoomTypes.Commands.UpdateRoomType;
+using PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeAvailability;
 using PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeById;
 using PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypes;
 
@@ -39,6 +40,16 @@ namespace PetCareBooking.API.Controllers
             {
                 SearchTerm = searchTerm
             };
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// Kiểm tra số lượng phòng còn trống theo từng loại phòng trong khoảng thời gian lưu trú
+        /// </summary>
+        [HttpGet("availability")]
+        public async Task<IActionResult> GetRoomTypeAvailability([FromQuery] GetRoomTypeAvailabilityQuery query)
+        {
             var response = await _mediator.Send(query);
             return StatusCode(response.StatusCode, response);
         }
