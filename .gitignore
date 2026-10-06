@@ -13,12 +13,6 @@
 *.userosscache
 *.sln.docstates
 
-# .NET Build Outputs
-**/[Bb]in/
-**/[Oo]bj/
-[Bb]in/
-[Oo]bj/
-
 # IDE
 .vscode/
 .idea/
