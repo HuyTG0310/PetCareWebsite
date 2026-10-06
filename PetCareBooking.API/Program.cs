@@ -1,19 +1,56 @@
-﻿
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using PetCareBooking.API.Middlewares;
 using PetCareBooking.Application;
 using PetCareBooking.Application.Common.Models;
+using PetCareBooking.Application.Interfaces;
+using PetCareBooking.Infrastructure.Services;
 using PetCareBooking.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Đăng ký Dependency Injection cho IEmailService & IJwtTokenGenerator
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Cấu hình Nút "Authorize" (Ổ khóa) cho Swagger UI
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "PetCareBooking API", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Nhập Token theo định dạng: Bearer {token}",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -21,6 +58,33 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddApplication();
 
+// Cấu hình JWT Authentication & Authorization
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var secretKey = jwtSettings["SecretKey"] ?? "PetCareBooking_Super_Secret_Key_2026_Secure_JWT_Key_SWD392!";
+var issuer = jwtSettings["Issuer"] ?? "PetCareBookingAPI";
+var audience = jwtSettings["Audience"] ?? "PetCareBookingClient";
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = issuer,
+        ValidAudience = audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
@@ -33,7 +97,6 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader());
 });
 
-
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
@@ -41,19 +104,16 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.InvalidModelStateResponseFactory = context =>
     {
-        // Thu thập tất cả thông báo lỗi từ ModelState
         var errors = context.ModelState
             .Where(e => e.Value != null && e.Value.Errors.Count > 0)
             .SelectMany(x => x.Value!.Errors)
             .Select(x => x.ErrorMessage)
             .ToList();
 
-        // Đóng gói vào format chuẩn của hệ thống
         var apiResponse = new ApiResponse<object>
         {
             IsSuccess = false,
             StatusCode = 400,
-            // Nối các lỗi lại thành 1 chuỗi dễ đọc, hoặc bạn có thể tạo thêm property List<string> Errors trong ApiResponse
             Message = string.Join(" | ", errors),
             Result = null
         };
@@ -62,15 +122,10 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     };
 });
 
-
-
-
-
 var app = builder.Build();
 
 app.UseExceptionHandler();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -81,8 +136,8 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
 
+app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllers();
 
