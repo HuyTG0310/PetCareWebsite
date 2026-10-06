@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.Rooms.Commands.CreateRoom;
+using PetCareBooking.Application.Features.Rooms.Commands.DeleteRoom;
 using PetCareBooking.Application.Features.Rooms.Commands.UpdateRoom;
+using PetCareBooking.Application.Features.Rooms.Commands.UpdateRoomStatus;
 using PetCareBooking.Application.Features.Rooms.Queries.GetRoomById;
 using PetCareBooking.Application.Features.Rooms.Queries.GetRooms;
 
@@ -56,6 +58,28 @@ namespace PetCareBooking.API.Controllers
         public async Task<IActionResult> UpdateRoom(Guid id, [FromBody] UpdateRoomCommand command)
         {
             command.Id = id;
+            var response = await _mediator.Send(command);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// Cập nhật nhanh trạng thái phòng (Available <-> Maintenance)
+        /// </summary>
+        [HttpPatch("{id:guid}/status")]
+        public async Task<IActionResult> UpdateRoomStatus(Guid id, [FromBody] UpdateRoomStatusCommand command)
+        {
+            command.Id = id;
+            var response = await _mediator.Send(command);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// Xóa phòng theo ID (chỉ xóa được khi chưa có lịch sử đặt phòng)
+        /// </summary>
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteRoom(Guid id)
+        {
+            var command = new DeleteRoomCommand { Id = id };
             var response = await _mediator.Send(command);
             return StatusCode(response.StatusCode, response);
         }
