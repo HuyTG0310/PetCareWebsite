@@ -1,0 +1,128 @@
+@PetCareBooking.API_HostAddress = http://localhost:5286
+
+### =========================================================================
+### MODULE: MANAGE PETS - AUTOMATED & MANUAL HTTP INTEGRATION TESTS
+### =========================================================================
+
+### 1. UC-6.1: Lấy danh sách thú cưng có phân trang (Mặc định)
+GET {{PetCareBooking.API_HostAddress}}/api/Pets?pageIndex=1&pageSize=10
+Accept: application/json
+
+###
+
+### 2. UC-6.1: Lấy danh sách thú cưng có phân trang & lọc thú cưng đang hoạt động (IsActive = true)
+GET {{PetCareBooking.API_HostAddress}}/api/Pets?pageIndex=1&pageSize=5&isActive=true
+Accept: application/json
+
+###
+
+### 3. UC-6.3: Thử tạo Pet với dữ liệu không hợp lệ (Kiểm tra FluentValidation -> Phải trả về 400)
+POST {{PetCareBooking.API_HostAddress}}/api/Pets
+Content-Type: application/json
+
+{
+  "customerId": "00000000-0000-0000-0000-000000000000",
+  "name": "",
+  "species": "Dog",
+  "weight": -5,
+  "age": -1
+}
+
+###
+
+### 4. UC-6.3: Thử tạo Pet với CustomerId không tồn tại (Phải trả về 404 Not Found)
+POST {{PetCareBooking.API_HostAddress}}/api/Pets
+Content-Type: application/json
+
+{
+  "customerId": "99999999-9999-9999-9999-999999999999",
+  "name": "Buddy",
+  "species": "Dog",
+  "breed": "Golden Retriever",
+  "weight": 15.5,
+  "age": 2,
+  "healthNotes": "Khỏe mạnh, tiêm phòng đầy đủ"
+}
+
+###
+
+### 5. UC-6.3: Tạo mới một Pet thành công (Thay customerId hợp lệ từ DB hoặc tạo từ CustomersController)
+# @name createPetRequest
+POST {{PetCareBooking.API_HostAddress}}/api/Pets
+Content-Type: application/json
+
+{
+  "customerId": "11111111-1111-1111-1111-111111111111",
+  "name": "Milo",
+  "species": "Dog",
+  "breed": "Corgi",
+  "weight": 12.0,
+  "age": 3,
+  "healthNotes": "Rất năng động"
+}
+
+###
+
+### Lưu ID của Pet vừa tạo để thực hiện các test tiếp theo (Thay thế GUID bên dưới nếu cần)
+@petId = {{createPetRequest.response.body.result}}
+
+### 6. UC-6.2: Xem chi tiết Pet theo ID
+GET {{PetCareBooking.API_HostAddress}}/api/Pets/{{petId}}
+Accept: application/json
+
+###
+
+### 7. UC-6.2: Xem chi tiết Pet không tồn tại (Phải trả về 404 Not Found)
+GET {{PetCareBooking.API_HostAddress}}/api/Pets/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+###
+
+### 8. UC-6.6: Tìm kiếm Pet theo Keyword (Tên)
+GET {{PetCareBooking.API_HostAddress}}/api/Pets/search?keyword=Milo&pageIndex=1&pageSize=10
+Accept: application/json
+
+###
+
+### 9. UC-6.6: Tìm kiếm Pet theo Loài (Species: Dog hoặc Cat)
+GET {{PetCareBooking.API_HostAddress}}/api/Pets/search?species=Dog&pageIndex=1&pageSize=10
+Accept: application/json
+
+###
+
+### 10. UC-6.6: Tìm kiếm kết hợp cả Tên và Loài
+GET {{PetCareBooking.API_HostAddress}}/api/Pets/search?keyword=Milo&species=Dog&pageIndex=1&pageSize=10
+Accept: application/json
+
+###
+
+### 11. UC-6.4: Cập nhật thông tin Pet
+PUT {{PetCareBooking.API_HostAddress}}/api/Pets/{{petId}}
+Content-Type: application/json
+
+{
+  "name": "Milo Đại Đế",
+  "species": "Dog",
+  "breed": "Corgi Chân Ngắn",
+  "weight": 13.5,
+  "age": 4,
+  "healthNotes": "Đã tẩy giun định kỳ"
+}
+
+###
+
+### 12. UC-6.5: Xóa thú cưng (Soft Delete: IsActive chuyển thành false)
+DELETE {{PetCareBooking.API_HostAddress}}/api/Pets/{{petId}}
+Accept: application/json
+
+###
+
+### 13. UC-6.5: Thử xóa lại thú cưng đã bị xóa trước đó (Phải trả về 400 BadRequest)
+DELETE {{PetCareBooking.API_HostAddress}}/api/Pets/{{petId}}
+Accept: application/json
+
+###
+
+### 14. Kiểm tra lại chi tiết Pet sau khi xóa (IsActive phải bằng false)
+GET {{PetCareBooking.API_HostAddress}}/api/Pets/{{petId}}
+Accept: application/json
