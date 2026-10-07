@@ -16,20 +16,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Đăng ký Dependency Injection cho IEmailService & IJwtTokenGenerator
+// Register Dependency Injection for IEmailService & IJwtTokenGenerator
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
 builder.Services.AddEndpointsApiExplorer();
 
-// Cấu hình Nút "Authorize" (Ổ khóa) cho Swagger UI
+// Configure "Authorize" button for Swagger UI
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "PetCareBooking API", Version = "v1" });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "Nhập Token theo định dạng: Bearer {token}",
+        Description = "Enter Token in format: Bearer {token}",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
@@ -58,7 +58,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddApplication();
 
-// Cấu hình JWT Authentication & Authorization
+// Configure JWT Authentication & Authorization
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"] ?? "PetCareBooking_Super_Secret_Key_2026_Secure_JWT_Key_SWD392!";
 var issuer = jwtSettings["Issuer"] ?? "PetCareBookingAPI";

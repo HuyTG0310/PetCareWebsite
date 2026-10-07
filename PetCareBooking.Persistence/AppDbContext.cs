@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Domain.Entities;
 using PetCareBooking.Domain.Enums;
 
@@ -10,25 +10,25 @@ public class AppDbContext : DbContext
     {
     }
 
-    // --- PHáº¦N 1: RBAC & NHÃ‚N Sá»° ---
+    // --- SECTION 1: RBAC & STAFF ---
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<RolePermission> RolePermissions { get; set; }
     public DbSet<Staff> Staffs { get; set; }
     public DbSet<StaffRole> StaffRoles { get; set; }
 
-    // --- PHáº¦N 2: KHÃCH HÃ€NG & THÃš CÆ¯NG ---
+    // --- SECTION 2: CUSTOMERS & PETS ---
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Pet> Pets { get; set; }
 
-    // --- PHáº¦N 3: Dá»ŠCH Vá»¤ & PHÃ’NG ---
+    // --- SECTION 3: SERVICES & ROOMS ---
     public DbSet<Service> Services { get; set; }
     public DbSet<ServicePrice> ServicePrices { get; set; }
     public DbSet<RoomType> RoomTypes { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Promotion> Promotions { get; set; }
 
-    // --- PHáº¦N 4: Váº¬N HÃ€NH (SHOPPING CART) ---
+    // --- SECTION 4: OPERATIONS (SHOPPING CART) ---
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<BookingItem> BookingItems { get; set; }
     public DbSet<CareRecord> CareRecords { get; set; }
@@ -39,7 +39,7 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // ==========================================
-        // PHáº¦N 1: Há»† THá»NG PHÃ‚N QUYá»€N (RBAC) & NHÃ‚N Sá»°
+        // SECTION 1: ROLE-BASED ACCESS CONTROL (RBAC) & STAFF
         // ==========================================
 
         modelBuilder.Entity<Permission>(entity =>
@@ -109,7 +109,7 @@ public class AppDbContext : DbContext
         });
 
         // ==========================================
-        // PHáº¦N 2: KHÃCH HÃ€NG & THÃš CÆ¯NG
+        // SECTION 2: CUSTOMERS & PETS
         // ==========================================
 
         modelBuilder.Entity<Customer>(entity =>
@@ -148,7 +148,7 @@ public class AppDbContext : DbContext
         });
 
         // ==========================================
-        // PHáº¦N 3: Cáº¤U HÃŒNH Dá»ŠCH Vá»¤, PHÃ’NG & KHUYáº¾N MÃƒI
+        // SECTION 3: SERVICES, ROOMS & PROMOTIONS
         // ==========================================
 
         modelBuilder.Entity<Service>(entity =>
@@ -229,7 +229,7 @@ public class AppDbContext : DbContext
         });
 
         // ==========================================
-        // PHáº¦N 4: Váº¬N HÃ€NH Dá»ŠCH Vá»¤ (SHOPPING CART)
+        // SECTION 4: OPERATIONS (SHOPPING CART)
         // ==========================================
 
         modelBuilder.Entity<Booking>(entity =>
@@ -328,10 +328,10 @@ public class AppDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
 
-            // Äáº£m báº£o má»—i BookingItem chá»‰ Ä‘Æ°á»£c review 1 láº§n
+            // Ensure each BookingItem can only be reviewed once
             entity.HasIndex(e => e.BookingItemId).IsUnique();
 
-            // RÃ ng buá»™c má»©c Ä‘á»™ Ä‘Ã¡nh giÃ¡ tá»« 1 Ä‘áº¿n 5
+            // Rating constraint between 1 and 5
             entity.ToTable(t => t.HasCheckConstraint("CK_Review_Rating", "Rating >= 1 AND Rating <= 5"));
 
             entity.Property(e => e.CreatedAt).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()");

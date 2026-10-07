@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace PetCareBooking.Application.Features.Services.Commands.CreateService
 {
@@ -19,7 +19,7 @@ namespace PetCareBooking.Application.Features.Services.Commands.CreateService
                     .GreaterThanOrEqualTo(0).WithMessage("Price must be greater than or equal to 0.");
 
                 prices.RuleFor(p => p.PricingUnit)
-                    .IsInEnum().WithMessage("Invalid pricing unit."); // Tự động validate Enum hợp lệ
+                    .IsInEnum().WithMessage("Invalid pricing unit."); // Automatically validate valid Enum
 
                 prices.RuleFor(p => p.MinWeight)
                     .GreaterThanOrEqualTo(0).WithMessage("Min weight must be greater than or equal to 0.")

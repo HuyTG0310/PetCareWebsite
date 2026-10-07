@@ -1,8 +1,8 @@
-﻿namespace PetCareBooking.Domain.Entities
+namespace PetCareBooking.Domain.Entities
 {
     public class RolePermission
     {
-        // Bảng trung gian (Many-to-Many) không cần Id riêng
+        // Join table (Many-to-Many) does not require a separate Id
         public Guid RoleId { get; set; }
         public Guid PermissionId { get; set; }
         public virtual Role Role { get; set; } = null!;

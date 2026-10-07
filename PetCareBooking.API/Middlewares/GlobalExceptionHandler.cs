@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using PetCareBooking.Application.Common.Models;
 
@@ -8,7 +8,7 @@ namespace PetCareBooking.API.Middlewares
     {
         private readonly ILogger<GlobalExceptionHandler> _logger;
 
-        // Inject ILogger để ghi lại lỗi chi tiết trên server
+        // Inject ILogger to log detailed server errors
         public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
         {
             _logger = logger;
@@ -19,20 +19,20 @@ namespace PetCareBooking.API.Middlewares
             Exception exception,
             CancellationToken cancellationToken)
         {
-            // 1. Ghi log lỗi ngầm định để Developer có thể trace bug
+            // 1. Log unhandled exception for developers to trace bugs
             _logger.LogError(exception, "Unhandled exception occurred: {Message}", exception.Message);
 
-            // 2. Format Response mặc định (Lỗi 500)
+            // 2. Default Response format (500 Internal Server Error)
             var response = new ApiResponse<object>
             {
                 IsSuccess = false,
                 StatusCode = StatusCodes.Status500InternalServerError,
-                // BẢO MẬT: Trả thông báo chung chung cho Client thay vì ném thẳng exception.Message
+                // SECURITY: Return generic message to Client instead of raw exception.Message
                 Message = "An unexpected error occurred on the server. Please contact support.",
                 Result = null
             };
 
-            // 3. Phân loại lỗi và ghi đè Status Code / Message
+            // 3. Classify exception and override Status Code / Message
             switch (exception)
             {
                 case ValidationException validationException:
@@ -46,16 +46,16 @@ namespace PetCareBooking.API.Middlewares
                     response.Message = "You do not have permission to access this resource.";
                     break;
 
-                    // Bạn có thể thêm case cho NotFoundException hoặc BadRequestException tự định nghĩa ở đây
+                    // You can add cases for custom NotFoundException or BadRequestException here
             }
 
-            // 4. Gửi Response
+            // 4. Send Response
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = response.StatusCode;
 
             await httpContext.Response.WriteAsJsonAsync(response, cancellationToken);
 
-            return true; // Báo cho .NET biết exception đã được xử lý xong
+            return true; // Signal to .NET that the exception has been handled
         }
     }
 }

@@ -49,7 +49,7 @@ namespace PetCareBooking.Application.Features.Customers.Queries.GetCustomerById
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "Không tìm thấy khách hàng."
+                    Message = "Customer not found."
                 };
             }
 

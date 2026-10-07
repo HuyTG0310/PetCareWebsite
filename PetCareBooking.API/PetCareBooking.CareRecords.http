@@ -1,0 +1,114 @@
+@PetCareBooking.API_HostAddress = http://localhost:5286
+
+### =========================================================================
+### MODULE: MANAGE CARE RECORD (UC-09) - HTTP INTEGRATION TESTS
+### =========================================================================
+
+### 1. UC-9.1: Lấy danh sách hồ sơ chăm sóc có phân trang (Mặc định)
+GET {{PetCareBooking.API_HostAddress}}/api/CareRecords?pageIndex=1&pageSize=10
+Accept: application/json
+
+###
+
+### 2. UC-9.3: Thử tạo Care Record với dữ liệu rỗng (Kiểm tra FluentValidation -> 400 Bad Request)
+POST {{PetCareBooking.API_HostAddress}}/api/CareRecords
+Content-Type: application/json
+
+{
+  "bookingItemId": "00000000-0000-0000-0000-000000000000",
+  "staffId": "00000000-0000-0000-0000-000000000000",
+  "healthStatus": ""
+}
+
+###
+
+### 3. UC-9.3: Thử tạo Care Record với BookingItemId không tồn tại (Phải trả về 404 Not Found)
+POST {{PetCareBooking.API_HostAddress}}/api/CareRecords
+Content-Type: application/json
+
+{
+  "bookingItemId": "99999999-9999-9999-9999-999999999999",
+  "staffId": "88888888-8888-8888-8888-888888888888",
+  "recordDate": "2026-10-07T10:00:00Z",
+  "healthStatus": "Bình thường",
+  "note": "Kiểm tra định kỳ"
+}
+
+###
+
+### 4. UC-9.3: Tạo mới một Care Record thành công
+# @name createCareRecordRequest
+POST {{PetCareBooking.API_HostAddress}}/api/CareRecords
+Content-Type: application/json
+
+{
+  "bookingItemId": "11111111-1111-1111-1111-111111111111",
+  "staffId": "22222222-2222-2222-2222-222222222222",
+  "recordDate": "2026-10-07T10:30:00Z",
+  "healthStatus": "Khỏe mạnh, vui vẻ",
+  "note": "Đã ăn hết khẩu phần, tắm sấy sạch sẽ",
+  "imageUrl": "https://example.com/pet-care-1.jpg"
+}
+
+###
+
+### Lưu ID của Care Record vừa tạo
+@careRecordId = {{createCareRecordRequest.response.body.result}}
+
+### 5. UC-9.2: Xem chi tiết Care Record theo ID
+GET {{PetCareBooking.API_HostAddress}}/api/CareRecords/{{careRecordId}}
+Accept: application/json
+
+###
+
+### 6. UC-9.2: Xem chi tiết Care Record không tồn tại (Phải trả về 404 Not Found)
+GET {{PetCareBooking.API_HostAddress}}/api/CareRecords/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+###
+
+### 7. UC-9.6: Tìm kiếm Care Record theo từ khóa (Note / HealthStatus)
+GET {{PetCareBooking.API_HostAddress}}/api/CareRecords/search?keyword=tắm&pageIndex=1&pageSize=10
+Accept: application/json
+
+###
+
+### 8. UC-9.6: Lọc Care Record theo BookingItemId
+GET {{PetCareBooking.API_HostAddress}}/api/CareRecords/search?bookingItemId=11111111-1111-1111-1111-111111111111&pageIndex=1&pageSize=10
+Accept: application/json
+
+###
+
+### 9. UC-9.6: Lọc Care Record theo StaffId
+GET {{PetCareBooking.API_HostAddress}}/api/CareRecords/search?staffId=22222222-2222-2222-2222-222222222222&pageIndex=1&pageSize=10
+Accept: application/json
+
+###
+
+### 10. UC-9.4: Cập nhật thông tin Care Record
+PUT {{PetCareBooking.API_HostAddress}}/api/CareRecords/{{careRecordId}}
+Content-Type: application/json
+
+{
+  "healthStatus": "Hoàn toàn khỏe mạnh",
+  "note": "Đã cho uống thuốc bổ lông lúc 14:00",
+  "imageUrl": "https://example.com/pet-care-updated.jpg"
+}
+
+###
+
+### 11. UC-9.5: Xóa Care Record
+DELETE {{PetCareBooking.API_HostAddress}}/api/CareRecords/{{careRecordId}}
+Accept: application/json
+
+###
+
+### 12. UC-9.5: Thử xóa lại Care Record vừa bị xóa (Phải trả về 404 Not Found)
+DELETE {{PetCareBooking.API_HostAddress}}/api/CareRecords/{{careRecordId}}
+Accept: application/json
+
+###
+
+### 13. Kiểm tra lại chi tiết Care Record sau khi xóa (Phải trả về 404 Not Found)
+GET {{PetCareBooking.API_HostAddress}}/api/CareRecords/{{careRecordId}}
+Accept: application/json

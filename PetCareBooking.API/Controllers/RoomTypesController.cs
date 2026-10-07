@@ -21,7 +21,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Tạo mới một loại phòng (Room Type)
+        /// Create a new room type
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> CreateRoomType([FromBody] CreateRoomTypeCommand command)
@@ -31,7 +31,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Lấy danh sách tất cả loại phòng (kèm số lượng phòng và tìm kiếm theo từ khóa)
+        /// Get list of all room types (with room count and search by keyword)
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetRoomTypes([FromQuery] string? searchTerm)
@@ -44,9 +44,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
         /// Kiểm tra số lượng phòng còn trống theo từng loại phòng trong khoảng thời gian lưu trú
-        /// </summary>
         [HttpGet("availability")]
         public async Task<IActionResult> GetRoomTypeAvailability([FromQuery] GetRoomTypeAvailabilityQuery query)
         {
@@ -66,7 +64,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Cập nhật thông tin loại phòng theo ID
+        /// Update room type details by ID
         /// </summary>
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateRoomType(Guid id, [FromBody] UpdateRoomTypeCommand command)
@@ -77,7 +75,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Xóa loại phòng theo ID (chỉ xóa khi không còn phòng nào bên trong)
+        /// Delete room type by ID (only when no rooms belong to it)
         /// </summary>
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteRoomType(Guid id)

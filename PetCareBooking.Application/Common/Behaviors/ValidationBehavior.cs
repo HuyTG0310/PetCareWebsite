@@ -1,9 +1,9 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 
 namespace PetCareBooking.Application.Common.Behaviors
 {
-    // dùng để chạy validator trước khi vào tới handler
+    // Used to run validators before reaching the handler
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
     {
