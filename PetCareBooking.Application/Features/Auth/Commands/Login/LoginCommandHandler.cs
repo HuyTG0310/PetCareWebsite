@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Common.Models;
@@ -20,7 +20,6 @@ namespace PetCareBooking.Application.Features.Auth.Commands.Login
 
         public async Task<ApiResponse<LoginResponseDto>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            // 1. Tìm thông tin khách hàng theo Email
             var customer = await _repository.GetQueryable()
                 .FirstOrDefaultAsync(c => c.Email == request.Email, cancellationToken);
 
@@ -30,11 +29,10 @@ namespace PetCareBooking.Application.Features.Auth.Commands.Login
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Email hoặc mật khẩu không chính xác."
+                    Message = "Invalid email or password."
                 };
             }
 
-            // 2. Kiểm tra mật khẩu mã hóa BCrypt
             var isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, customer.PasswordHash);
             if (!isPasswordValid)
             {
@@ -42,30 +40,27 @@ namespace PetCareBooking.Application.Features.Auth.Commands.Login
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Email hoặc mật khẩu không chính xác."
+                    Message = "Invalid email or password."
                 };
             }
 
-            // 3. Kiểm tra tài khoản đã xác thực OTP chưa
             if (!customer.IsActive)
             {
                 return new ApiResponse<LoginResponseDto>
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Tài khoản chưa được kích hoạt. Vui lòng xác thực mã OTP trước khi đăng nhập."
+                    Message = "Account is not activated. Please verify OTP code before logging in."
                 };
             }
 
-            // 4. Sinh JWT Token
             var token = _jwtTokenGenerator.GenerateToken(customer);
 
-            // 5. Trả về thông tin
             return new ApiResponse<LoginResponseDto>
             {
                 IsSuccess = true,
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Đăng nhập thành công!",
+                Message = "Login successful!",
                 Result = new LoginResponseDto
                 {
                     Token = token,

@@ -1,4 +1,4 @@
-﻿using PetCareBooking.Domain.Enums;
+using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Application.DTOs.Booking
 {
@@ -25,7 +25,7 @@ namespace PetCareBooking.Application.DTOs.Booking
         public string ServiceName { get; set; } = null!;
         public ServiceType ServiceType { get; set; }
 
-        // Room/Table Info (Bàn cắt tỉa / Phòng spa)
+        // Room/Table Info (Grooming table / Spa room)
         public Guid? RoomId { get; set; }
         public string? RoomName { get; set; }
 

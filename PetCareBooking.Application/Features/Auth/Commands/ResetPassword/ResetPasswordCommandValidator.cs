@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace PetCareBooking.Application.Features.Auth.Commands.ResetPassword
 {
@@ -7,20 +7,20 @@ namespace PetCareBooking.Application.Features.Auth.Commands.ResetPassword
         public ResetPasswordCommandValidator()
         {
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Email không được để trống.")
-                .EmailAddress().WithMessage("Định dạng email không hợp lệ.");
+                .NotEmpty().WithMessage("Email is required.")
+                .EmailAddress().WithMessage("Invalid email format.");
 
             RuleFor(x => x.OtpCode)
-                .NotEmpty().WithMessage("Mã OTP không được để trống.")
-                .Length(6).WithMessage("Mã OTP phải có 6 chữ số.");
+                .NotEmpty().WithMessage("OTP code is required.")
+                .Length(6).WithMessage("OTP code must be 6 digits.");
 
             RuleFor(x => x.NewPassword)
-                .NotEmpty().WithMessage("Mật khẩu mới không được để trống.")
-                .MinimumLength(6).WithMessage("Mật khẩu mới tối thiểu phải 6 ký tự.");
+                .NotEmpty().WithMessage("New password is required.")
+                .MinimumLength(6).WithMessage("New password must be at least 6 characters.");
 
             RuleFor(x => x.ConfirmNewPassword)
-                .NotEmpty().WithMessage("Vui lòng xác nhận lại mật khẩu mới.")
-                .Equal(x => x.NewPassword).WithMessage("Mật khẩu xác nhận không trùng khớp.");
+                .NotEmpty().WithMessage("Please confirm your new password.")
+                .Equal(x => x.NewPassword).WithMessage("Confirm password does not match.");
         }
     }
 }

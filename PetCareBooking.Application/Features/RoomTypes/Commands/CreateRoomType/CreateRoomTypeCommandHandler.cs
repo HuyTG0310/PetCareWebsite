@@ -21,7 +21,7 @@ namespace PetCareBooking.Application.Features.RoomTypes.Commands.CreateRoomType
         {
             var trimmedName = request.Name.Trim();
 
-            // Kiểm tra trùng tên loại phòng (không phân biệt hoa thường)
+            // Check for duplicate room type name (case-insensitive)
             var isDuplicate = await _roomTypeRepository.GetQueryable()
                 .AnyAsync(rt => rt.Name.ToLower() == trimmedName.ToLower(), cancellationToken);
 

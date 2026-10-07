@@ -27,17 +27,15 @@ namespace PetCareBooking.Application.Features.Customers.Commands.UpdateCustomer
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "Không tìm thấy khách hàng."
+                    Message = "Customer not found."
                 };
             }
 
-            // Chỉ cập nhật Họ và tên nếu được truyền lên
             if (!string.IsNullOrWhiteSpace(request.FullName))
             {
                 customer.FullName = request.FullName;
             }
 
-            // Chỉ cập nhật và kiểm tra trùng Số điện thoại nếu được truyền lên
             if (!string.IsNullOrWhiteSpace(request.PhoneNumber))
             {
                 var isPhoneExisted = await _repository.GetQueryable()
@@ -49,14 +47,13 @@ namespace PetCareBooking.Application.Features.Customers.Commands.UpdateCustomer
                     {
                         IsSuccess = false,
                         StatusCode = StatusCodes.Status400BadRequest,
-                        Message = "Số điện thoại này đã được sử dụng bởi khách hàng khác."
+                        Message = "Phone number is already in use by another customer."
                     };
                 }
 
                 customer.PhoneNumber = request.PhoneNumber;
             }
 
-            // Cập nhật Địa chỉ nếu được truyền lên (cho phép truyền rỗng hoặc địa chỉ mới)
             if (request.Address != null)
             {
                 customer.Address = request.Address;
@@ -71,7 +68,7 @@ namespace PetCareBooking.Application.Features.Customers.Commands.UpdateCustomer
             {
                 IsSuccess = true,
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Cập nhật thông tin khách hàng thành công.",
+                Message = "Customer information updated successfully.",
                 Result = true
             };
         }

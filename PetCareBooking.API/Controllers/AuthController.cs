@@ -22,8 +22,9 @@ namespace PetCareBooking.API.Controllers
             _mediator = mediator;
         }
 
+
         /// <summary>
-        /// 1. Đăng ký tài khoản mới (Gửi mã OTP qua email)
+        /// 1. Register new account (Send OTP via email)
         /// </summary>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterCommand command)
@@ -33,7 +34,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// 2. Xác thực mã OTP
+        /// 2. Verify OTP code
         /// </summary>
         [HttpPost("verify-otp")]
         public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpCommand command)
@@ -43,7 +44,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// 3. Gửi lại mã OTP
+        /// 3. Resend OTP code
         /// </summary>
         [HttpPost("resend-otp")]
         public async Task<IActionResult> ResendOtp([FromBody] ResendOtpCommand command)
@@ -53,7 +54,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// 4. Đăng nhập hệ thống (Trả về mã JWT Token)
+        /// 4. System login (Returns JWT Token)
         /// </summary>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginCommand command)
@@ -63,7 +64,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// 5. Đăng xuất hệ thống (Yêu cầu gửi kèm JWT Token)
+        /// 5. System logout (Requires JWT Token)
         /// </summary>
         [Authorize]
         [HttpPost("logout")]
@@ -74,7 +75,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// 6. Yêu cầu đặt lại mật khẩu (Gửi OTP qua email)
+        /// 6. Request password reset (Send OTP via email)
         /// </summary>
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
@@ -84,7 +85,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// 7. Đặt lại mật khẩu mới với mã OTP
+        /// 7. Reset new password with OTP code
         /// </summary>
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommand command)

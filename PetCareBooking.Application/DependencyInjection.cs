@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using PetCareBooking.Application.Common.Behaviors;
@@ -11,7 +11,7 @@ namespace PetCareBooking.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            // Đăng ký toàn bộ MediatR Handlers có trong tầng Application
+            // Register all MediatR Handlers in Application layer
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
             services.AddValidatorsFromAssembly(assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));

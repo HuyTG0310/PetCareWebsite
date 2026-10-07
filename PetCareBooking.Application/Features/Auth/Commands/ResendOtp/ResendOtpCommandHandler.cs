@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Common.Models;
@@ -34,7 +34,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.ResendOtp
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "Không tìm thấy tài khoản tương ứng với email này."
+                    Message = "No account found corresponding to this email."
                 };
             }
 
@@ -44,7 +44,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.ResendOtp
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Tài khoản đã được kích hoạt. Bạn có thể đăng nhập trực tiếp."
+                    Message = "Account is already activated. You can log in directly."
                 };
             }
 
@@ -61,7 +61,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.ResendOtp
             {
                 IsSuccess = true,
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Mã OTP mới đã được gửi tới email của bạn.",
+                Message = "A new OTP code has been sent to your email.",
                 Result = true
             };
         }

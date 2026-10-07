@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.Customers.Commands.CreateCustomer;
 using PetCareBooking.Application.Features.Customers.Commands.DeleteCustomer;
@@ -20,7 +20,7 @@ namespace PetCareBooking.API.Controllers
             _mediator = mediator;
         }
 
-        //Xem danh sách & Tìm kiếm khách hàng
+        // Get customer list & Search customers
         [HttpGet]
         public async Task<IActionResult> GetCustomers([FromQuery] GetCustomersWithPaginationQuery query)
         {
@@ -28,7 +28,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // Xem chi tiết hồ sơ & lịch sử của khách hàng
+        // View customer profile details & history
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetCustomerById(Guid id)
         {
@@ -36,7 +36,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // Thêm mới khách hàng
+        // Add new customer
         [HttpPost]
         public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerCommand command)
         {
@@ -44,7 +44,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // Chỉnh sửa thông tin khách hàng
+        // Update customer information
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateCustomer(Guid id, [FromBody] UpdateCustomerCommand command)
         {
@@ -53,7 +53,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // Xóa an toàn / Hủy kích hoạt khách hàng
+        // Soft delete / Deactivate customer
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteCustomer(Guid id)
         {
@@ -61,7 +61,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // Bật / Tắt trạng thái hoạt động nhanh
+        // Toggle active status
         [HttpPatch("{id:guid}/toggle-status")]
         public async Task<IActionResult> ToggleStatus(Guid id)
         {

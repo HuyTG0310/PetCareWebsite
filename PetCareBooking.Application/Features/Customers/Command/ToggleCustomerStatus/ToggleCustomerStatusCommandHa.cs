@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
@@ -26,7 +26,7 @@ namespace PetCareBooking.Application.Features.Customers.Commands.ToggleCustomerS
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "Không tìm thấy khách hàng."
+                    Message = "Customer not found."
                 };
             }
 
@@ -39,7 +39,7 @@ namespace PetCareBooking.Application.Features.Customers.Commands.ToggleCustomerS
             {
                 IsSuccess = true,
                 StatusCode = StatusCodes.Status200OK,
-                Message = customer.IsActive ? "Đã mở khóa tài khoản." : "Đã khóa tài khoản thành công.",
+                Message = customer.IsActive ? "Account unlocked successfully." : "Account locked successfully.",
                 Result = customer.IsActive
             };
         }

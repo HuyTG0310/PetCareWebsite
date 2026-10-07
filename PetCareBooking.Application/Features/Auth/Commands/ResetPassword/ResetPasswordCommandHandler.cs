@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Common.Models;
@@ -29,11 +29,10 @@ namespace PetCareBooking.Application.Features.Auth.Commands.ResetPassword
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "Không tìm thấy tài khoản tương ứng."
+                    Message = "Corresponding account not found."
                 };
             }
 
-            // Kiểm tra OTP hợp lệ và còn hạn
             if (string.IsNullOrEmpty(customer.OtpCode) ||
                 customer.OtpCode != request.OtpCode.Trim() ||
                 customer.OtpExpiry < DateTime.UtcNow)
@@ -42,11 +41,10 @@ namespace PetCareBooking.Application.Features.Auth.Commands.ResetPassword
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Mã OTP không chính xác hoặc đã hết hạn."
+                    Message = "Invalid or expired OTP code."
                 };
             }
 
-            // Cập nhật mật khẩu mới và xóa mã OTP
             customer.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
             customer.OtpCode = null;
             customer.OtpExpiry = null;
@@ -59,7 +57,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.ResetPassword
             {
                 IsSuccess = true,
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Đặt lại mật khẩu thành công! Bạn có thể dùng mật khẩu mới để đăng nhập.",
+                Message = "Password reset successful! You can now log in with your new password.",
                 Result = true
             };
         }

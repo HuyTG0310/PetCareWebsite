@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Service;
 using PetCareBooking.Application.Interfaces;
@@ -22,20 +22,20 @@ namespace PetCareBooking.Application.Features.Services.Queries.SearchServicesFor
             if (request.PageSize < 1) request.PageSize = 10;
             if (request.PageSize > 100) request.PageSize = 100; // Max 100 items per page
 
-            // Cấu trúc Predicate linh hoạt cho Admin
+            // Flexible predicate structure for Admin
             var services = await _repository.FindAsync(s =>
-                // 1. Lọc theo trạng thái (nếu Admin có truyền true/false, còn null thì bỏ qua điều kiện này)
+                // 1. Filter by active status (if specified by Admin, ignore if null)
                 (!request.IsActive.HasValue || s.IsActive == request.IsActive.Value) &&
 
-                // 2. Lọc theo Keyword
+                // 2. Filter by Keyword
                 (string.IsNullOrEmpty(request.Keyword) ||
                  s.Name.ToLower().Contains(request.Keyword.ToLower()) ||
                  (s.Description != null && s.Description.ToLower().Contains(request.Keyword.ToLower()))) &&
 
-                // 3. Lọc theo ServiceType
+                // 3. Filter by ServiceType
                 (!request.ServiceType.HasValue || s.ServiceType == request.ServiceType.Value),
 
-                // Tham số Include bảng giá
+                // Include ServicePrices navigation property
                 "ServicePrices"
             );
 
@@ -48,7 +48,7 @@ namespace PetCareBooking.Application.Features.Services.Queries.SearchServicesFor
                 .Take(request.PageSize)
                 .ToList();
 
-            // Map sang DTO
+            // Map to DTO
             var serviceDTOs = paginatedServices.Select(s => new ServiceListResponseDTO
             {
                 Id = s.Id,

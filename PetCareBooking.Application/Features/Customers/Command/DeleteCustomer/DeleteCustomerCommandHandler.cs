@@ -32,17 +32,15 @@ namespace PetCareBooking.Application.Features.Customers.Commands.DeleteCustomer
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "Không tìm thấy khách hàng cần xóa."
+                    Message = "Customer to delete was not found."
                 };
             }
 
-            // Kiểm tra xem khách hàng đã từng phát sinh đơn đặt lịch chưa
             bool hasBookings = await _bookingRepository.GetQueryable()
                 .AnyAsync(b => b.CustomerId == request.Id, cancellationToken);
 
             if (hasBookings)
             {
-                // Safely deactivate: Khóa tài khoản để bảo toàn lịch sử giao dịch
                 customer.IsActive = false;
                 customer.UpdatedAt = DateTime.UtcNow;
                 _customerRepository.Update(customer);
@@ -52,13 +50,12 @@ namespace PetCareBooking.Application.Features.Customers.Commands.DeleteCustomer
                 {
                     IsSuccess = true,
                     StatusCode = StatusCodes.Status200OK,
-                    Message = "Khách hàng đã có lịch sử đơn hẹn, hệ thống đã chuyển sang trạng thái vô hiệu hóa (Deactivated) an toàn.",
+                    Message = "Customer has booking history; account status was safely changed to Deactivated.",
                     Result = true
                 };
             }
             else
             {
-                // Safely remove: Xóa hoàn toàn nếu chưa có giao dịch nào
                 _customerRepository.Delete(customer);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -66,7 +63,7 @@ namespace PetCareBooking.Application.Features.Customers.Commands.DeleteCustomer
                 {
                     IsSuccess = true,
                     StatusCode = StatusCodes.Status200OK,
-                    Message = "Đã xóa hoàn toàn hồ sơ khách hàng khỏi hệ thống.",
+                    Message = "Customer profile was permanently deleted from system.",
                     Result = true
                 };
             }
