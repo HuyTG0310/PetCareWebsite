@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
@@ -12,8 +13,10 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
         private readonly IGenericRepository<Customer> _customerRepository;
         private readonly IGenericRepository<Pet> _petRepository;
         private readonly IGenericRepository<Service> _serviceRepository;
-        private readonly IGenericRepository<Promotion> _promotionRepository;
+        private readonly IGenericRepository<Voucher> _voucherRepository;
         private readonly IGenericRepository<ServicePrice> _servicePriceRepository;
+        private readonly IGenericRepository<Room> _roomRepository;
+        private readonly IGenericRepository<BookingItem> _bookingItemRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateBookingCommandHandler(
@@ -21,16 +24,20 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             IGenericRepository<Customer> customerRepository,
             IGenericRepository<Pet> petRepository,
             IGenericRepository<Service> serviceRepository,
-            IGenericRepository<Promotion> promotionRepository,
+            IGenericRepository<Voucher> voucherRepository,
             IGenericRepository<ServicePrice> servicePriceRepository,
+            IGenericRepository<Room> roomRepository,
+            IGenericRepository<BookingItem> bookingItemRepository,
             IUnitOfWork unitOfWork)
         {
             _bookingRepository = bookingRepository;
             _customerRepository = customerRepository;
             _petRepository = petRepository;
             _serviceRepository = serviceRepository;
-            _promotionRepository = promotionRepository;
+            _voucherRepository = voucherRepository;
             _servicePriceRepository = servicePriceRepository;
+            _roomRepository = roomRepository;
+            _bookingItemRepository = bookingItemRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -111,32 +118,44 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                 }
             }
 
-            // 4. Validate and apply promotion
-            Guid? promotionId = null;
+            // 4. Validate and apply voucher
+            Guid? voucherId = null;
             decimal discountAmount = 0;
+            Voucher? appliedVoucher = null;
 
-            if (!string.IsNullOrEmpty(request.PromotionCode))
+            if (!string.IsNullOrEmpty(request.VoucherCode))
             {
-                var promotions = await _promotionRepository.FindAsync(p =>
-                    p.Code == request.PromotionCode &&
-                    p.StartDate <= DateTime.UtcNow &&
-                    p.EndDate >= DateTime.UtcNow &&
-                    (p.MaxUsage == null || p.CurrentUsage < p.MaxUsage));
+                var vouchers = await _voucherRepository.FindAsync(v =>
+                    v.Code == request.VoucherCode &&
+                    v.StartDate <= DateTime.UtcNow &&
+                    v.EndDate >= DateTime.UtcNow);
 
-                var promotion = promotions.FirstOrDefault();
+                var voucher = vouchers.FirstOrDefault();
 
-                if (promotion == null)
+                if (voucher == null)
                 {
                     return new ApiResponse<Guid>
                     {
                         IsSuccess = false,
                         StatusCode = 400,
-                        Message = "Invalid or expired promotion code.",
+                        Message = "Invalid or expired voucher code.",
                         Result = Guid.Empty
                     };
                 }
 
-                promotionId = promotion.Id;
+                if (voucher.MaxUsage.HasValue && voucher.CurrentUsage >= voucher.MaxUsage.Value)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 400,
+                        Message = "Voucher usage limit has been reached.",
+                        Result = Guid.Empty
+                    };
+                }
+
+                voucherId = voucher.Id;
+                appliedVoucher = voucher;
             }
 
             // 5. Create booking with items and calculate prices
@@ -144,12 +163,13 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             {
                 Id = Guid.NewGuid(),
                 CustomerId = request.CustomerId,
-                PromotionId = promotionId,
+                VoucherId = voucherId,
                 Status = BookingStatus.Pending,
                 BookingItems = new List<BookingItem>()
             };
 
             decimal subtotal = 0;
+            var allocatedRoomIdsInThisBooking = new HashSet<Guid>();
 
             foreach (var itemRequest in request.BookingItems)
             {
@@ -170,6 +190,113 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     };
                 }
 
+                // XỬ LÝ PHÒNG CHO DỊCH VỤ BOARDING (LƯU TRÚ)
+                Guid? assignedRoomId = null;
+                if (service.ServiceType == ServiceType.Boarding)
+                {
+                    if (!itemRequest.ScheduledEndAt.HasValue || itemRequest.ScheduledEndAt.Value <= itemRequest.ScheduledStartAt)
+                    {
+                        return new ApiResponse<Guid>
+                        {
+                            IsSuccess = false,
+                            StatusCode = 400,
+                            Message = $"Boarding service '{service.Name}' requires a valid ScheduledEndAt after ScheduledStartAt.",
+                            Result = Guid.Empty
+                        };
+                    }
+
+                    // Trường hợp 1: Khách hoặc nhân viên chỉ định phòng cụ thể (RoomId)
+                    if (itemRequest.RoomId.HasValue)
+                    {
+                        var room = await _roomRepository.GetByIdAsync(itemRequest.RoomId.Value);
+                        if (room == null)
+                        {
+                            return new ApiResponse<Guid>
+                            {
+                                IsSuccess = false,
+                                StatusCode = 404,
+                                Message = $"Room with ID {itemRequest.RoomId.Value} not found.",
+                                Result = Guid.Empty
+                            };
+                        }
+
+                        if (room.Status != RoomStatus.Available)
+                        {
+                            return new ApiResponse<Guid>
+                            {
+                                IsSuccess = false,
+                                StatusCode = 400,
+                                Message = $"Room '{room.RoomName}' is currently under maintenance.",
+                                Result = Guid.Empty
+                            };
+                        }
+
+                        var isOccupied = await _bookingItemRepository.GetQueryable()
+                            .AnyAsync(bi => bi.RoomId == itemRequest.RoomId.Value &&
+                                            bi.Status != BookingItemStatus.Cancelled &&
+                                            bi.ScheduledStartAt < itemRequest.ScheduledEndAt.Value &&
+                                            (bi.ScheduledEndAt == null ? bi.ScheduledStartAt.AddDays(1) : bi.ScheduledEndAt.Value) > itemRequest.ScheduledStartAt,
+                                      cancellationToken);
+
+                        if (isOccupied || allocatedRoomIdsInThisBooking.Contains(itemRequest.RoomId.Value))
+                        {
+                            return new ApiResponse<Guid>
+                            {
+                                IsSuccess = false,
+                                StatusCode = 400,
+                                Message = $"Room '{room.RoomName}' is already occupied during the requested period.",
+                                Result = Guid.Empty
+                            };
+                        }
+
+                        assignedRoomId = room.Id;
+                        allocatedRoomIdsInThisBooking.Add(room.Id);
+                    }
+                    // Trường hợp 2: Khách chọn Loại phòng (RoomTypeId) -> Hệ thống tự động tìm và khóa 1 phòng trống
+                    else if (itemRequest.RoomTypeId.HasValue)
+                    {
+                        var occupiedRoomIds = await _bookingItemRepository.GetQueryable()
+                            .Where(bi => bi.RoomId.HasValue &&
+                                         bi.Status != BookingItemStatus.Cancelled &&
+                                         bi.ScheduledStartAt < itemRequest.ScheduledEndAt.Value &&
+                                         (bi.ScheduledEndAt == null ? bi.ScheduledStartAt.AddDays(1) : bi.ScheduledEndAt.Value) > itemRequest.ScheduledStartAt)
+                            .Select(bi => bi.RoomId!.Value)
+                            .Distinct()
+                            .ToListAsync(cancellationToken);
+
+                        var availableRoom = await _roomRepository.GetQueryable()
+                            .Where(r => r.RoomTypeId == itemRequest.RoomTypeId.Value &&
+                                        r.Status == RoomStatus.Available &&
+                                        !occupiedRoomIds.Contains(r.Id) &&
+                                        !allocatedRoomIdsInThisBooking.Contains(r.Id))
+                            .FirstOrDefaultAsync(cancellationToken);
+
+                        if (availableRoom == null)
+                        {
+                            return new ApiResponse<Guid>
+                            {
+                                IsSuccess = false,
+                                StatusCode = 400,
+                                Message = "No available rooms found for the selected room type during the requested period.",
+                                Result = Guid.Empty
+                            };
+                        }
+
+                        assignedRoomId = availableRoom.Id;
+                        allocatedRoomIdsInThisBooking.Add(availableRoom.Id);
+                    }
+                    else
+                    {
+                        return new ApiResponse<Guid>
+                        {
+                            IsSuccess = false,
+                            StatusCode = 400,
+                            Message = $"Boarding service '{service.Name}' requires selecting either a Room or a Room Type.",
+                            Result = Guid.Empty
+                        };
+                    }
+                }
+
                 var assignedPrice = unitPrice.Value * itemRequest.Quantity;
                 subtotal += assignedPrice;
 
@@ -178,7 +305,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     Id = Guid.NewGuid(),
                     PetId = itemRequest.PetId,
                     ServiceId = itemRequest.ServiceId,
-                    RoomId = itemRequest.RoomId,
+                    RoomId = assignedRoomId,
                     StaffId = itemRequest.StaffId,
                     ScheduledStartAt = itemRequest.ScheduledStartAt,
                     ScheduledEndAt = itemRequest.ScheduledEndAt,
@@ -190,15 +317,17 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             }
 
             // 6. Calculate total price with discount
-            if (promotionId.HasValue)
+            if (appliedVoucher != null)
             {
-                var promotion = (await _promotionRepository.FindAsync(p => p.Id == promotionId)).First();
-                discountAmount = promotion.DiscountType == DiscountType.Percentage
-                    ? subtotal * (promotion.DiscountValue / 100)
-                    : promotion.DiscountValue;
+                discountAmount = appliedVoucher.DiscountType == DiscountType.Percentage
+                    ? subtotal * (appliedVoucher.DiscountValue / 100)
+                    : appliedVoucher.DiscountValue;
+
+                appliedVoucher.CurrentUsage += 1;
+                _voucherRepository.Update(appliedVoucher);
             }
 
-            newBooking.TotalPrice = subtotal - discountAmount;
+            newBooking.TotalPrice = Math.Max(0, subtotal - discountAmount);
 
             // 7. Save booking
             await _bookingRepository.AddAsync(newBooking);

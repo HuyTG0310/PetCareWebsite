@@ -1,9 +1,9 @@
-﻿using PetCareBooking.Domain.Common;
+using PetCareBooking.Domain.Common;
 using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Domain.Entities
 {
-    public class Promotion : BaseEntity
+    public class Voucher : BaseEntity
     {
         public string Code { get; set; } = null!;
         public DiscountType DiscountType { get; set; }
@@ -14,3 +14,4 @@ namespace PetCareBooking.Domain.Entities
         public int CurrentUsage { get; set; }
     }
 }
+
