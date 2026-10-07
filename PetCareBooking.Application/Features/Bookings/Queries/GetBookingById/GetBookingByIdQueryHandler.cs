@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Booking;
 using PetCareBooking.Application.Interfaces;
@@ -19,7 +19,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingById
         {
             var bookings = await _bookingRepository.FindAsync(
                 b => b.Id == request.Id,
-                "BookingItems.Pet,BookingItems.Service,Customer,Promotion,BookingItems.Room,BookingItems.Staff");
+                "BookingItems.Pet,BookingItems.Service,Customer,Voucher,BookingItems.Room,BookingItems.Staff");
 
             var booking = bookings.FirstOrDefault();
 
@@ -47,10 +47,10 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingById
 
         private BookingResponseDTO MapToBookingResponseDTO(Booking booking)
         {
-            var discountAmount = booking.Promotion != null
-                ? booking.Promotion.DiscountType == Domain.Enums.DiscountType.Percentage
-                    ? booking.BookingItems.Sum(bi => bi.AssignedPrice) * (booking.Promotion.DiscountValue / 100)
-                    : booking.Promotion.DiscountValue
+            var discountAmount = booking.Voucher != null
+                ? booking.Voucher.DiscountType == Domain.Enums.DiscountType.Percentage
+                    ? booking.BookingItems.Sum(bi => bi.AssignedPrice) * (booking.Voucher.DiscountValue / 100)
+                    : booking.Voucher.DiscountValue
                 : 0;
 
             return new BookingResponseDTO
@@ -59,8 +59,8 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingById
                 CustomerId = booking.CustomerId,
                 CustomerName = booking.Customer.FullName,
                 CustomerPhone = booking.Customer.PhoneNumber,
-                PromotionId = booking.PromotionId,
-                PromotionCode = booking.Promotion?.Code,
+                VoucherId = booking.VoucherId,
+                VoucherCode = booking.Voucher?.Code,
                 DiscountAmount = discountAmount,
                 TotalPrice = booking.TotalPrice,
                 Status = booking.Status,

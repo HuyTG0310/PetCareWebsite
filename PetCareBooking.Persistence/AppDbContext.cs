@@ -26,13 +26,14 @@ public class AppDbContext : DbContext
     public DbSet<ServicePrice> ServicePrices { get; set; }
     public DbSet<RoomType> RoomTypes { get; set; }
     public DbSet<Room> Rooms { get; set; }
-    public DbSet<Promotion> Promotions { get; set; }
+    public DbSet<Voucher> Vouchers { get; set; }
 
     // --- SECTION 4: OPERATIONS (SHOPPING CART) ---
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<BookingItem> BookingItems { get; set; }
     public DbSet<CareRecord> CareRecords { get; set; }
     public DbSet<Review> Reviews { get; set; }
+    public DbSet<PaymentTransaction> PaymentTransactions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -122,6 +123,8 @@ public class AppDbContext : DbContext
             entity.Property(e => e.FullName).HasMaxLength(100).IsRequired();
             entity.Property(e => e.PhoneNumber).HasMaxLength(20).IsRequired();
             entity.Property(e => e.Address).HasMaxLength(255);
+            entity.Property(e => e.OtpCode).HasMaxLength(10);
+            entity.Property(e => e.OtpExpiry).HasColumnType("DATETIME");
             entity.Property(e => e.CreatedAt).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
         });
@@ -210,7 +213,7 @@ public class AppDbContext : DbContext
                   .OnDelete(DeleteBehavior.Restrict);
         });
 
-        modelBuilder.Entity<Promotion>(entity =>
+        modelBuilder.Entity<Voucher>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
@@ -252,9 +255,9 @@ public class AppDbContext : DbContext
                   .HasForeignKey(e => e.CustomerId)
                   .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasOne(e => e.Promotion)
+            entity.HasOne(e => e.Voucher)
                   .WithMany()
-                  .HasForeignKey(e => e.PromotionId)
+                  .HasForeignKey(e => e.VoucherId)
                   .OnDelete(DeleteBehavior.Restrict);
         });
 
@@ -350,6 +353,24 @@ public class AppDbContext : DbContext
                   .WithOne(bi => bi.Review)
                   .HasForeignKey<Review>(e => e.BookingItemId)
                   .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<PaymentTransaction>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
+            entity.Property(e => e.TransactionType).HasMaxLength(50).IsRequired();
+            entity.Property(e => e.Amount).HasColumnType("DECIMAL(18,2)").IsRequired();
+            entity.Property(e => e.PaymentMethod).HasMaxLength(50).IsRequired();
+            entity.Property(e => e.PaymentStatus).HasMaxLength(50).IsRequired();
+            entity.Property(e => e.TransactionCode).HasMaxLength(100);
+            entity.Property(e => e.PaidAt).HasColumnType("DATETIME");
+            entity.Property(e => e.CreatedAt).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()");
+
+            entity.HasOne(e => e.Booking)
+                  .WithMany()
+                  .HasForeignKey(e => e.BookingId)
+                  .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

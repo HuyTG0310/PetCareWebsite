@@ -13,7 +13,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
         private readonly IGenericRepository<Customer> _customerRepository;
         private readonly IGenericRepository<Pet> _petRepository;
         private readonly IGenericRepository<Service> _serviceRepository;
-        private readonly IGenericRepository<Promotion> _promotionRepository;
+        private readonly IGenericRepository<Voucher> _voucherRepository;
         private readonly IGenericRepository<ServicePrice> _servicePriceRepository;
         private readonly IGenericRepository<Room> _roomRepository;
         private readonly IGenericRepository<BookingItem> _bookingItemRepository;
@@ -24,7 +24,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             IGenericRepository<Customer> customerRepository,
             IGenericRepository<Pet> petRepository,
             IGenericRepository<Service> serviceRepository,
-            IGenericRepository<Promotion> promotionRepository,
+            IGenericRepository<Voucher> voucherRepository,
             IGenericRepository<ServicePrice> servicePriceRepository,
             IGenericRepository<Room> roomRepository,
             IGenericRepository<BookingItem> bookingItemRepository,
@@ -34,7 +34,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             _customerRepository = customerRepository;
             _petRepository = petRepository;
             _serviceRepository = serviceRepository;
-            _promotionRepository = promotionRepository;
+            _voucherRepository = voucherRepository;
             _servicePriceRepository = servicePriceRepository;
             _roomRepository = roomRepository;
             _bookingItemRepository = bookingItemRepository;
@@ -118,31 +118,44 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                 }
             }
 
-            // 4. Validate and apply promotion
-            Guid? promotionId = null;
+            // 4. Validate and apply voucher
+            Guid? voucherId = null;
             decimal discountAmount = 0;
+            Voucher? appliedVoucher = null;
 
-            if (!string.IsNullOrEmpty(request.PromotionCode))
+            if (!string.IsNullOrEmpty(request.VoucherCode))
             {
-                var promotions = await _promotionRepository.FindAsync(p =>
-                    p.Code == request.PromotionCode &&
-                    p.StartDate <= DateTime.UtcNow &&
-                    p.EndDate >= DateTime.UtcNow);
+                var vouchers = await _voucherRepository.FindAsync(v =>
+                    v.Code == request.VoucherCode &&
+                    v.StartDate <= DateTime.UtcNow &&
+                    v.EndDate >= DateTime.UtcNow);
 
-                var promotion = promotions.FirstOrDefault();
+                var voucher = vouchers.FirstOrDefault();
 
-                if (promotion == null)
+                if (voucher == null)
                 {
                     return new ApiResponse<Guid>
                     {
                         IsSuccess = false,
                         StatusCode = 400,
-                        Message = "Invalid or expired promotion code.",
+                        Message = "Invalid or expired voucher code.",
                         Result = Guid.Empty
                     };
                 }
 
-                promotionId = promotion.Id;
+                if (voucher.MaxUsage.HasValue && voucher.CurrentUsage >= voucher.MaxUsage.Value)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 400,
+                        Message = "Voucher usage limit has been reached.",
+                        Result = Guid.Empty
+                    };
+                }
+
+                voucherId = voucher.Id;
+                appliedVoucher = voucher;
             }
 
             // 5. Create booking with items and calculate prices
@@ -150,7 +163,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             {
                 Id = Guid.NewGuid(),
                 CustomerId = request.CustomerId,
-                PromotionId = promotionId,
+                VoucherId = voucherId,
                 Status = BookingStatus.Pending,
                 BookingItems = new List<BookingItem>()
             };
@@ -304,15 +317,17 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             }
 
             // 6. Calculate total price with discount
-            if (promotionId.HasValue)
+            if (appliedVoucher != null)
             {
-                var promotion = (await _promotionRepository.FindAsync(p => p.Id == promotionId)).First();
-                discountAmount = promotion.DiscountType == DiscountType.Percentage
-                    ? subtotal * (promotion.DiscountValue / 100)
-                    : promotion.DiscountValue;
+                discountAmount = appliedVoucher.DiscountType == DiscountType.Percentage
+                    ? subtotal * (appliedVoucher.DiscountValue / 100)
+                    : appliedVoucher.DiscountValue;
+
+                appliedVoucher.CurrentUsage += 1;
+                _voucherRepository.Update(appliedVoucher);
             }
 
-            newBooking.TotalPrice = subtotal - discountAmount;
+            newBooking.TotalPrice = Math.Max(0, subtotal - discountAmount);
 
             // 7. Save booking
             await _bookingRepository.AddAsync(newBooking);
