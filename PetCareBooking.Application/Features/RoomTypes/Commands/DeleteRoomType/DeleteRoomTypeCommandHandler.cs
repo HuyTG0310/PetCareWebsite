@@ -34,7 +34,7 @@ namespace PetCareBooking.Application.Features.RoomTypes.Commands.DeleteRoomType
                 };
             }
 
-            // Kiểm tra ràng buộc: Không cho xóa nếu vẫn còn phòng thuộc loại phòng này
+            // Constraint check: Do not delete if rooms still belong to this room type
             if (roomType.Rooms != null && roomType.Rooms.Any())
             {
                 return new ApiResponse<Guid>

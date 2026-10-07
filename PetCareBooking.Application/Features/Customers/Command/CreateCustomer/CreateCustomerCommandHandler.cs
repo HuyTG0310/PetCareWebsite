@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Common.Models;
@@ -29,7 +29,7 @@ namespace PetCareBooking.Application.Features.Customers.Commands.CreateCustomer
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Email hoặc số điện thoại đã tồn tại trong hệ thống."
+                    Message = "Email or phone number already exists in the system."
                 };
             }
 
@@ -50,7 +50,7 @@ namespace PetCareBooking.Application.Features.Customers.Commands.CreateCustomer
             {
                 IsSuccess = true,
                 StatusCode = StatusCodes.Status201Created,
-                Message = "Tạo tài khoản khách hàng thành công.",
+                Message = "Customer account created successfully.",
                 Result = customer.Id
             };
         }

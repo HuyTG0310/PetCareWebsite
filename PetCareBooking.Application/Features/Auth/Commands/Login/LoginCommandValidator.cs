@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace PetCareBooking.Application.Features.Auth.Commands.Login
 {
@@ -7,11 +7,11 @@ namespace PetCareBooking.Application.Features.Auth.Commands.Login
         public LoginCommandValidator()
         {
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Email không được để trống.")
-                .EmailAddress().WithMessage("Định dạng email không hợp lệ.");
+                .NotEmpty().WithMessage("Email is required.")
+                .EmailAddress().WithMessage("Invalid email format.");
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Mật khẩu không được để trống.");
+                .NotEmpty().WithMessage("Password is required.");
         }
     }
 }

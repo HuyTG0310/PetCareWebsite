@@ -36,11 +36,11 @@ namespace PetCareBooking.Application.Features.Auth.Commands.Register
                     {
                         IsSuccess = false,
                         StatusCode = StatusCodes.Status400BadRequest,
-                        Message = "Email hoặc số điện thoại đã tồn tại và đã được kích hoạt."
+                        Message = "Email or phone number already exists and is activated."
                     };
                 }
 
-                // Nếu tài khoản cũ chưa active: cập nhật thông tin và cấp lại OTP mới
+                // If existing account is not active: update info and issue new OTP
                 existingCustomer.FullName = request.FullName;
                 existingCustomer.PhoneNumber = request.PhoneNumber;
                 existingCustomer.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
@@ -56,12 +56,12 @@ namespace PetCareBooking.Application.Features.Auth.Commands.Register
                 {
                     IsSuccess = true,
                     StatusCode = StatusCodes.Status200OK,
-                    Message = "Mã OTP mới đã được gửi lại tới email của bạn.",
+                    Message = "A new OTP code has been sent to your email.",
                     Result = existingCustomer.Email
                 };
             }
 
-            // Tạo tài khoản mới chưa kích hoạt
+            // Create new unactivated account
             var otpCode = Random.Shared.Next(100000, 999999).ToString();
             var customer = new Customer
             {
@@ -83,7 +83,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.Register
             {
                 IsSuccess = true,
                 StatusCode = StatusCodes.Status201Created,
-                Message = "Đăng ký thành công! Vui lòng kiểm tra email để lấy mã OTP.",
+                Message = "Registration successful! Please check your email for the OTP code.",
                 Result = customer.Email
             };
         }

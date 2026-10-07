@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Common.Models;
@@ -29,7 +29,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.VerifyOtp
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "Tài khoản không tồn tại."
+                    Message = "Account does not exist."
                 };
             }
 
@@ -39,7 +39,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.VerifyOtp
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Tài khoản này đã được kích hoạt từ trước."
+                    Message = "This account has already been activated."
                 };
             }
 
@@ -49,11 +49,10 @@ namespace PetCareBooking.Application.Features.Auth.Commands.VerifyOtp
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Mã OTP không đúng hoặc đã hết hạn."
+                    Message = "Invalid or expired OTP code."
                 };
             }
 
-            // Kích hoạt tài khoản và dọn sạch mã OTP
             customer.IsActive = true;
             customer.OtpCode = null;
             customer.OtpExpiry = null;
@@ -66,7 +65,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.VerifyOtp
             {
                 IsSuccess = true,
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Xác thực tài khoản thành công! Bạn có thể đăng nhập ngay bây giờ.",
+                Message = "Account verification successful! You can now log in.",
                 Result = true
             };
         }

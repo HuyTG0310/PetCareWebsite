@@ -34,7 +34,7 @@ namespace PetCareBooking.Application.Features.RoomTypes.Commands.UpdateRoomType
 
             var trimmedName = request.Name.Trim();
 
-            // Kiểm tra trùng tên với các loại phòng khác (trừ chính nó)
+            // Check for duplicate name with other room types (excluding itself)
             var isDuplicateName = await _roomTypeRepository.GetQueryable()
                 .AnyAsync(rt => rt.Id != request.Id && rt.Name.ToLower() == trimmedName.ToLower(), cancellationToken);
 

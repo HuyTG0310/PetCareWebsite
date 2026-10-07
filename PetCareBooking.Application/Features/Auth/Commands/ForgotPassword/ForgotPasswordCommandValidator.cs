@@ -7,8 +7,8 @@ namespace PetCareBooking.Application.Features.Auth.Commands.ForgotPassword
         public ForgotPasswordCommandValidator()
         {
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Email không được để trống.")
-                .EmailAddress().WithMessage("Định dạng email không hợp lệ.");
+                .NotEmpty().WithMessage("Email is required.")
+                .EmailAddress().WithMessage("Invalid email format.");
         }
     }
 }

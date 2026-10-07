@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Common.Models;
@@ -34,7 +34,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.ForgotPassword
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "Không tìm thấy tài khoản với email này."
+                    Message = "Account with this email was not found."
                 };
             }
 
@@ -44,11 +44,10 @@ namespace PetCareBooking.Application.Features.Auth.Commands.ForgotPassword
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Tài khoản đang bị khóa hoặc chưa được kích hoạt."
+                    Message = "Account is locked or not activated."
                 };
             }
 
-            // Tạo mã OTP 6 số mới và hết hạn sau 5 phút
             var otpCode = Random.Shared.Next(100000, 999999).ToString();
             customer.OtpCode = otpCode;
             customer.OtpExpiry = DateTime.UtcNow.AddMinutes(5);
@@ -56,14 +55,13 @@ namespace PetCareBooking.Application.Features.Auth.Commands.ForgotPassword
             _repository.Update(customer);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            // Gửi OTP qua Email
             await _emailService.SendOtpEmailAsync(customer.Email, otpCode, cancellationToken);
 
             return new ApiResponse<string>
             {
                 IsSuccess = true,
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Mã xác thực đặt lại mật khẩu đã được gửi đến email của bạn.",
+                Message = "Password reset verification code has been sent to your email.",
                 Result = customer.Email
             };
         }

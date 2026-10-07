@@ -12,10 +12,10 @@ namespace PetCareBooking.Application.DTOs.Customer
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        // Bổ sung danh sách thú cưng của khách hàng
+        // List of customer's pets
         public List<PetSummaryDTO> Pets { get; set; } = new List<PetSummaryDTO>();
 
-        // Bổ sung lịch sử các đơn đặt lịch gần đây của khách hàng
+        // List of customer's recent booking history
         public List<BookingListResponseDTO> Bookings { get; set; } = new List<BookingListResponseDTO>();
     }
 }

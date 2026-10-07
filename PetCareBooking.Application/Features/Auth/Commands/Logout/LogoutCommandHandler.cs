@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using PetCareBooking.Application.Common.Models;
 
@@ -13,7 +13,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.Logout
             {
                 IsSuccess = true,
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Đăng xuất thành công! Vui lòng xóa Token ở phía người dùng.",
+                Message = "Logout successful!",
                 Result = true
             };
         }
