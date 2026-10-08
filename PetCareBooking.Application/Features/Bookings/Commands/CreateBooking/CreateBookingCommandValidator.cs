@@ -44,9 +44,9 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     .When(p => p.StaffId.HasValue);
             });
 
-            RuleFor(x => x.PromotionCode)
-                .MaximumLength(50).WithMessage("Promotion code cannot exceed 50 characters.")
-                .When(x => !string.IsNullOrEmpty(x.PromotionCode));
+            RuleFor(x => x.VoucherCode)
+                .MaximumLength(50).WithMessage("Voucher code cannot exceed 50 characters.")
+                .When(x => !string.IsNullOrEmpty(x.VoucherCode));
         }
     }
 }

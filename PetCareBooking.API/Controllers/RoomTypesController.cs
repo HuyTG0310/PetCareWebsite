@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.RoomTypes.Commands.CreateRoomType;
 using PetCareBooking.Application.Features.RoomTypes.Commands.DeleteRoomType;
 using PetCareBooking.Application.Features.RoomTypes.Commands.UpdateRoomType;
+using PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeAvailability;
 using PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeById;
 using PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypes;
 
@@ -43,8 +44,16 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// Kiểm tra số lượng phòng còn trống theo từng loại phòng trong khoảng thời gian lưu trú
+        [HttpGet("availability")]
+        public async Task<IActionResult> GetRoomTypeAvailability([FromQuery] GetRoomTypeAvailabilityQuery query)
+        {
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
         /// <summary>
-        /// View room type details by ID (including list of rooms in this room type)
+        /// Xem chi tiết một loại phòng theo ID (kèm danh sách các phòng thuộc loại này)
         /// </summary>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetRoomTypeById(Guid id)

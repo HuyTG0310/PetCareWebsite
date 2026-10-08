@@ -1,4 +1,4 @@
-﻿using PetCareBooking.Domain.Enums;
+using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Application.DTOs.Booking
 {
@@ -8,8 +8,8 @@ namespace PetCareBooking.Application.DTOs.Booking
         public Guid CustomerId { get; set; }
         public string CustomerName { get; set; } = null!;
         public string CustomerPhone { get; set; } = null!;
-        public Guid? PromotionId { get; set; }
-        public string? PromotionCode { get; set; }
+        public Guid? VoucherId { get; set; }
+        public string? VoucherCode { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal TotalPrice { get; set; }
         public BookingStatus Status { get; set; }
