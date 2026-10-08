@@ -1,4 +1,3 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +9,13 @@ using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Infrastructure.Services;
 using PetCareBooking.Persistence;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddControllers();
 
 // Register Dependency Injection for IEmailService & IJwtTokenGenerator

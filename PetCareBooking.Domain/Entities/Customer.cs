@@ -9,6 +9,7 @@ namespace PetCareBooking.Domain.Entities
         public string FullName { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
         public string? Address { get; set; }
+        public string? AvatarUrl { get; set; }
         public bool IsActive { get; set; }
 
         public string? OtpCode { get; set; }

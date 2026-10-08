@@ -7,6 +7,7 @@ using PetCareBooking.Application.Features.Auth.Commands.Logout;
 using PetCareBooking.Application.Features.Auth.Commands.Register;
 using PetCareBooking.Application.Features.Auth.Commands.ResendOtp;
 using PetCareBooking.Application.Features.Auth.Commands.ResetPassword;
+using PetCareBooking.Application.Features.Auth.Commands.StaffLogin;
 using PetCareBooking.Application.Features.Auth.Commands.VerifyOtp;
 
 namespace PetCareBooking.API.Controllers
@@ -93,5 +94,16 @@ namespace PetCareBooking.API.Controllers
             var response = await _mediator.Send(command);
             return StatusCode(response.StatusCode, response);
         }
+
+
+        /// Staff & Admin Login (Returns JWT Token with Roles & Permissions)
+
+        [HttpPost("staff/login")]
+        public async Task<IActionResult> StaffLogin([FromBody] StaffLoginCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return StatusCode(response.StatusCode, response);
+        }
+
     }
 }
