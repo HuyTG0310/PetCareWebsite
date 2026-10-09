@@ -27,7 +27,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Lấy danh sách thú cưng của khách hàng đang đăng nhập (Tự đọc từ JWT Token)
+        /// [Customer/Staff/Admin] Lấy danh sách thú cưng của chính mình (đọc từ JWT Token)
         /// </summary>
         [Authorize]
         [HttpGet("my-pets")]
@@ -56,8 +56,9 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Lấy danh sách thú cưng của một khách hàng cụ thể theo CustomerId
+        /// [Staff/Admin or Own Customer] Lấy danh sách thú cưng của một khách hàng cụ thể theo CustomerId
         /// </summary>
+        [Authorize]
         [HttpGet("customer/{customerId:guid}")]
         public async Task<IActionResult> GetPetsByCustomerId(Guid customerId, [FromQuery] bool? isActive = null)
         {
@@ -69,7 +70,10 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-
+        /// <summary>
+        /// [Staff/Admin ONLY] Lấy danh sách toàn bộ thú cưng trong hệ thống (phân trang)
+        /// </summary>
+        [Authorize(Roles = "Admin,Staff,Manager")]
         [HttpGet]
         public async Task<ActionResult<PagedResult<PetListResponseDTO>>> GetPets([FromQuery] GetPetsWithPaginationQuery query)
         {
@@ -77,7 +81,10 @@ namespace PetCareBooking.API.Controllers
             return Ok(response);
         }
 
- 
+        /// <summary>
+        /// [Staff/Admin ONLY] Tìm kiếm thú cưng toàn hệ thống
+        /// </summary>
+        [Authorize(Roles = "Admin,Staff,Manager")]
         [HttpGet("search")]
         public async Task<ActionResult<PagedResult<PetListResponseDTO>>> SearchPets([FromQuery] SearchPetsQuery query)
         {
@@ -85,7 +92,10 @@ namespace PetCareBooking.API.Controllers
             return Ok(response);
         }
 
-      
+        /// <summary>
+        /// [Customer (Own Pet) / Staff / Admin] Xem chi tiết 1 thú cưng theo ID
+        /// </summary>
+        [Authorize]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetPetById(Guid id)
         {
@@ -93,7 +103,10 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
- 
+        /// <summary>
+        /// [Customer / Staff / Admin] Tạo mới thú cưng
+        /// </summary>
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreatePet([FromBody] CreatePetCommand command)
         {
@@ -101,7 +114,10 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-
+        /// <summary>
+        /// [Customer (Own Pet) / Staff / Admin] Cập nhật thông tin thú cưng
+        /// </summary>
+        [Authorize]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdatePet(Guid id, [FromBody] UpdatePetCommand command)
         {
@@ -110,6 +126,10 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// [Customer (Own Pet) / Staff / Admin] Xóa mềm thú cưng
+        /// </summary>
+        [Authorize]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeletePet(Guid id)
         {
