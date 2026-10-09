@@ -9,6 +9,7 @@ namespace PetCareBooking.Application.DTOs.Service
         public string? Description { get; set; }
         public ServiceType ServiceType { get; set; }
         public bool IsActive { get; set; }
-        // NO prices in list view
+        public Guid? RoomTypeId { get; set; }
+        public string? RoomTypeName { get; set; }
     }
 }
