@@ -90,7 +90,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
 
             // 3. Validate all services exist and are active
             var serviceIds = request.BookingItems.Select(bi => bi.ServiceId).Distinct().ToList();
-            var services = await _serviceRepository.FindAsync(s => serviceIds.Contains(s.Id), "ServicePrices");
+            var services = await _serviceRepository.FindAsync(s => serviceIds.Contains(s.Id), "ServicePrices", "RoomType");
 
             foreach (var serviceId in serviceIds)
             {
@@ -205,6 +205,20 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                         };
                     }
 
+                    // Tự động xác định loại phòng từ Dịch vụ (hoặc từ request nếu có truyền)
+                    var targetRoomTypeId = service.RoomTypeId ?? itemRequest.RoomTypeId;
+
+                    if (!targetRoomTypeId.HasValue && !itemRequest.RoomId.HasValue)
+                    {
+                        return new ApiResponse<Guid>
+                        {
+                            IsSuccess = false,
+                            StatusCode = 400,
+                            Message = $"Boarding service '{service.Name}' has not been linked to any Room Type.",
+                            Result = Guid.Empty
+                        };
+                    }
+
                     // Trường hợp 1: Khách hoặc nhân viên chỉ định phòng cụ thể (RoomId)
                     if (itemRequest.RoomId.HasValue)
                     {
@@ -216,6 +230,18 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                                 IsSuccess = false,
                                 StatusCode = 404,
                                 Message = $"Room with ID {itemRequest.RoomId.Value} not found.",
+                                Result = Guid.Empty
+                            };
+                        }
+
+                        // Đảm bảo phòng được chỉ định đúng loại phòng của gói dịch vụ
+                        if (targetRoomTypeId.HasValue && room.RoomTypeId != targetRoomTypeId.Value)
+                        {
+                            return new ApiResponse<Guid>
+                            {
+                                IsSuccess = false,
+                                StatusCode = 400,
+                                Message = $"Room '{room.RoomName}' does not match the room type of service '{service.Name}'.",
                                 Result = Guid.Empty
                             };
                         }
@@ -252,8 +278,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                         assignedRoomId = room.Id;
                         allocatedRoomIdsInThisBooking.Add(room.Id);
                     }
-                    // Trường hợp 2: Khách chọn Loại phòng (RoomTypeId) -> Hệ thống tự động tìm và khóa 1 phòng trống
-                    else if (itemRequest.RoomTypeId.HasValue)
+                    // Trường hợp 2 (Mặc định cho Customer): Hệ thống tự động tìm và khóa 1 phòng trống đúng loại phòng của gói dịch vụ
+                    else
                     {
                         var occupiedRoomIds = await _bookingItemRepository.GetQueryable()
                             .Where(bi => bi.RoomId.HasValue &&
@@ -265,7 +291,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                             .ToListAsync(cancellationToken);
 
                         var availableRoom = await _roomRepository.GetQueryable()
-                            .Where(r => r.RoomTypeId == itemRequest.RoomTypeId.Value &&
+                            .Where(r => r.RoomTypeId == targetRoomTypeId!.Value &&
                                         r.Status == RoomStatus.Available &&
                                         !occupiedRoomIds.Contains(r.Id) &&
                                         !allocatedRoomIdsInThisBooking.Contains(r.Id))
@@ -277,23 +303,13 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                             {
                                 IsSuccess = false,
                                 StatusCode = 400,
-                                Message = "No available rooms found for the selected room type during the requested period.",
+                                Message = $"No available rooms found for service '{service.Name}' during the requested period.",
                                 Result = Guid.Empty
                             };
                         }
 
                         assignedRoomId = availableRoom.Id;
                         allocatedRoomIdsInThisBooking.Add(availableRoom.Id);
-                    }
-                    else
-                    {
-                        return new ApiResponse<Guid>
-                        {
-                            IsSuccess = false,
-                            StatusCode = 400,
-                            Message = $"Boarding service '{service.Name}' requires selecting either a Room or a Room Type.",
-                            Result = Guid.Empty
-                        };
                     }
                 }
 

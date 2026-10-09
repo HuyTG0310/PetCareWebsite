@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Service;
 using PetCareBooking.Application.Interfaces;
@@ -17,7 +17,7 @@ namespace PetCareBooking.Application.Features.Services.Queries.GetServiceById
 
         public async Task<ApiResponse<ServiceResponseDTO>> Handle(GetServiceByIdQuery request, CancellationToken cancellationToken)
         {
-            var services = await _repository.FindAsync(s => s.Id == request.Id, "ServicePrices");
+            var services = await _repository.FindAsync(s => s.Id == request.Id, "ServicePrices", "RoomType");
             var service = services.FirstOrDefault();
 
             if (service == null)
@@ -38,6 +38,8 @@ namespace PetCareBooking.Application.Features.Services.Queries.GetServiceById
                 Description = service.Description,
                 ServiceType = service.ServiceType,
                 IsActive = service.IsActive,
+                RoomTypeId = service.RoomTypeId,
+                RoomTypeName = service.RoomType?.Name,
                 Prices = service.ServicePrices.Select(p => new ServicePriceResponseDTO
                 {
                     Id = p.Id,

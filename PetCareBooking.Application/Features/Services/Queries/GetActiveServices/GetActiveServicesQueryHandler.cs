@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Service;
 using PetCareBooking.Application.Interfaces;
@@ -21,7 +21,7 @@ namespace PetCareBooking.Application.Features.Services.Queries.GetActiveServices
             if (request.PageSize < 1) request.PageSize = 10;
             if (request.PageSize > 100) request.PageSize = 100;
 
-            var services = await _repository.FindAsync(x => x.IsActive == true);
+            var services = await _repository.FindAsync(x => x.IsActive == true, "RoomType");
 
             int totalCount = services.Count();
 
@@ -36,7 +36,9 @@ namespace PetCareBooking.Application.Features.Services.Queries.GetActiveServices
                 Name = s.Name,
                 Description = s.Description,
                 ServiceType = s.ServiceType,
-                IsActive = s.IsActive
+                IsActive = s.IsActive,
+                RoomTypeId = s.RoomTypeId,
+                RoomTypeName = s.RoomType?.Name
             }).ToList();
 
             return new ApiResponse<PagedResult<ServiceListResponseDTO>>

@@ -167,6 +167,11 @@ public class AppDbContext : DbContext
                   .IsRequired();
 
             entity.Property(e => e.IsActive).HasDefaultValue(true);
+
+            entity.HasOne(e => e.RoomType)
+                  .WithMany()
+                  .HasForeignKey(e => e.RoomTypeId)
+                  .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<ServicePrice>(entity =>

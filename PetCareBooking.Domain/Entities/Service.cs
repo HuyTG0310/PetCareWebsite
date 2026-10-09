@@ -1,4 +1,4 @@
-﻿using PetCareBooking.Domain.Common;
+using PetCareBooking.Domain.Common;
 using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Domain.Entities
@@ -9,6 +9,8 @@ namespace PetCareBooking.Domain.Entities
         public string? Description { get; set; }
         public ServiceType ServiceType { get; set; }
         public bool IsActive { get; set; }
+        public Guid? RoomTypeId { get; set; }
+        public virtual RoomType? RoomType { get; set; }
         public virtual ICollection<ServicePrice> ServicePrices { get; set; } = new List<ServicePrice>();
     }
 }

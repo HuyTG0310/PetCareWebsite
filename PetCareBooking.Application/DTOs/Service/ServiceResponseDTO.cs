@@ -1,4 +1,4 @@
-﻿using PetCareBooking.Domain.Entities;
+using PetCareBooking.Domain.Entities;
 using PetCareBooking.Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,8 @@ namespace PetCareBooking.Application.DTOs.Service
         public string? Description { get; set; }
         public ServiceType ServiceType { get; set; }
         public bool IsActive { get; set; }
+        public Guid? RoomTypeId { get; set; }
+        public string? RoomTypeName { get; set; }
         public List<ServicePriceResponseDTO> Prices { get; set; } = new List<ServicePriceResponseDTO>();
     }
 }
