@@ -123,10 +123,11 @@ public class AppDbContext : DbContext
             entity.Property(e => e.FullName).HasMaxLength(100).IsRequired();
             entity.Property(e => e.PhoneNumber).HasMaxLength(20).IsRequired();
             entity.Property(e => e.Address).HasMaxLength(255);
-            entity.Property(e => e.OtpCode).HasMaxLength(10);
-            entity.Property(e => e.OtpExpiry).HasColumnType("DATETIME");
+            entity.Property(e => e.AvatarUrl).HasMaxLength(500);
             entity.Property(e => e.CreatedAt).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.OtpCode).HasMaxLength(10);
+            entity.Property(e => e.OtpExpiry).HasColumnType("DATETIME");
         });
 
         modelBuilder.Entity<Pet>(entity =>

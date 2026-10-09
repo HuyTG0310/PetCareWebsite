@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetCareBooking.Persistence;
 
@@ -11,9 +12,11 @@ using PetCareBooking.Persistence;
 namespace PetCareBooking.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261008021911_AddAvatarUrlToCustomer")]
+    partial class AddAvatarUrlToCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,6 +44,9 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("PromotionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -54,14 +60,11 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("VoucherId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("VoucherId");
+                    b.HasIndex("PromotionId");
 
                     b.ToTable("Bookings");
                 });
@@ -224,13 +227,6 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Property<DateTime?>("OtpExpiry")
                         .HasColumnType("DATETIME");
 
-                    b.Property<string>("OtpCode")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<DateTime?>("OtpExpiry")
-                        .HasColumnType("DATETIME");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -250,59 +246,6 @@ namespace PetCareBooking.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("PetCareBooking.Domain.Entities.PaymentTransaction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWSEQUENTIALID()");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("DECIMAL(18,2)");
-
-                    b.Property<Guid>("BookingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PaidAt")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TransactionCode")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("TransactionType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookingId");
-
-                    b.ToTable("PaymentTransactions");
                 });
 
             modelBuilder.Entity("PetCareBooking.Domain.Entities.Permission", b =>
@@ -384,6 +327,54 @@ namespace PetCareBooking.Persistence.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Pets");
+                });
+
+            modelBuilder.Entity("PetCareBooking.Domain.Entities.Promotion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrentUsage")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("DiscountType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<decimal>("DiscountValue")
+                        .HasColumnType("DECIMAL(18,2)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<int?>("MaxUsage")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Promotions");
                 });
 
             modelBuilder.Entity("PetCareBooking.Domain.Entities.Review", b =>
@@ -560,9 +551,6 @@ namespace PetCareBooking.Persistence.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<Guid?>("RoomTypeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ServiceType")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -572,8 +560,6 @@ namespace PetCareBooking.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoomTypeId");
 
                     b.ToTable("Services");
                 });
@@ -685,54 +671,6 @@ namespace PetCareBooking.Persistence.Migrations
                     b.ToTable("StaffRoles");
                 });
 
-            modelBuilder.Entity("PetCareBooking.Domain.Entities.Voucher", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWSEQUENTIALID()");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CurrentUsage")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<string>("DiscountType")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<decimal>("DiscountValue")
-                        .HasColumnType("DECIMAL(18,2)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<int?>("MaxUsage")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.ToTable("Vouchers");
-                });
-
             modelBuilder.Entity("PetCareBooking.Domain.Entities.Booking", b =>
                 {
                     b.HasOne("PetCareBooking.Domain.Entities.Customer", "Customer")
@@ -741,14 +679,14 @@ namespace PetCareBooking.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PetCareBooking.Domain.Entities.Voucher", "Voucher")
+                    b.HasOne("PetCareBooking.Domain.Entities.Promotion", "Promotion")
                         .WithMany()
-                        .HasForeignKey("VoucherId")
+                        .HasForeignKey("PromotionId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Customer");
 
-                    b.Navigation("Voucher");
+                    b.Navigation("Promotion");
                 });
 
             modelBuilder.Entity("PetCareBooking.Domain.Entities.BookingItem", b =>
@@ -809,17 +747,6 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Navigation("BookingItem");
 
                     b.Navigation("Staff");
-                });
-
-            modelBuilder.Entity("PetCareBooking.Domain.Entities.PaymentTransaction", b =>
-                {
-                    b.HasOne("PetCareBooking.Domain.Entities.Booking", "Booking")
-                        .WithMany()
-                        .HasForeignKey("BookingId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("PetCareBooking.Domain.Entities.Pet", b =>
@@ -886,16 +813,6 @@ namespace PetCareBooking.Persistence.Migrations
                         .HasForeignKey("RoomTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("RoomType");
-                });
-
-            modelBuilder.Entity("PetCareBooking.Domain.Entities.Service", b =>
-                {
-                    b.HasOne("PetCareBooking.Domain.Entities.RoomType", "RoomType")
-                        .WithMany()
-                        .HasForeignKey("RoomTypeId")
-                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("RoomType");
                 });
