@@ -11,10 +11,14 @@ namespace PetCareBooking.Application.Features.Pets.Queries.GetPetById
     public class GetPetByIdQueryHandler : IRequestHandler<GetPetByIdQuery, ApiResponse<PetResponseDTO>>
     {
         private readonly IGenericRepository<Pet> _petRepository;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetPetByIdQueryHandler(IGenericRepository<Pet> petRepository)
+        public GetPetByIdQueryHandler(
+            IGenericRepository<Pet> petRepository,
+            ICurrentUserService currentUserService)
         {
             _petRepository = petRepository;
+            _currentUserService = currentUserService;
         }
 
         public async Task<ApiResponse<PetResponseDTO>> Handle(GetPetByIdQuery request, CancellationToken cancellationToken)
@@ -48,6 +52,21 @@ namespace PetCareBooking.Application.Features.Pets.Queries.GetPetById
                     Message = $"Pet with ID {request.Id} not found.",
                     Result = null
                 };
+            }
+
+            // Kiểm tra quyền xem: Nếu không phải Admin/Staff thì chỉ được xem pet của chính mình
+            if (!_currentUserService.IsAdminOrStaff)
+            {
+                if (!_currentUserService.UserId.HasValue || pet.CustomerId != _currentUserService.UserId.Value)
+                {
+                    return new ApiResponse<PetResponseDTO>
+                    {
+                        IsSuccess = false,
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Message = "You do not have permission to view this pet.",
+                        Result = null
+                    };
+                }
             }
 
             return new ApiResponse<PetResponseDTO>

@@ -1,8 +1,13 @@
-﻿namespace PetCareBooking.Application.Interfaces
+namespace PetCareBooking.Application.Interfaces
 {
     public interface ICurrentUserService
     {
         Guid? UserId { get; }
-        string? UserEmail { get; }
+        string? Email { get; }
+        string? Role { get; }
+        bool IsAuthenticated { get; }
+        bool IsInRole(string role);
+        bool IsAdminOrStaff { get; }
     }
 }
+

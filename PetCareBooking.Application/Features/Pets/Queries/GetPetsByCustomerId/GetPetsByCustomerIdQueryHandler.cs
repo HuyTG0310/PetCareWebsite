@@ -12,17 +12,35 @@ namespace PetCareBooking.Application.Features.Pets.Queries.GetPetsByCustomerId
     {
         private readonly IGenericRepository<Pet> _petRepository;
         private readonly IGenericRepository<Customer> _customerRepository;
+        private readonly ICurrentUserService _currentUserService;
 
         public GetPetsByCustomerIdQueryHandler(
             IGenericRepository<Pet> petRepository,
-            IGenericRepository<Customer> customerRepository)
+            IGenericRepository<Customer> customerRepository,
+            ICurrentUserService currentUserService)
         {
             _petRepository = petRepository;
             _customerRepository = customerRepository;
+            _currentUserService = currentUserService;
         }
 
         public async Task<ApiResponse<List<PetResponseDTO>>> Handle(GetPetsByCustomerIdQuery request, CancellationToken cancellationToken)
         {
+            // Kiểm tra quyền: Customer chỉ được xem pet của chính mình, Admin/Staff được xem của bất kỳ ai
+            if (!_currentUserService.IsAdminOrStaff)
+            {
+                if (!_currentUserService.UserId.HasValue || request.CustomerId != _currentUserService.UserId.Value)
+                {
+                    return new ApiResponse<List<PetResponseDTO>>
+                    {
+                        IsSuccess = false,
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Message = "You do not have permission to view another customer's pets.",
+                        Result = null
+                    };
+                }
+            }
+
             var customer = await _customerRepository.GetByIdAsync(request.CustomerId);
             if (customer == null)
             {
