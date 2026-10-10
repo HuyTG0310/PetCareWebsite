@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
@@ -10,15 +10,18 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
     {
         private readonly IGenericRepository<Booking> _bookingRepository;
         private readonly IGenericRepository<BookingItem> _bookingItemRepository;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
 
         public CancelBookingCommandHandler(
             IGenericRepository<Booking> bookingRepository,
             IGenericRepository<BookingItem> bookingItemRepository,
+            ICurrentUserService currentUserService,
             IUnitOfWork unitOfWork)
         {
             _bookingRepository = bookingRepository;
             _bookingItemRepository = bookingItemRepository;
+            _currentUserService = currentUserService;
             _unitOfWork = unitOfWork;
         }
 
@@ -37,6 +40,21 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                     Message = $"Booking with ID {request.Id} not found.",
                     Result = Guid.Empty
                 };
+            }
+
+            // Phân quyền: Customer chỉ được hủy booking của chính mình
+            if (!_currentUserService.IsAdminOrStaff)
+            {
+                if (!_currentUserService.UserId.HasValue || booking.CustomerId != _currentUserService.UserId.Value)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 403,
+                        Message = "You do not have permission to cancel this booking.",
+                        Result = Guid.Empty
+                    };
+                }
             }
 
             // 2. Validate booking can be cancelled

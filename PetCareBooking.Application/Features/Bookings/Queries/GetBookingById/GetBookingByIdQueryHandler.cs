@@ -9,10 +9,14 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingById
     public class GetBookingByIdQueryHandler : IRequestHandler<GetBookingByIdQuery, ApiResponse<BookingResponseDTO>>
     {
         private readonly IGenericRepository<Booking> _bookingRepository;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetBookingByIdQueryHandler(IGenericRepository<Booking> bookingRepository)
+        public GetBookingByIdQueryHandler(
+            IGenericRepository<Booking> bookingRepository,
+            ICurrentUserService currentUserService)
         {
             _bookingRepository = bookingRepository;
+            _currentUserService = currentUserService;
         }
 
         public async Task<ApiResponse<BookingResponseDTO>> Handle(GetBookingByIdQuery request, CancellationToken cancellationToken)
@@ -32,6 +36,21 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingById
                     Message = $"Booking with ID {request.Id} not found.",
                     Result = null
                 };
+            }
+
+            // Phân quyền: Customer chỉ được xem booking của chính mình
+            if (!_currentUserService.IsAdminOrStaff)
+            {
+                if (!_currentUserService.UserId.HasValue || booking.CustomerId != _currentUserService.UserId.Value)
+                {
+                    return new ApiResponse<BookingResponseDTO>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 403,
+                        Message = "You do not have permission to view this booking.",
+                        Result = null
+                    };
+                }
             }
 
             var bookingDTO = MapToBookingResponseDTO(booking);

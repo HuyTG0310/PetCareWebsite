@@ -8,7 +8,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
         public CreateBookingCommandValidator()
         {
             RuleFor(x => x.CustomerId)
-                .NotEmpty().WithMessage("Customer ID is required.");
+                .NotEmpty().WithMessage("Customer ID cannot be empty.")
+                .When(x => x.CustomerId.HasValue);
 
             RuleFor(x => x.BookingItems)
                 .NotEmpty().WithMessage("Booking items are required.")
@@ -34,14 +35,6 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     .GreaterThan(x => x.ScheduledStartAt)
                     .WithMessage("Scheduled end time must be after start time.")
                     .When(p => p.ScheduledEndAt.HasValue);
-
-                items.RuleFor(p => p.RoomId)
-                    .NotEmpty().WithMessage("Room ID must be provided or null.")
-                    .When(p => p.RoomId.HasValue);
-
-                items.RuleFor(p => p.StaffId)
-                    .NotEmpty().WithMessage("Staff ID must be provided or null.")
-                    .When(p => p.StaffId.HasValue);
             });
 
             RuleFor(x => x.VoucherCode)
