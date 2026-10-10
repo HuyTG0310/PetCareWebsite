@@ -1,0 +1,108 @@
+@PetCareBooking.API_HostAddress = http://localhost:5286
+
+### =========================================================================
+### MODULE: MANAGE VOUCHER - HTTP INTEGRATION TESTS
+### =========================================================================
+
+### 1. View voucher list: Lấy danh sách voucher có phân trang (Mặc định)
+GET {{PetCareBooking.API_HostAddress}}/api/Vouchers?pageIndex=1&pageSize=10
+Accept: application/json
+
+###
+
+### 2. Add voucher: Thử tạo Voucher với dữ liệu không hợp lệ (Validation: EndDate < StartDate, DiscountValue <= 0 -> Phải trả về 400 Bad Request)
+POST {{PetCareBooking.API_HostAddress}}/api/Vouchers
+Content-Type: application/json
+
+{
+  "code": "INVALID_CODE",
+  "discountType": "Percentage",
+  "discountValue": -10,
+  "startDate": "2026-10-10T12:00:00Z",
+  "endDate": "2026-10-09T12:00:00Z"
+}
+
+###
+
+### 3. Add voucher: Tạo mới voucher thành công (HTTP 201 Created via CreatedAtAction)
+# @name createVoucherRequest
+POST {{PetCareBooking.API_HostAddress}}/api/Vouchers
+Content-Type: application/json
+
+{
+  "code": "AUTUMN2026",
+  "discountType": "Percentage",
+  "discountValue": 15,
+  "startDate": "2026-10-10T00:00:00Z",
+  "endDate": "2026-11-10T23:59:59Z",
+  "maxUsage": 100
+}
+
+###
+
+### 4. Add voucher: Thử tạo lại với mã Code trùng (Phải trả về 400 Bad Request)
+POST {{PetCareBooking.API_HostAddress}}/api/Vouchers
+Content-Type: application/json
+
+{
+  "code": "AUTUMN2026",
+  "discountType": "Fixed_Amount",
+  "discountValue": 50000,
+  "startDate": "2026-10-10T00:00:00Z",
+  "endDate": "2026-11-10T23:59:59Z",
+  "maxUsage": 50
+}
+
+###
+
+### Lưu ID của Voucher vừa tạo
+@voucherId = {{createVoucherRequest.response.body.result}}
+
+### 5. View voucher detail: Lấy chi tiết voucher theo ID (Kiểm tra thuộc tính IsValid)
+GET {{PetCareBooking.API_HostAddress}}/api/Vouchers/{{voucherId}}
+Accept: application/json
+
+###
+
+### 6. View voucher detail: Lấy chi tiết voucher không tồn tại (Phải trả về 404 Not Found)
+GET {{PetCareBooking.API_HostAddress}}/api/Vouchers/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+###
+
+### 7. Search voucher: Tìm kiếm theo mã Code
+GET {{PetCareBooking.API_HostAddress}}/api/Vouchers/search?keyword=AUTUMN&pageIndex=1&pageSize=10
+Accept: application/json
+
+###
+
+### 8. Search voucher: Lọc chỉ những voucher còn hạn sử dụng (IsValidOnly = true)
+GET {{PetCareBooking.API_HostAddress}}/api/Vouchers/search?isValidOnly=true&pageIndex=1&pageSize=10
+Accept: application/json
+
+###
+
+### 9. Edit voucher: Cập nhật thông tin voucher
+PUT {{PetCareBooking.API_HostAddress}}/api/Vouchers/{{voucherId}}
+Content-Type: application/json
+
+{
+  "code": "AUTUMN2026_UPDATED",
+  "discountType": "Fixed_Amount",
+  "discountValue": 100000,
+  "startDate": "2026-10-10T00:00:00Z",
+  "endDate": "2026-12-31T23:59:59Z",
+  "maxUsage": 200
+}
+
+###
+
+### 10. Delete voucher: Xóa voucher chưa từng sử dụng (CurrentUsage == 0 -> Hard Delete)
+DELETE {{PetCareBooking.API_HostAddress}}/api/Vouchers/{{voucherId}}
+Accept: application/json
+
+###
+
+### 11. Kiểm tra lại voucher vừa bị hard delete (Phải trả về 404 Not Found)
+GET {{PetCareBooking.API_HostAddress}}/api/Vouchers/{{voucherId}}
+Accept: application/json
