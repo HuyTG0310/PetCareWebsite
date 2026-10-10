@@ -4,6 +4,7 @@ using PetCareBooking.Application.Features.Rooms.Commands.CreateRoom;
 using PetCareBooking.Application.Features.Rooms.Commands.DeleteRoom;
 using PetCareBooking.Application.Features.Rooms.Commands.UpdateRoom;
 using PetCareBooking.Application.Features.Rooms.Commands.UpdateRoomStatus;
+using PetCareBooking.Application.Features.Rooms.Queries.CheckRoomAvailability;
 using PetCareBooking.Application.Features.Rooms.Queries.GetAvailableRooms;
 using PetCareBooking.Application.Features.Rooms.Queries.GetRoomById;
 using PetCareBooking.Application.Features.Rooms.Queries.GetRooms;
@@ -46,6 +47,17 @@ namespace PetCareBooking.API.Controllers
         /// </summary>
         [HttpGet("available")]
         public async Task<IActionResult> GetAvailableRooms([FromQuery] GetAvailableRoomsQuery query)
+        {
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Customer / Frontend Datepicker] Kiểm tra tình trạng phòng theo từng ngày trong tháng hoặc theo khoảng ngày.
+        /// Dùng để bôi xám (disable) các ngày hết phòng trên bộ lịch (Datepicker) khi khách chọn dịch vụ Boarding.
+        /// </summary>
+        [HttpGet("check-availability")]
+        public async Task<IActionResult> CheckRoomAvailability([FromQuery] CheckRoomAvailabilityQuery query)
         {
             var response = await _mediator.Send(query);
             return StatusCode(response.StatusCode, response);
