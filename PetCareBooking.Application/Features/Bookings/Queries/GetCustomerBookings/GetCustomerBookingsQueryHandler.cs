@@ -9,14 +9,33 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookin
     public class GetCustomerBookingsQueryHandler : IRequestHandler<GetCustomerBookingsQuery, ApiResponse<PagedResult<BookingListResponseDTO>>>
     {
         private readonly IGenericRepository<Booking> _bookingRepository;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetCustomerBookingsQueryHandler(IGenericRepository<Booking> bookingRepository)
+        public GetCustomerBookingsQueryHandler(
+            IGenericRepository<Booking> bookingRepository,
+            ICurrentUserService currentUserService)
         {
             _bookingRepository = bookingRepository;
+            _currentUserService = currentUserService;
         }
 
         public async Task<ApiResponse<PagedResult<BookingListResponseDTO>>> Handle(GetCustomerBookingsQuery request, CancellationToken cancellationToken)
         {
+            // Kiểm tra phân quyền: Customer chỉ được xem booking của chính mình, Admin/Staff xem được của bất kỳ ai
+            if (!_currentUserService.IsAdminOrStaff)
+            {
+                if (!_currentUserService.UserId.HasValue || request.CustomerId != _currentUserService.UserId.Value)
+                {
+                    return new ApiResponse<PagedResult<BookingListResponseDTO>>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 403,
+                        Message = "You do not have permission to view another customer's bookings.",
+                        Result = null
+                    };
+                }
+            }
+
             // Validate pagination parameters
             if (request.PageNumber < 1) request.PageNumber = 1;
             if (request.PageSize < 1) request.PageSize = 10;

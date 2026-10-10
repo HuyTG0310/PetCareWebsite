@@ -17,6 +17,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
         private readonly IGenericRepository<ServicePrice> _servicePriceRepository;
         private readonly IGenericRepository<Room> _roomRepository;
         private readonly IGenericRepository<BookingItem> _bookingItemRepository;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateBookingCommandHandler(
@@ -28,6 +29,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             IGenericRepository<ServicePrice> servicePriceRepository,
             IGenericRepository<Room> roomRepository,
             IGenericRepository<BookingItem> bookingItemRepository,
+            ICurrentUserService currentUserService,
             IUnitOfWork unitOfWork)
         {
             _bookingRepository = bookingRepository;
@@ -38,13 +40,49 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             _servicePriceRepository = servicePriceRepository;
             _roomRepository = roomRepository;
             _bookingItemRepository = bookingItemRepository;
+            _currentUserService = currentUserService;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<ApiResponse<Guid>> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
         {
+            // 0. Xác thực & phân quyền: Customer bắt buộc lấy Id từ JWT token để chống IDOR
+            Guid targetCustomerId;
+
+            if (!_currentUserService.IsAdminOrStaff)
+            {
+                if (!_currentUserService.UserId.HasValue)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 401,
+                        Message = "User is not authenticated.",
+                        Result = Guid.Empty
+                    };
+                }
+
+                targetCustomerId = _currentUserService.UserId.Value;
+            }
+            else
+            {
+                // Staff/Admin tạo hộ khách: Bắt buộc chỉ định CustomerId
+                if (!request.CustomerId.HasValue || request.CustomerId.Value == Guid.Empty)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 400,
+                        Message = "CustomerId is required when staff creates a booking on behalf of a customer.",
+                        Result = Guid.Empty
+                    };
+                }
+
+                targetCustomerId = request.CustomerId.Value;
+            }
+
             // 1. Validate customer exists
-            var customers = await _customerRepository.FindAsync(c => c.Id == request.CustomerId);
+            var customers = await _customerRepository.FindAsync(c => c.Id == targetCustomerId);
             var customer = customers.FirstOrDefault();
 
             if (customer == null)
@@ -76,7 +114,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     };
                 }
 
-                if (pet.CustomerId != request.CustomerId)
+                if (pet.CustomerId != targetCustomerId)
                 {
                     return new ApiResponse<Guid>
                     {
@@ -162,7 +200,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             var newBooking = new Booking
             {
                 Id = Guid.NewGuid(),
-                CustomerId = request.CustomerId,
+                CustomerId = targetCustomerId,
                 VoucherId = voucherId,
                 Status = BookingStatus.Pending,
                 BookingItems = new List<BookingItem>()
@@ -205,10 +243,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                         };
                     }
 
-                    // Tự động xác định loại phòng từ Dịch vụ (hoặc từ request nếu có truyền)
-                    var targetRoomTypeId = service.RoomTypeId ?? itemRequest.RoomTypeId;
-
-                    if (!targetRoomTypeId.HasValue && !itemRequest.RoomId.HasValue)
+                    // Tự động xác định loại phòng từ Dịch vụ (đã được liên kết trong DB)
+                    if (!service.RoomTypeId.HasValue)
                     {
                         return new ApiResponse<Guid>
                         {
@@ -219,98 +255,36 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                         };
                     }
 
-                    // Trường hợp 1: Khách hoặc nhân viên chỉ định phòng cụ thể (RoomId)
-                    if (itemRequest.RoomId.HasValue)
+                    // Hệ thống tự động tìm và khóa 1 phòng trống đúng loại phòng của gói dịch vụ
+                    var occupiedRoomIds = await _bookingItemRepository.GetQueryable()
+                        .Where(bi => bi.RoomId.HasValue &&
+                                     bi.Status != BookingItemStatus.Cancelled &&
+                                     bi.ScheduledStartAt < itemRequest.ScheduledEndAt.Value &&
+                                     (bi.ScheduledEndAt == null ? bi.ScheduledStartAt.AddDays(1) : bi.ScheduledEndAt.Value) > itemRequest.ScheduledStartAt)
+                        .Select(bi => bi.RoomId!.Value)
+                        .Distinct()
+                        .ToListAsync(cancellationToken);
+
+                    var availableRoom = await _roomRepository.GetQueryable()
+                        .Where(r => r.RoomTypeId == service.RoomTypeId.Value &&
+                                    r.Status == RoomStatus.Available &&
+                                    !occupiedRoomIds.Contains(r.Id) &&
+                                    !allocatedRoomIdsInThisBooking.Contains(r.Id))
+                        .FirstOrDefaultAsync(cancellationToken);
+
+                    if (availableRoom == null)
                     {
-                        var room = await _roomRepository.GetByIdAsync(itemRequest.RoomId.Value);
-                        if (room == null)
+                        return new ApiResponse<Guid>
                         {
-                            return new ApiResponse<Guid>
-                            {
-                                IsSuccess = false,
-                                StatusCode = 404,
-                                Message = $"Room with ID {itemRequest.RoomId.Value} not found.",
-                                Result = Guid.Empty
-                            };
-                        }
-
-                        // Đảm bảo phòng được chỉ định đúng loại phòng của gói dịch vụ
-                        if (targetRoomTypeId.HasValue && room.RoomTypeId != targetRoomTypeId.Value)
-                        {
-                            return new ApiResponse<Guid>
-                            {
-                                IsSuccess = false,
-                                StatusCode = 400,
-                                Message = $"Room '{room.RoomName}' does not match the room type of service '{service.Name}'.",
-                                Result = Guid.Empty
-                            };
-                        }
-
-                        if (room.Status != RoomStatus.Available)
-                        {
-                            return new ApiResponse<Guid>
-                            {
-                                IsSuccess = false,
-                                StatusCode = 400,
-                                Message = $"Room '{room.RoomName}' is currently under maintenance.",
-                                Result = Guid.Empty
-                            };
-                        }
-
-                        var isOccupied = await _bookingItemRepository.GetQueryable()
-                            .AnyAsync(bi => bi.RoomId == itemRequest.RoomId.Value &&
-                                            bi.Status != BookingItemStatus.Cancelled &&
-                                            bi.ScheduledStartAt < itemRequest.ScheduledEndAt.Value &&
-                                            (bi.ScheduledEndAt == null ? bi.ScheduledStartAt.AddDays(1) : bi.ScheduledEndAt.Value) > itemRequest.ScheduledStartAt,
-                                      cancellationToken);
-
-                        if (isOccupied || allocatedRoomIdsInThisBooking.Contains(itemRequest.RoomId.Value))
-                        {
-                            return new ApiResponse<Guid>
-                            {
-                                IsSuccess = false,
-                                StatusCode = 400,
-                                Message = $"Room '{room.RoomName}' is already occupied during the requested period.",
-                                Result = Guid.Empty
-                            };
-                        }
-
-                        assignedRoomId = room.Id;
-                        allocatedRoomIdsInThisBooking.Add(room.Id);
+                            IsSuccess = false,
+                            StatusCode = 400,
+                            Message = $"No available rooms found for service '{service.Name}' during the requested period.",
+                            Result = Guid.Empty
+                        };
                     }
-                    // Trường hợp 2 (Mặc định cho Customer): Hệ thống tự động tìm và khóa 1 phòng trống đúng loại phòng của gói dịch vụ
-                    else
-                    {
-                        var occupiedRoomIds = await _bookingItemRepository.GetQueryable()
-                            .Where(bi => bi.RoomId.HasValue &&
-                                         bi.Status != BookingItemStatus.Cancelled &&
-                                         bi.ScheduledStartAt < itemRequest.ScheduledEndAt.Value &&
-                                         (bi.ScheduledEndAt == null ? bi.ScheduledStartAt.AddDays(1) : bi.ScheduledEndAt.Value) > itemRequest.ScheduledStartAt)
-                            .Select(bi => bi.RoomId!.Value)
-                            .Distinct()
-                            .ToListAsync(cancellationToken);
 
-                        var availableRoom = await _roomRepository.GetQueryable()
-                            .Where(r => r.RoomTypeId == targetRoomTypeId!.Value &&
-                                        r.Status == RoomStatus.Available &&
-                                        !occupiedRoomIds.Contains(r.Id) &&
-                                        !allocatedRoomIdsInThisBooking.Contains(r.Id))
-                            .FirstOrDefaultAsync(cancellationToken);
-
-                        if (availableRoom == null)
-                        {
-                            return new ApiResponse<Guid>
-                            {
-                                IsSuccess = false,
-                                StatusCode = 400,
-                                Message = $"No available rooms found for service '{service.Name}' during the requested period.",
-                                Result = Guid.Empty
-                            };
-                        }
-
-                        assignedRoomId = availableRoom.Id;
-                        allocatedRoomIdsInThisBooking.Add(availableRoom.Id);
-                    }
+                    assignedRoomId = availableRoom.Id;
+                    allocatedRoomIdsInThisBooking.Add(availableRoom.Id);
                 }
 
                 var assignedPrice = unitPrice.Value * itemRequest.Quantity;
@@ -322,7 +296,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     PetId = itemRequest.PetId,
                     ServiceId = itemRequest.ServiceId,
                     RoomId = assignedRoomId,
-                    StaffId = itemRequest.StaffId,
+                    StaffId = null,
                     ScheduledStartAt = itemRequest.ScheduledStartAt,
                     ScheduledEndAt = itemRequest.ScheduledEndAt,
                     Quantity = itemRequest.Quantity,
