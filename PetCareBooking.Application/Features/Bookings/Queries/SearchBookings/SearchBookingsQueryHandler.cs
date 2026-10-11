@@ -38,7 +38,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.SearchBookings
                 (!request.DateTo.HasValue || b.CreatedAt <= request.DateTo.Value),
 
                 // Include related data
-                "BookingItems,Customer");
+                "BookingItems", "Customer");
 
             // Calculate total count before pagination
             int totalCount = bookings.Count();

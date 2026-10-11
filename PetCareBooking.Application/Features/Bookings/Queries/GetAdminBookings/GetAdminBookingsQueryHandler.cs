@@ -27,7 +27,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings
                 (!request.Status.HasValue || b.Status == request.Status.Value) &&
                 (!request.DateFrom.HasValue || b.CreatedAt >= request.DateFrom.Value) &&
                 (!request.DateTo.HasValue || b.CreatedAt <= request.DateTo.Value),
-                "BookingItems,Customer");
+                "BookingItems", "Customer");
 
             // Calculate total count before pagination
             int totalCount = bookings.Count();

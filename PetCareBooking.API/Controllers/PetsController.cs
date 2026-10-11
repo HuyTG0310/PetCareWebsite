@@ -73,7 +73,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff/Admin ONLY] Lấy danh sách toàn bộ thú cưng trong hệ thống (phân trang)
         /// </summary>
-        [Authorize(Roles = "Admin,Staff,Manager")]
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Staff,Manager")]
         [HttpGet]
         public async Task<ActionResult<PagedResult<PetListResponseDTO>>> GetPets([FromQuery] GetPetsWithPaginationQuery query)
         {
@@ -84,7 +84,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff/Admin ONLY] Tìm kiếm thú cưng toàn hệ thống
         /// </summary>
-        [Authorize(Roles = "Admin,Staff,Manager")]
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Staff,Manager")]
         [HttpGet("search")]
         public async Task<ActionResult<PagedResult<PetListResponseDTO>>> SearchPets([FromQuery] SearchPetsQuery query)
         {

@@ -45,7 +45,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookin
             var bookings = await _bookingRepository.FindAsync(b =>
                 b.CustomerId == request.CustomerId &&
                 (!request.Status.HasValue || b.Status == request.Status.Value),
-                "BookingItems,Customer");
+                "BookingItems", "Customer");
 
             // Calculate total count before pagination
             int totalCount = bookings.Count();
