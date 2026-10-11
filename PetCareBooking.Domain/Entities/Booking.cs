@@ -13,5 +13,6 @@ namespace PetCareBooking.Domain.Entities
         public virtual Customer Customer { get; set; } = null!;
         public virtual Voucher? Voucher { get; set; }
         public virtual ICollection<BookingItem> BookingItems { get; set; } = new List<BookingItem>();
+        public virtual ICollection<PaymentTransaction> PaymentTransactions { get; set; } = new List<PaymentTransaction>();
     }
 }

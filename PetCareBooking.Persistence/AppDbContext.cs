@@ -381,7 +381,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.CreatedAt).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()");
 
             entity.HasOne(e => e.Booking)
-                  .WithMany()
+                  .WithMany(b => b.PaymentTransactions)
                   .HasForeignKey(e => e.BookingId)
                   .OnDelete(DeleteBehavior.Restrict);
         });
