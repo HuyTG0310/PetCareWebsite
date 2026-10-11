@@ -5,9 +5,12 @@ using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
 using PetCareBooking.Domain.Enums;
 
+using Microsoft.AspNetCore.Http;
+using PetCareBooking.Application.DTOs.Booking;
+
 namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
 {
-    public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand, ApiResponse<Guid>>
+    public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand, ApiResponse<CreateBookingResponseDTO>>
     {
         private readonly IGenericRepository<Booking> _bookingRepository;
         private readonly IGenericRepository<Customer> _customerRepository;
@@ -18,6 +21,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
         private readonly IGenericRepository<Room> _roomRepository;
         private readonly IGenericRepository<BookingItem> _bookingItemRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IVnPayService _vnPayService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateBookingCommandHandler(
@@ -30,6 +35,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             IGenericRepository<Room> roomRepository,
             IGenericRepository<BookingItem> bookingItemRepository,
             ICurrentUserService currentUserService,
+            IVnPayService vnPayService,
+            IHttpContextAccessor httpContextAccessor,
             IUnitOfWork unitOfWork)
         {
             _bookingRepository = bookingRepository;
@@ -41,10 +48,12 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             _roomRepository = roomRepository;
             _bookingItemRepository = bookingItemRepository;
             _currentUserService = currentUserService;
+            _vnPayService = vnPayService;
+            _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ApiResponse<Guid>> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponse<CreateBookingResponseDTO>> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
         {
             // 0. Xác thực & phân quyền: Customer bắt buộc lấy Id từ JWT token để chống IDOR
             Guid targetCustomerId;
@@ -53,12 +62,12 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             {
                 if (!_currentUserService.UserId.HasValue)
                 {
-                    return new ApiResponse<Guid>
+                    return new ApiResponse<CreateBookingResponseDTO>
                     {
                         IsSuccess = false,
                         StatusCode = 401,
                         Message = "User is not authenticated.",
-                        Result = Guid.Empty
+                        Result = null
                     };
                 }
 
@@ -69,12 +78,12 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                 // Staff/Admin tạo hộ khách: Bắt buộc chỉ định CustomerId
                 if (!request.CustomerId.HasValue || request.CustomerId.Value == Guid.Empty)
                 {
-                    return new ApiResponse<Guid>
+                    return new ApiResponse<CreateBookingResponseDTO>
                     {
                         IsSuccess = false,
                         StatusCode = 400,
                         Message = "CustomerId is required when staff creates a booking on behalf of a customer.",
-                        Result = Guid.Empty
+                        Result = null
                     };
                 }
 
@@ -87,12 +96,12 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
 
             if (customer == null)
             {
-                return new ApiResponse<Guid>
+                return new ApiResponse<CreateBookingResponseDTO>
                 {
                     IsSuccess = false,
                     StatusCode = 404,
                     Message = "Customer not found.",
-                    Result = Guid.Empty
+                    Result = null
                 };
             }
 
@@ -105,23 +114,23 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                 var pet = pets.FirstOrDefault(p => p.Id == petId);
                 if (pet == null)
                 {
-                    return new ApiResponse<Guid>
+                    return new ApiResponse<CreateBookingResponseDTO>
                     {
                         IsSuccess = false,
                         StatusCode = 404,
                         Message = $"Pet with ID {petId} not found.",
-                        Result = Guid.Empty
+                        Result = null
                     };
                 }
 
                 if (pet.CustomerId != targetCustomerId)
                 {
-                    return new ApiResponse<Guid>
+                    return new ApiResponse<CreateBookingResponseDTO>
                     {
                         IsSuccess = false,
                         StatusCode = 403,
                         Message = $"Pet with ID {petId} does not belong to this customer.",
-                        Result = Guid.Empty
+                        Result = null
                     };
                 }
             }
@@ -135,23 +144,23 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                 var service = services.FirstOrDefault(s => s.Id == serviceId);
                 if (service == null)
                 {
-                    return new ApiResponse<Guid>
+                    return new ApiResponse<CreateBookingResponseDTO>
                     {
                         IsSuccess = false,
                         StatusCode = 404,
                         Message = $"Service with ID {serviceId} not found.",
-                        Result = Guid.Empty
+                        Result = null
                     };
                 }
 
                 if (!service.IsActive)
                 {
-                    return new ApiResponse<Guid>
+                    return new ApiResponse<CreateBookingResponseDTO>
                     {
                         IsSuccess = false,
                         StatusCode = 400,
                         Message = $"Service {service.Name} is not active.",
-                        Result = Guid.Empty
+                        Result = null
                     };
                 }
             }
@@ -172,23 +181,23 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
 
                 if (voucher == null)
                 {
-                    return new ApiResponse<Guid>
+                    return new ApiResponse<CreateBookingResponseDTO>
                     {
                         IsSuccess = false,
                         StatusCode = 400,
                         Message = "Invalid or expired voucher code.",
-                        Result = Guid.Empty
+                        Result = null
                     };
                 }
 
                 if (voucher.MaxUsage.HasValue && voucher.CurrentUsage >= voucher.MaxUsage.Value)
                 {
-                    return new ApiResponse<Guid>
+                    return new ApiResponse<CreateBookingResponseDTO>
                     {
                         IsSuccess = false,
                         StatusCode = 400,
                         Message = "Voucher usage limit has been reached.",
-                        Result = Guid.Empty
+                        Result = null
                     };
                 }
 
@@ -219,12 +228,12 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
 
                 if (unitPrice == null)
                 {
-                    return new ApiResponse<Guid>
+                    return new ApiResponse<CreateBookingResponseDTO>
                     {
                         IsSuccess = false,
                         StatusCode = 400,
                         Message = $"No pricing found for {service.Name} with pet weight {pet.Weight}kg.",
-                        Result = Guid.Empty
+                        Result = null
                     };
                 }
 
@@ -234,24 +243,24 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                 {
                     if (!itemRequest.ScheduledEndAt.HasValue || itemRequest.ScheduledEndAt.Value <= itemRequest.ScheduledStartAt)
                     {
-                        return new ApiResponse<Guid>
+                        return new ApiResponse<CreateBookingResponseDTO>
                         {
                             IsSuccess = false,
                             StatusCode = 400,
                             Message = $"Boarding service '{service.Name}' requires a valid ScheduledEndAt after ScheduledStartAt.",
-                            Result = Guid.Empty
+                            Result = null
                         };
                     }
 
                     // Tự động xác định loại phòng từ Dịch vụ (đã được liên kết trong DB)
                     if (!service.RoomTypeId.HasValue)
                     {
-                        return new ApiResponse<Guid>
+                        return new ApiResponse<CreateBookingResponseDTO>
                         {
                             IsSuccess = false,
                             StatusCode = 400,
                             Message = $"Boarding service '{service.Name}' has not been linked to any Room Type.",
-                            Result = Guid.Empty
+                            Result = null
                         };
                     }
 
@@ -274,12 +283,12 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
 
                     if (availableRoom == null)
                     {
-                        return new ApiResponse<Guid>
+                        return new ApiResponse<CreateBookingResponseDTO>
                         {
                             IsSuccess = false,
                             StatusCode = 400,
                             Message = $"No available rooms found for service '{service.Name}' during the requested period.",
-                            Result = Guid.Empty
+                            Result = null
                         };
                     }
 
@@ -323,12 +332,36 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             await _bookingRepository.AddAsync(newBooking);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new ApiResponse<Guid>
+            // 8. Generate VNPay Payment URL if customer selected VNPAY option
+            string? paymentUrl = null;
+            var paymentChoice = request.PaymentChoice?.Trim().ToUpper() ?? "PAY_AT_COUNTER";
+
+            if (paymentChoice == "VNPAY" && newBooking.TotalPrice > 0)
+            {
+                var httpContext = _httpContextAccessor.HttpContext;
+                var ipAddress = httpContext?.Connection?.RemoteIpAddress?.ToString() ?? "127.0.0.1";
+                paymentUrl = _vnPayService.CreatePaymentUrl(
+                    newBooking.Id,
+                    newBooking.TotalPrice,
+                    $"Thanh toan don dat lich {newBooking.Id}",
+                    ipAddress
+                );
+            }
+
+            return new ApiResponse<CreateBookingResponseDTO>
             {
                 IsSuccess = true,
                 StatusCode = 201,
-                Message = "Booking created successfully.",
-                Result = newBooking.Id
+                Message = (paymentUrl != null)
+                    ? "Booking created successfully. Please proceed to payment via the provided VNPay URL."
+                    : "Booking created successfully with payment at counter.",
+                Result = new CreateBookingResponseDTO
+                {
+                    BookingId = newBooking.Id,
+                    TotalPrice = newBooking.TotalPrice,
+                    PaymentChoice = paymentChoice,
+                    PaymentUrl = paymentUrl
+                }
             };
         }
 

@@ -8,6 +8,7 @@ using PetCareBooking.Application.Features.Bookings.Commands.CancelBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CreateBooking;
+using PetCareBooking.Application.Features.Bookings.Commands.CreateVnPayPaymentUrl;
 using PetCareBooking.Application.Features.Bookings.Commands.DepositBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingItemStatus;
 using PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings;
@@ -270,6 +271,17 @@ namespace PetCareBooking.API.Controllers
         {
             var query = new GetBookingPaymentsQuery(id);
             var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Customer / Staff / Admin] Sinh đường dẫn thanh toán VNPay trực tuyến (dùng khi khách muốn thanh toán online sau khi tạo đơn)
+        /// </summary>
+        [HttpPost("{id:guid}/create-vnpay-url")]
+        public async Task<IActionResult> CreateVnPayUrl(Guid id, [FromBody] CreateVnPayPaymentUrlCommand command)
+        {
+            command.BookingId = id;
+            var response = await _mediator.Send(command);
             return StatusCode(response.StatusCode, response);
         }
     }
