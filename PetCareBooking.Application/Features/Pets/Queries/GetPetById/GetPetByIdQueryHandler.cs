@@ -37,6 +37,7 @@ namespace PetCareBooking.Application.Features.Pets.Queries.GetPetById
                     Weight = p.Weight,
                     Age = p.Age,
                     HealthNotes = p.HealthNotes,
+                    ImageUrl = p.ImageUrl,
                     IsActive = p.IsActive,
                     CreatedAt = p.CreatedAt,
                     UpdatedAt = p.UpdatedAt

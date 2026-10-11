@@ -39,6 +39,7 @@ namespace PetCareBooking.Application.Features.Services.Commands.UpdateService
             existingService.Name = request.Name;
             existingService.Description = request.Description;
             existingService.ServiceType = request.ServiceType;
+            if (request.ImageUrl != null) existingService.ImageUrl = request.ImageUrl.Trim();
             existingService.IsActive = request.IsActive;
 
 

@@ -10,6 +10,7 @@ namespace PetCareBooking.Application.DTOs.Pet
         public PetSpecies Species { get; set; }
         public string? Breed { get; set; }
         public decimal Weight { get; set; }
+        public string? ImageUrl { get; set; }
         public bool IsActive { get; set; }
     }
 }

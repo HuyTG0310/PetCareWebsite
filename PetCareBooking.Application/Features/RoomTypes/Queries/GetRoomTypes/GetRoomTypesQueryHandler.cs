@@ -33,6 +33,7 @@ namespace PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypes
                     Id = rt.Id,
                     Name = rt.Name,
                     Description = rt.Description,
+                    ImageUrl = rt.ImageUrl,
                     TotalRooms = rt.Rooms.Count
                 })
                 .OrderBy(rt => rt.Name)

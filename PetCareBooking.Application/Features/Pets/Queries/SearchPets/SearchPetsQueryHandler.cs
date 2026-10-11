@@ -54,6 +54,7 @@ namespace PetCareBooking.Application.Features.Pets.Queries.SearchPets
                     Species = p.Species,
                     Breed = p.Breed,
                     Weight = p.Weight,
+                    ImageUrl = p.ImageUrl,
                     IsActive = p.IsActive
                 })
                 .ToListAsync(cancellationToken);

@@ -111,6 +111,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 bookingItem.RoomId = request.RoomId;
             if (!string.IsNullOrEmpty(request.ResultNote))
                 bookingItem.ResultNote = request.ResultNote;
+            if (!string.IsNullOrEmpty(request.BeforeImageUrl))
+                bookingItem.BeforeImageUrl = request.BeforeImageUrl;
             if (!string.IsNullOrEmpty(request.ResultImageUrl))
                 bookingItem.ResultImageUrl = request.ResultImageUrl;
 

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Booking;
 using PetCareBooking.Application.Interfaces;
@@ -66,6 +66,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetStaffGroomingT
                 Quantity = bi.Quantity,
                 Status = bi.Status,
                 ResultNote = bi.ResultNote,
+                BeforeImageUrl = bi.BeforeImageUrl,
                 ResultImageUrl = bi.ResultImageUrl
             }).ToList();
 

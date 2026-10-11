@@ -13,6 +13,7 @@ namespace PetCareBooking.Application.DTOs.Pet
         public decimal Weight { get; set; }
         public int? Age { get; set; }
         public string? HealthNotes { get; set; }
+        public string? ImageUrl { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

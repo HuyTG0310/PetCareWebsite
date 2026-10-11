@@ -40,7 +40,8 @@ namespace PetCareBooking.Application.Features.RoomTypes.Commands.CreateRoomType
             {
                 Id = Guid.NewGuid(),
                 Name = trimmedName,
-                Description = request.Description?.Trim()
+                Description = request.Description?.Trim(),
+                ImageUrl = request.ImageUrl?.Trim()
             };
 
             await _roomTypeRepository.AddAsync(roomType);

@@ -76,6 +76,9 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Property<decimal>("AssignedPrice")
                         .HasColumnType("DECIMAL(18,2)");
 
+                    b.Property<string>("BeforeImageUrl")
+                        .HasColumnType("VARCHAR(MAX)");
+
                     b.Property<Guid>("BookingId")
                         .HasColumnType("uniqueidentifier");
 
@@ -351,6 +354,10 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Property<string>("HealthNotes")
                         .HasColumnType("NVARCHAR(MAX)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -399,6 +406,10 @@ namespace PetCareBooking.Persistence.Migrations
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -517,6 +528,10 @@ namespace PetCareBooking.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("NVARCHAR(MAX)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -542,6 +557,10 @@ namespace PetCareBooking.Persistence.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("NVARCHAR(MAX)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Service;
 using PetCareBooking.Domain.Enums;
@@ -14,6 +14,7 @@ namespace PetCareBooking.Application.Features.Services.Commands.UpdateService
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public ServiceType ServiceType { get; set; }
+        public string? ImageUrl { get; set; }
         public bool IsActive { get; set; }
         public List<ServicePriceDTO> Prices { get; set; } = new List<ServicePriceDTO>();
     }

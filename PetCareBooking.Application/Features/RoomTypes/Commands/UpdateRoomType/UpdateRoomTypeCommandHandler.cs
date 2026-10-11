@@ -51,6 +51,10 @@ namespace PetCareBooking.Application.Features.RoomTypes.Commands.UpdateRoomType
 
             existingRoomType.Name = trimmedName;
             existingRoomType.Description = request.Description?.Trim();
+            if (request.ImageUrl != null)
+            {
+                existingRoomType.ImageUrl = request.ImageUrl.Trim();
+            }
 
             _roomTypeRepository.Update(existingRoomType);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

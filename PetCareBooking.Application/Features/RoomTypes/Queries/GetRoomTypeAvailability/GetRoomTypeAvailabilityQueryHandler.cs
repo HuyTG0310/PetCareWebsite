@@ -57,6 +57,7 @@ namespace PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeAvail
                     RoomTypeId = rt.Id,
                     RoomTypeName = rt.Name,
                     Description = rt.Description,
+                    ImageUrl = rt.ImageUrl,
                     TotalRooms = totalRooms,
                     AvailableRooms = availableRooms
                 };

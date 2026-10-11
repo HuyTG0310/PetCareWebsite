@@ -16,5 +16,6 @@ namespace PetCareBooking.Application.Features.Pets.Commands.UpdatePet
         public decimal Weight { get; set; }
         public int? Age { get; set; }
         public string? HealthNotes { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }
