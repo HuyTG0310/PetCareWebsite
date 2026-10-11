@@ -37,7 +37,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.SearchCustomerBoo
                     (bi.Pet.Name.ToLower().Contains(request.Keyword.ToLower())))),
 
                 // Include related data
-                "BookingItems.Service,BookingItems.Pet,Customer");
+                "BookingItems.Service", "BookingItems.Pet", "Customer");
 
             // Calculate total count before pagination
             int totalCount = bookings.Count();

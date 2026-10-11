@@ -32,7 +32,13 @@ namespace PetCareBooking.Persistence.Repositories
             {
                 foreach (var include in includes)
                 {
-                    query = query.Include(include);
+                    if (string.IsNullOrWhiteSpace(include)) continue;
+
+                    var parts = include.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                    foreach (var part in parts)
+                    {
+                        query = query.Include(part);
+                    }
                 }
             }
 
