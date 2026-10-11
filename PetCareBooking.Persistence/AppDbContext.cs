@@ -86,6 +86,8 @@ public class AppDbContext : DbContext
             entity.Property(e => e.PasswordHash).HasMaxLength(255).IsRequired();
             entity.Property(e => e.FullName).HasMaxLength(100).IsRequired();
             entity.Property(e => e.PhoneNumber).HasMaxLength(20).IsRequired();
+            entity.Property(e => e.Address).HasMaxLength(255);
+            entity.Property(e => e.AvatarUrl).HasMaxLength(500);
             entity.Property(e => e.YearsOfExperience).HasDefaultValue(0);
 
             entity.Property(e => e.Status)
