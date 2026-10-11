@@ -23,7 +23,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingById
         {
             var bookings = await _bookingRepository.FindAsync(
                 b => b.Id == request.Id,
-                "BookingItems.Pet,BookingItems.Service,Customer,Voucher,BookingItems.Room,BookingItems.Staff");
+                "BookingItems.Pet", "BookingItems.Service", "Customer", "Voucher", "BookingItems.Room", "BookingItems.Staff");
 
             var booking = bookings.FirstOrDefault();
 
