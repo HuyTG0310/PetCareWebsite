@@ -140,6 +140,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Breed).HasMaxLength(100);
             entity.Property(e => e.Weight).HasColumnType("DECIMAL(5,2)").IsRequired();
             entity.Property(e => e.HealthNotes).HasColumnType("NVARCHAR(MAX)");
+            entity.Property(e => e.ImageUrl).HasMaxLength(500);
             entity.Property(e => e.IsActive).HasDefaultValue(true);
 
             entity.Property(e => e.Species)
@@ -163,6 +164,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
             entity.Property(e => e.Name).HasMaxLength(150).IsRequired();
             entity.Property(e => e.Description).HasColumnType("NVARCHAR(MAX)");
+            entity.Property(e => e.ImageUrl).HasMaxLength(500);
 
             entity.Property(e => e.ServiceType)
                   .HasMaxLength(20)
@@ -202,6 +204,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
             entity.Property(e => e.Name).HasMaxLength(100).IsRequired();
             entity.Property(e => e.Description).HasColumnType("NVARCHAR(MAX)");
+            entity.Property(e => e.ImageUrl).HasMaxLength(500);
         });
 
         modelBuilder.Entity<Room>(entity =>
@@ -286,6 +289,7 @@ public class AppDbContext : DbContext
                   .HasDefaultValue(BookingItemStatus.Pending);
 
             entity.Property(e => e.ResultNote).HasColumnType("NVARCHAR(MAX)");
+            entity.Property(e => e.BeforeImageUrl).HasColumnType("VARCHAR(MAX)");
             entity.Property(e => e.ResultImageUrl).HasColumnType("VARCHAR(MAX)");
 
             entity.HasOne(e => e.Booking)
@@ -338,6 +342,7 @@ public class AppDbContext : DbContext
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
+            entity.Property(e => e.ImageUrl).HasMaxLength(500);
 
             // Ensure each BookingItem can only be reviewed once
             entity.HasIndex(e => e.BookingItemId).IsUnique();

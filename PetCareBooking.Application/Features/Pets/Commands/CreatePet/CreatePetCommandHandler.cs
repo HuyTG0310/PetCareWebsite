@@ -83,6 +83,7 @@ namespace PetCareBooking.Application.Features.Pets.Commands.CreatePet
                 Weight = request.Weight,
                 Age = request.Age,
                 HealthNotes = request.HealthNotes?.Trim(),
+                ImageUrl = request.ImageUrl?.Trim(),
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
             };

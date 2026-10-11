@@ -57,6 +57,7 @@ namespace PetCareBooking.Application.Features.Pets.Commands.UpdatePet
             pet.Weight = request.Weight;
             pet.Age = request.Age;
             pet.HealthNotes = request.HealthNotes?.Trim();
+            if (request.ImageUrl != null) pet.ImageUrl = request.ImageUrl.Trim();
             pet.UpdatedAt = DateTime.UtcNow;
 
             _petRepository.Update(pet);

@@ -23,6 +23,7 @@ namespace PetCareBooking.Application.DTOs.Booking
         public Guid? StaffId { get; set; }
         public string? StaffName { get; set; }
         public string? ResultNote { get; set; }
+        public string? BeforeImageUrl { get; set; }
         public string? ResultImageUrl { get; set; }
     }
 }

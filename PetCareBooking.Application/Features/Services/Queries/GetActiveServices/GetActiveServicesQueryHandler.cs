@@ -36,6 +36,7 @@ namespace PetCareBooking.Application.Features.Services.Queries.GetActiveServices
                 Name = s.Name,
                 Description = s.Description,
                 ServiceType = s.ServiceType,
+                ImageUrl = s.ImageUrl,
                 IsActive = s.IsActive,
                 RoomTypeId = s.RoomTypeId,
                 RoomTypeName = s.RoomType?.Name

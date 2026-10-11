@@ -1,4 +1,4 @@
-﻿using PetCareBooking.Domain.Common;
+using PetCareBooking.Domain.Common;
 using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Domain.Entities
@@ -12,6 +12,7 @@ namespace PetCareBooking.Domain.Entities
         public decimal Weight { get; set; }
         public int? Age { get; set; }
         public string? HealthNotes { get; set; }
+        public string? ImageUrl { get; set; }
         public bool IsActive { get; set; }
         public virtual Customer Owner { get; set; } = null!;
     }

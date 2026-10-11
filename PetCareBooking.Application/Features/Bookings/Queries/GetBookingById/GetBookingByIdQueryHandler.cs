@@ -106,6 +106,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingById
                     StaffId = bi.StaffId,
                     StaffName = bi.Staff?.FullName,
                     ResultNote = bi.ResultNote,
+                    BeforeImageUrl = bi.BeforeImageUrl,
                     ResultImageUrl = bi.ResultImageUrl
                 }).ToList()
             };

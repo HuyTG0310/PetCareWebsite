@@ -39,6 +39,7 @@ namespace PetCareBooking.Application.Features.Pets.Queries.GetPetsWithPagination
                     Species = p.Species,
                     Breed = p.Breed,
                     Weight = p.Weight,
+                    ImageUrl = p.ImageUrl,
                     IsActive = p.IsActive
                 })
                 .ToListAsync(cancellationToken);

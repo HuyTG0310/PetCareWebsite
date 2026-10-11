@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
@@ -24,6 +24,7 @@ namespace PetCareBooking.Application.Features.Services.Commands.CreateService
                 Name = request.Name,
                 Description = request.Description,
                 ServiceType = request.ServiceType,
+                ImageUrl = request.ImageUrl?.Trim(),
                 IsActive = true,
                 ServicePrices = new List<ServicePrice>()
             };

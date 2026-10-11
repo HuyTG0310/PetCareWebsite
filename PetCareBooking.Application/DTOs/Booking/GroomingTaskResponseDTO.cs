@@ -41,6 +41,7 @@ namespace PetCareBooking.Application.DTOs.Booking
 
         // Result Info
         public string? ResultNote { get; set; }
+        public string? BeforeImageUrl { get; set; }
         public string? ResultImageUrl { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
 
         public BookingItemStatus Status { get; set; }
         public string? ResultNote { get; set; }
+        public string? BeforeImageUrl { get; set; }
         public string? ResultImageUrl { get; set; }
         public Guid? StaffId { get; set; }
         public Guid? RoomId { get; set; }

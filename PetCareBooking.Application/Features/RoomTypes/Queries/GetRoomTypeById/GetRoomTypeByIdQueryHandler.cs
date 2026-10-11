@@ -38,6 +38,7 @@ namespace PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeById
                 Id = roomType.Id,
                 Name = roomType.Name,
                 Description = roomType.Description,
+                ImageUrl = roomType.ImageUrl,
                 TotalRooms = roomType.Rooms.Count,
                 Rooms = roomType.Rooms.Select(r => new RoomSummaryDTO
                 {

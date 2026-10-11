@@ -7,5 +7,6 @@ namespace PetCareBooking.Application.Features.RoomTypes.Commands.CreateRoomType
     {
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

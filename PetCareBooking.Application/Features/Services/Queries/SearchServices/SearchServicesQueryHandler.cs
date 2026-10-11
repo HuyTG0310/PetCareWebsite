@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Service;
 using PetCareBooking.Application.Interfaces;
@@ -46,6 +46,7 @@ namespace PetCareBooking.Application.Features.Services.Queries.SearchServices
                 Name = s.Name,
                 Description = s.Description,
                 ServiceType = s.ServiceType,
+                ImageUrl = s.ImageUrl,
                 IsActive = s.IsActive
             }).ToList();
 

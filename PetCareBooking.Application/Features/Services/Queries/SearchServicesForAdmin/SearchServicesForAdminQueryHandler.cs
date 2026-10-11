@@ -55,6 +55,7 @@ namespace PetCareBooking.Application.Features.Services.Queries.SearchServicesFor
                 Name = s.Name,
                 Description = s.Description,
                 ServiceType = s.ServiceType,
+                ImageUrl = s.ImageUrl,
                 IsActive = s.IsActive
             }).ToList();
 

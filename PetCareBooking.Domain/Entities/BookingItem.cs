@@ -1,4 +1,4 @@
-﻿using PetCareBooking.Domain.Common;
+using PetCareBooking.Domain.Common;
 using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Domain.Entities
@@ -19,6 +19,7 @@ namespace PetCareBooking.Domain.Entities
 
         public BookingItemStatus Status { get; set; }
         public string? ResultNote { get; set; }
+        public string? BeforeImageUrl { get; set; }
         public string? ResultImageUrl { get; set; }
 
         // Navigation Properties
