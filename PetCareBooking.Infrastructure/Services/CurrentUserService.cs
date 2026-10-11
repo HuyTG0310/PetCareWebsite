@@ -40,11 +40,13 @@ namespace PetCareBooking.Infrastructure.Services
         {
             get
             {
-                var role = Role;
-                if (string.IsNullOrEmpty(role)) return false;
-                return role.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
-                       role.Equals("Staff", StringComparison.OrdinalIgnoreCase) ||
-                       role.Equals("Manager", StringComparison.OrdinalIgnoreCase);
+                if (User == null || !IsAuthenticated) return false;
+                return User.IsInRole("Admin") ||
+                       User.IsInRole("Receptionist") ||
+                       User.IsInRole("Boarding Staff") ||
+                       User.IsInRole("Grooming Staff") ||
+                       User.IsInRole("Staff") ||
+                       User.IsInRole("Manager");
             }
         }
     }

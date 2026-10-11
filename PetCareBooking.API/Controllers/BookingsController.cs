@@ -124,7 +124,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Check-in toàn bộ các mục trong đơn (1-click check-in)
         /// </summary>
-        [Authorize(Roles = "Admin,Staff,Manager")]
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Staff,Manager")]
         [HttpPut("{id:guid}/check-in")]
         public async Task<IActionResult> CheckInBooking(Guid id)
         {
@@ -136,7 +136,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Cập nhật trạng thái từng mục, gán nhân viên, phòng, ghi chú kết quả
         /// </summary>
-        [Authorize(Roles = "Admin,Staff,Manager")]
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Staff,Manager")]
         [HttpPut("{bookingId:guid}/items/{itemId:guid}/status")]
         public async Task<IActionResult> UpdateBookingItemStatus(
             Guid bookingId,
@@ -152,7 +152,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Lấy danh sách ca làm việc Grooming được phân công cho nhân viên
         /// </summary>
-        [Authorize(Roles = "Admin,Staff,Manager")]
+        [Authorize(Roles = "Admin,Grooming Staff,Receptionist,Boarding Staff,Staff,Manager")]
         [HttpGet("staff/{staffId:guid}/grooming-tasks")]
         public async Task<IActionResult> GetStaffGroomingTasks(
             Guid staffId,
@@ -176,7 +176,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Lấy danh sách booking toàn hệ thống (phân trang, lọc thời gian, trạng thái)
         /// </summary>
-        [Authorize(Roles = "Admin,Staff,Manager")]
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Staff,Manager")]
         [HttpGet("admin")]
         public async Task<IActionResult> GetAdminBookings(
             [FromQuery] int pageNumber = 1,
@@ -200,7 +200,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Tìm kiếm booking toàn hệ thống theo từ khóa
         /// </summary>
-        [Authorize(Roles = "Admin,Staff,Manager")]
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Staff,Manager")]
         [HttpGet("search")]
         public async Task<IActionResult> SearchBookings(
             [FromQuery] string? keyword = null,
