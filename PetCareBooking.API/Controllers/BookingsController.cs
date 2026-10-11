@@ -6,10 +6,14 @@ using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Booking;
 using PetCareBooking.Application.Features.Bookings.Commands.CancelBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking;
+using PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CreateBooking;
+using PetCareBooking.Application.Features.Bookings.Commands.DepositBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingItemStatus;
 using PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings;
 using PetCareBooking.Application.Features.Bookings.Queries.GetBookingById;
+using PetCareBooking.Application.Features.Bookings.Queries.GetBookingPayments;
+using PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummary;
 using PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookings;
 using PetCareBooking.Application.Features.Bookings.Queries.GetStaffGroomingTasks;
 using PetCareBooking.Application.Features.Bookings.Queries.SearchBookings;
@@ -219,6 +223,52 @@ namespace PetCareBooking.API.Controllers
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Customer / Staff / Admin] Xem tóm tắt hóa đơn thanh toán trước khi check-out (Tổng tiền, giảm giá, số tiền đã cọc/trả, số tiền còn lại)
+        /// </summary>
+        [HttpGet("{id:guid}/checkout-summary")]
+        public async Task<IActionResult> GetCheckoutSummary(Guid id)
+        {
+            var query = new GetCheckoutSummaryQuery(id);
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Staff / Admin ONLY] Thực hiện check-out & thanh toán (tiền mặt / chuyển khoản), tạo PaymentTransaction, chuyển trạng thái Completed và tự động giải phóng phòng
+        /// </summary>
+        [Authorize(Roles = "Admin,Receptionist,Staff,Manager")]
+        [HttpPost("{id:guid}/checkout")]
+        public async Task<IActionResult> CheckoutBooking(Guid id, [FromBody] CheckoutBookingCommand command)
+        {
+            command.BookingId = id;
+            var response = await _mediator.Send(command);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Staff / Admin ONLY] Ghi nhận tiền đặt cọc trước cho đơn booking (chuyển trạng thái từ Pending sang Confirmed)
+        /// </summary>
+        [Authorize(Roles = "Admin,Receptionist,Staff,Manager")]
+        [HttpPost("{id:guid}/deposit")]
+        public async Task<IActionResult> DepositBooking(Guid id, [FromBody] DepositBookingCommand command)
+        {
+            command.BookingId = id;
+            var response = await _mediator.Send(command);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Customer / Staff / Admin] Xem lịch sử các giao dịch thanh toán & đặt cọc của đơn đặt lịch
+        /// </summary>
+        [HttpGet("{id:guid}/payments")]
+        public async Task<IActionResult> GetBookingPayments(Guid id)
+        {
+            var query = new GetBookingPaymentsQuery(id);
             var response = await _mediator.Send(query);
             return StatusCode(response.StatusCode, response);
         }
