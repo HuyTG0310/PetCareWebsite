@@ -87,7 +87,16 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                     BookingStatus.Pending,
                     new List<BookingStatus>
                     {
+                        BookingStatus.Confirmed,
                         BookingStatus.Partially_Completed,
+                        BookingStatus.Completed,
+                        BookingStatus.Cancelled
+                    }
+                },
+                {
+                    BookingStatus.Confirmed,
+                    new List<BookingStatus>
+                    {
                         BookingStatus.Completed,
                         BookingStatus.Cancelled
                     }
