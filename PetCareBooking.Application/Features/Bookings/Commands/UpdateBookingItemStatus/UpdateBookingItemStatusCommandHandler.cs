@@ -157,16 +157,13 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             {
                 booking.Status = BookingStatus.Completed;
             }
-            else if (itemStatuses.Any(s => s == BookingItemStatus.Completed))
+            else if (itemStatuses.All(s => s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show))
             {
-                booking.Status = BookingStatus.Partially_Completed;
+                booking.Status = BookingStatus.Cancelled;
             }
-            else if (itemStatuses.Any(s => s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show))
+            else if (itemStatuses.Any(s => s == BookingItemStatus.Confirmed || s == BookingItemStatus.Checked_In || s == BookingItemStatus.In_Progress || s == BookingItemStatus.Completed))
             {
-                if (itemStatuses.All(s => s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show))
-                {
-                    booking.Status = BookingStatus.Cancelled;
-                }
+                booking.Status = BookingStatus.Confirmed;
             }
         }
     }

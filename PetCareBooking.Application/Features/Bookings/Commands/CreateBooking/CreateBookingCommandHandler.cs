@@ -237,6 +237,23 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     };
                 }
 
+                // TÍNH TOÁN SỐ NGÀY & THỜI GIAN LƯU TRÚ CHO DỊCH VỤ BOARDING / DIET
+                var itemStartAt = itemRequest.ScheduledStartAt;
+                var itemEndAt = itemRequest.ScheduledEndAt;
+                decimal durationDays = 1;
+
+                if (service.ServiceType == ServiceType.Boarding || service.ServiceType == ServiceType.Diet)
+                {
+                    if (itemEndAt.HasValue && itemEndAt.Value > itemStartAt)
+                    {
+                        durationDays = (decimal)Math.Max(1, Math.Ceiling((itemEndAt.Value.Date - itemStartAt.Date).TotalDays));
+                    }
+                    else
+                    {
+                        durationDays = Math.Max(1m, itemRequest.Quantity);
+                    }
+                }
+
                 // XỬ LÝ PHÒNG CHO DỊCH VỤ BOARDING (LƯU TRÚ)
                 Guid? assignedRoomId = null;
                 if (service.ServiceType == ServiceType.Boarding)
@@ -296,7 +313,16 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     allocatedRoomIdsInThisBooking.Add(availableRoom.Id);
                 }
 
-                var assignedPrice = unitPrice.Value * itemRequest.Quantity;
+                // Số lượng thực tế: Với Boarding/Diet theo ngày, Quantity đại diện cho số ngày * số lượng phần/phòng
+                decimal finalQuantity = itemRequest.Quantity;
+                if (service.ServiceType == ServiceType.Boarding || service.ServiceType == ServiceType.Diet)
+                {
+                    finalQuantity = (itemRequest.Quantity > 1 && itemRequest.Quantity != durationDays)
+                        ? itemRequest.Quantity * durationDays
+                        : durationDays;
+                }
+
+                var assignedPrice = unitPrice.Value * finalQuantity;
                 subtotal += assignedPrice;
 
                 newBooking.BookingItems.Add(new BookingItem
@@ -306,9 +332,9 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     ServiceId = itemRequest.ServiceId,
                     RoomId = assignedRoomId,
                     StaffId = null,
-                    ScheduledStartAt = itemRequest.ScheduledStartAt,
-                    ScheduledEndAt = itemRequest.ScheduledEndAt,
-                    Quantity = itemRequest.Quantity,
+                    ScheduledStartAt = itemStartAt,
+                    ScheduledEndAt = itemEndAt,
+                    Quantity = finalQuantity,
                     UnitPrice = unitPrice.Value,
                     AssignedPrice = assignedPrice,
                     Status = BookingItemStatus.Pending

@@ -152,7 +152,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
             else
             {
                 // Partial payment received
-                booking.Status = BookingStatus.Partially_Completed;
+                booking.Status = BookingStatus.Confirmed;
             }
 
             _bookingRepository.Update(booking);

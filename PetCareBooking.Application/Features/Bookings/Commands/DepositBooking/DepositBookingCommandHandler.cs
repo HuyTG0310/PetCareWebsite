@@ -72,6 +72,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.DepositBooking
             var bookingWithItems = bookings.FirstOrDefault();
             if (bookingWithItems != null)
             {
+                bookingWithItems.Status = BookingStatus.Confirmed;
                 foreach (var item in bookingWithItems.BookingItems)
                 {
                     if (item.Status == BookingItemStatus.Pending)
@@ -79,6 +80,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.DepositBooking
                         item.Status = BookingItemStatus.Confirmed;
                     }
                 }
+                _bookingRepository.Update(bookingWithItems);
             }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
