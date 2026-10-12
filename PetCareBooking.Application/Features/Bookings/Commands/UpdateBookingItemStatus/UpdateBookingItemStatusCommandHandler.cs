@@ -12,6 +12,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
         private readonly IGenericRepository<BookingItem> _bookingItemRepository;
         private readonly IGenericRepository<Staff> _staffRepository;
         private readonly IGenericRepository<Room> _roomRepository;
+        private readonly IGenericRepository<PaymentTransaction> _paymentTransactionRepository;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
 
         public UpdateBookingItemStatusCommandHandler(
@@ -19,12 +21,16 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             IGenericRepository<BookingItem> bookingItemRepository,
             IGenericRepository<Staff> staffRepository,
             IGenericRepository<Room> roomRepository,
+            IGenericRepository<PaymentTransaction> paymentTransactionRepository,
+            ICurrentUserService currentUserService,
             IUnitOfWork unitOfWork)
         {
             _bookingRepository = bookingRepository;
             _bookingItemRepository = bookingItemRepository;
             _staffRepository = staffRepository;
             _roomRepository = roomRepository;
+            _paymentTransactionRepository = paymentTransactionRepository;
+            _currentUserService = currentUserService;
             _unitOfWork = unitOfWork;
         }
 
@@ -59,7 +65,36 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 };
             }
 
-            // 3. Validate status transition is allowed
+            // 3. IDOR and Role Permission Check:
+            bool isAdminOrReceptionist = _currentUserService.IsInRole("Admin") ||
+                                         _currentUserService.IsInRole("Receptionist");
+
+            if (!isAdminOrReceptionist)
+            {
+                // Grooming staff (or other staff) can only update tasks assigned to themselves
+                if (bookingItem.StaffId.HasValue && _currentUserService.UserId.HasValue && bookingItem.StaffId.Value != _currentUserService.UserId.Value)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 403,
+                        Message = "You do not have permission to update tasks assigned to another staff member.",
+                        Result = Guid.Empty
+                    };
+                }
+
+                // If not assigned yet and current staff starts the task, automatically claim/assign to current staff
+                if (!bookingItem.StaffId.HasValue && _currentUserService.UserId.HasValue)
+                {
+                    bookingItem.StaffId = _currentUserService.UserId.Value;
+                }
+
+                // Regular staff cannot reassign room or change staff
+                request.StaffId = bookingItem.StaffId;
+                request.RoomId = bookingItem.RoomId;
+            }
+
+            // 4. Validate status transition is allowed
             if (!IsValidStatusTransition(bookingItem.Status, request.Status))
             {
                 return new ApiResponse<Guid>
@@ -71,7 +106,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 };
             }
 
-            // 4. Validate staff if provided
+            // 5. Validate staff if provided (Admin/Receptionist only)
             if (request.StaffId.HasValue)
             {
                 var staff = (await _staffRepository.FindAsync(s => s.Id == request.StaffId)).FirstOrDefault();
@@ -87,7 +122,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 }
             }
 
-            // 5. Validate room if provided
+            // 6. Validate room if provided (Admin/Receptionist only)
             if (request.RoomId.HasValue)
             {
                 var room = (await _roomRepository.FindAsync(r => r.Id == request.RoomId)).FirstOrDefault();
@@ -103,7 +138,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 }
             }
 
-            // 6. Update booking item
+            // 7. Update booking item
             bookingItem.Status = request.Status;
             if (request.StaffId.HasValue)
                 bookingItem.StaffId = request.StaffId;
@@ -118,8 +153,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
 
             _bookingItemRepository.Update(bookingItem);
 
-            // 7. Update booking status based on items
-            UpdateBookingStatus(booking);
+            // 8. Update booking status based on items and settlement
+            await UpdateBookingStatusAsync(booking);
 
             _bookingRepository.Update(booking);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -149,13 +184,25 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             return validTransitions.ContainsKey(from) && validTransitions[from].Contains(to);
         }
 
-        private void UpdateBookingStatus(Booking booking)
+        private async Task UpdateBookingStatusAsync(Booking booking)
         {
             var itemStatuses = booking.BookingItems.Select(bi => bi.Status).ToList();
 
             if (itemStatuses.All(s => s == BookingItemStatus.Completed))
             {
-                booking.Status = BookingStatus.Completed;
+                var payments = await _paymentTransactionRepository.FindAsync(t => t.BookingId == booking.Id && t.PaymentStatus == "SUCCESS");
+                var totalPaid = payments.Sum(t => t.Amount);
+
+                // Nếu đã thanh toán đủ 100% (vd: VNPay trước đó) thì hoàn tất luôn đơn,
+                // còn nếu chưa thanh toán đủ (Pay at counter) thì giữ Confirmed để Lễ tân Checkout thu tiền tại quầy.
+                if (totalPaid >= booking.TotalPrice && booking.TotalPrice > 0)
+                {
+                    booking.Status = BookingStatus.Completed;
+                }
+                else
+                {
+                    booking.Status = BookingStatus.Confirmed;
+                }
             }
             else if (itemStatuses.All(s => s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show))
             {

@@ -9,7 +9,6 @@ using PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CreateBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CreateVnPayPaymentUrl;
-using PetCareBooking.Application.Features.Bookings.Commands.DepositBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingItemStatus;
 using PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings;
 using PetCareBooking.Application.Features.Bookings.Queries.GetBookingById;
@@ -129,7 +128,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Check-in toàn bộ các mục trong đơn (1-click check-in)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Staff,Manager")]
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
         [HttpPut("{id:guid}/check-in")]
         public async Task<IActionResult> CheckInBooking(Guid id)
         {
@@ -141,7 +140,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Cập nhật trạng thái từng mục, gán nhân viên, phòng, ghi chú kết quả
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Staff,Manager")]
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
         [HttpPut("{bookingId:guid}/items/{itemId:guid}/status")]
         public async Task<IActionResult> UpdateBookingItemStatus(
             Guid bookingId,
@@ -155,9 +154,43 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Staff / Admin ONLY] Lấy danh sách ca làm việc Grooming được phân công cho nhân viên
+        /// [Grooming Staff ONLY] Lấy danh sách ca làm việc Grooming của chính mình (Tự động đọc StaffId từ JWT Token, chống IDOR tuyệt đối)
         /// </summary>
-        [Authorize(Roles = "Admin,Grooming Staff,Receptionist,Boarding Staff,Staff,Manager")]
+        [Authorize(Roles = "Admin,Grooming Staff,Receptionist")]
+        [HttpGet("my-grooming-tasks")]
+        public async Task<IActionResult> GetMyGroomingTasks(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] BookingItemStatus? status = null,
+            [FromQuery] DateTime? date = null)
+        {
+            if (!_currentUserService.UserId.HasValue)
+            {
+                return Unauthorized(new ApiResponse<PagedResult<GroomingTaskResponseDTO>>
+                {
+                    IsSuccess = false,
+                    StatusCode = StatusCodes.Status401Unauthorized,
+                    Message = "Invalid user token.",
+                    Result = null
+                });
+            }
+
+            var query = new GetStaffGroomingTasksQuery
+            {
+                StaffId = _currentUserService.UserId.Value,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Status = status,
+                Date = date
+            };
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Admin / Receptionist] Lấy danh sách ca làm việc Grooming của một nhân viên theo StaffId (có chống IDOR)
+        /// </summary>
+        [Authorize(Roles = "Admin,Receptionist,Grooming Staff")]
         [HttpGet("staff/{staffId:guid}/grooming-tasks")]
         public async Task<IActionResult> GetStaffGroomingTasks(
             Guid staffId,
@@ -166,6 +199,24 @@ namespace PetCareBooking.API.Controllers
             [FromQuery] BookingItemStatus? status = null,
             [FromQuery] DateTime? date = null)
         {
+            // Chống IDOR: Kỹ thuật viên Grooming chỉ được xem task của chính mình
+            bool isAdminOrReceptionist = _currentUserService.IsInRole("Admin") ||
+                                         _currentUserService.IsInRole("Receptionist");
+
+            if (!isAdminOrReceptionist)
+            {
+                if (!_currentUserService.UserId.HasValue || _currentUserService.UserId.Value != staffId)
+                {
+                    return StatusCode(StatusCodes.Status403Forbidden, new ApiResponse<PagedResult<GroomingTaskResponseDTO>>
+                    {
+                        IsSuccess = false,
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Message = "You do not have permission to view grooming tasks of another staff member.",
+                        Result = null
+                    });
+                }
+            }
+
             var query = new GetStaffGroomingTasksQuery
             {
                 StaffId = staffId,
@@ -181,7 +232,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Lấy danh sách booking toàn hệ thống (phân trang, lọc thời gian, trạng thái)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Staff,Manager")]
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
         [HttpGet("admin")]
         public async Task<IActionResult> GetAdminBookings(
             [FromQuery] int pageNumber = 1,
@@ -205,7 +256,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Tìm kiếm booking toàn hệ thống theo từ khóa
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Staff,Manager")]
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
         [HttpGet("search")]
         public async Task<IActionResult> SearchBookings(
             [FromQuery] string? keyword = null,
@@ -242,7 +293,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Thực hiện check-out & thanh toán (tiền mặt / chuyển khoản), tạo PaymentTransaction, chuyển trạng thái Completed và tự động giải phóng phòng
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Staff,Manager")]
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpPost("{id:guid}/checkout")]
         public async Task<IActionResult> CheckoutBooking(Guid id, [FromBody] CheckoutBookingCommand command)
         {
