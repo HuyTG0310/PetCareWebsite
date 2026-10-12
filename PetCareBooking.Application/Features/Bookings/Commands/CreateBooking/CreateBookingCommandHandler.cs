@@ -165,6 +165,21 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                 }
             }
 
+            // 3.1. Quy tắc nghiệp vụ: Dịch vụ lưu trú (Boarding) yêu cầu thanh toán online 100% qua VNPay để khóa phòng chắc chắn
+            var hasBoardingService = services.Any(s => s.ServiceType == ServiceType.Boarding);
+            var paymentChoice = request.PaymentChoice?.Trim().ToUpper() ?? "PAY_AT_COUNTER";
+
+            if (hasBoardingService && !_currentUserService.IsAdminOrStaff && paymentChoice != "VNPAY")
+            {
+                return new ApiResponse<CreateBookingResponseDTO>
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "Dịch vụ lưu trú (Boarding) yêu cầu thanh toán trực tuyến 100% qua VNPay để đảm bảo phòng giữ chỗ.",
+                    Result = null
+                };
+            }
+
             // 4. Validate and apply voucher
             Guid? voucherId = null;
             decimal discountAmount = 0;
@@ -360,7 +375,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
 
             // 8. Generate VNPay Payment URL if customer selected VNPAY option
             string? paymentUrl = null;
-            var paymentChoice = request.PaymentChoice?.Trim().ToUpper() ?? "PAY_AT_COUNTER";
+            paymentChoice = request.PaymentChoice?.Trim().ToUpper() ?? "PAY_AT_COUNTER";
 
             if (paymentChoice == "VNPAY" && newBooking.TotalPrice > 0)
             {
