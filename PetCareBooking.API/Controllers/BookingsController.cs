@@ -251,17 +251,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Ghi nhận tiền đặt cọc trước cho đơn booking (chuyển trạng thái từ Pending sang Confirmed)
-        /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Staff,Manager")]
-        [HttpPost("{id:guid}/deposit")]
-        public async Task<IActionResult> DepositBooking(Guid id, [FromBody] DepositBookingCommand command)
-        {
-            command.BookingId = id;
-            var response = await _mediator.Send(command);
-            return StatusCode(response.StatusCode, response);
-        }
 
         /// <summary>
         /// [Customer / Staff / Admin] Xem lịch sử các giao dịch thanh toán & đặt cọc của đơn đặt lịch
