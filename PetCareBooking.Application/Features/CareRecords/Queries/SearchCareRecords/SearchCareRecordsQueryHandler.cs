@@ -53,8 +53,10 @@ namespace PetCareBooking.Application.Features.CareRecords.Queries.SearchCareReco
                     BookingItemId = c.BookingItemId,
                     StaffId = c.StaffId,
                     StaffName = c.Staff != null ? c.Staff.FullName : null,
+                    PetName = c.BookingItem != null && c.BookingItem.Pet != null ? c.BookingItem.Pet.Name : null,
                     RecordDate = c.RecordDate,
                     HealthStatus = c.HealthStatus,
+                    Note = c.Note,
                     ImageUrl = c.ImageUrl
                 })
                 .ToListAsync(cancellationToken);
