@@ -4,7 +4,6 @@ namespace PetCareBooking.Domain.Enums
     {
         Pending,
         Confirmed,
-        Partially_Completed,
         Completed,
         Cancelled
     }

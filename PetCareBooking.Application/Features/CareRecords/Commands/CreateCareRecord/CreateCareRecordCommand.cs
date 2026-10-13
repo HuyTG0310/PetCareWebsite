@@ -6,7 +6,7 @@ namespace PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRec
     public class CreateCareRecordCommand : IRequest<ApiResponse<Guid>>
     {
         public Guid BookingItemId { get; set; }
-        public Guid StaffId { get; set; }
+        public Guid? StaffId { get; set; }
         public DateTime RecordDate { get; set; } = DateTime.UtcNow;
         public string? HealthStatus { get; set; }
         public string? Note { get; set; }

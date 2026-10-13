@@ -51,14 +51,14 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
             // 3. Validate business rules based on new status
             if (request.Status == BookingStatus.Completed)
             {
-                // All items must be completed
-                if (!booking.BookingItems.All(bi => bi.Status == BookingItemStatus.Completed))
+                // All items must be completed or cancelled
+                if (!booking.BookingItems.All(bi => bi.Status == BookingItemStatus.Completed || bi.Status == BookingItemStatus.Cancelled || bi.Status == BookingItemStatus.No_Show))
                 {
                     return new ApiResponse<Guid>
                     {
                         IsSuccess = false,
                         StatusCode = 400,
-                        Message = "Cannot mark booking as completed. All items must be completed first.",
+                        Message = "Cannot mark booking as completed. All active items must be completed first.",
                         Result = Guid.Empty
                     };
                 }
@@ -80,6 +80,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
 
         private bool IsValidStatusTransition(BookingStatus from, BookingStatus to)
         {
+            if (from == to) return true;
+
             // Define valid state transitions for bookings
             var validTransitions = new Dictionary<BookingStatus, List<BookingStatus>>
             {
@@ -88,21 +90,12 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                     new List<BookingStatus>
                     {
                         BookingStatus.Confirmed,
-                        BookingStatus.Partially_Completed,
                         BookingStatus.Completed,
                         BookingStatus.Cancelled
                     }
                 },
                 {
                     BookingStatus.Confirmed,
-                    new List<BookingStatus>
-                    {
-                        BookingStatus.Completed,
-                        BookingStatus.Cancelled
-                    }
-                },
-                {
-                    BookingStatus.Partially_Completed,
                     new List<BookingStatus>
                     {
                         BookingStatus.Completed,

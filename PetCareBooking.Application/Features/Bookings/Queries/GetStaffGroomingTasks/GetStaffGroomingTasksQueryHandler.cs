@@ -26,7 +26,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetStaffGroomingT
             // 2. Fetch Grooming tasks assigned to this staff
             var items = await _bookingItemRepository.FindAsync(
                 bi => bi.StaffId == request.StaffId &&
-                      bi.Service.ServiceType == ServiceType.Grooming &&
+                      (bi.Service.ServiceType == ServiceType.Grooming || bi.Service.ServiceType == ServiceType.Care) &&
                       (!request.Status.HasValue || bi.Status == request.Status.Value) &&
                       (!request.Date.HasValue || bi.ScheduledStartAt.Date == request.Date.Value.Date),
                 "Pet", "Service", "Room", "Booking.Customer"

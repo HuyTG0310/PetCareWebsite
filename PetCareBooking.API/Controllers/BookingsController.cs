@@ -15,6 +15,7 @@ using PetCareBooking.Application.Features.Bookings.Queries.GetBookingById;
 using PetCareBooking.Application.Features.Bookings.Queries.GetBookingPayments;
 using PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummary;
 using PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookings;
+using PetCareBooking.Application.Features.Bookings.Queries.GetStaffBoardingTasks;
 using PetCareBooking.Application.Features.Bookings.Queries.GetStaffGroomingTasks;
 using PetCareBooking.Application.Features.Bookings.Queries.SearchBookings;
 using PetCareBooking.Application.Interfaces;
@@ -218,6 +219,102 @@ namespace PetCareBooking.API.Controllers
             }
 
             var query = new GetStaffGroomingTasksQuery
+            {
+                StaffId = staffId,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Status = status,
+                Date = date
+            };
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Boarding Staff ONLY] Lấy danh sách ca lưu trú / phòng phụ trách của chính mình (Tự động đọc StaffId từ JWT Token, chống IDOR tuyệt đối)
+        /// </summary>
+        [Authorize(Roles = "Admin,Boarding Staff,Receptionist")]
+        [HttpGet("my-boarding-tasks")]
+        public async Task<IActionResult> GetMyBoardingTasks(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] BookingItemStatus? status = null,
+            [FromQuery] DateTime? date = null)
+        {
+            if (!_currentUserService.UserId.HasValue)
+            {
+                return Unauthorized(new ApiResponse<PagedResult<BoardingTaskResponseDTO>>
+                {
+                    IsSuccess = false,
+                    StatusCode = StatusCodes.Status401Unauthorized,
+                    Message = "Invalid user token.",
+                    Result = null
+                });
+            }
+
+            var query = new GetStaffBoardingTasksQuery
+            {
+                StaffId = _currentUserService.UserId.Value,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Status = status,
+                Date = date
+            };
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Boarding Staff / Receptionist / Admin] Lấy danh sách toàn bộ thú cưng đang thực tế lưu trú tại khách sạn (Checked-In hoặc In-Progress)
+        /// </summary>
+        [Authorize(Roles = "Admin,Boarding Staff,Receptionist")]
+        [HttpGet("active-boarding-tasks")]
+        public async Task<IActionResult> GetActiveBoardingTasks(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 20,
+            [FromQuery] DateTime? date = null)
+        {
+            var query = new GetStaffBoardingTasksQuery
+            {
+                OnlyActiveGuests = true,
+                Date = date ?? DateTime.UtcNow,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Admin / Receptionist] Lấy danh sách ca làm việc Boarding theo StaffId chỉ định (có kiểm tra chống IDOR)
+        /// </summary>
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff")]
+        [HttpGet("staff/{staffId:guid}/boarding-tasks")]
+        public async Task<IActionResult> GetStaffBoardingTasks(
+            Guid staffId,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] BookingItemStatus? status = null,
+            [FromQuery] DateTime? date = null)
+        {
+            bool isAdminOrReceptionist = _currentUserService.IsInRole("Admin") ||
+                                         _currentUserService.IsInRole("Receptionist");
+
+            if (!isAdminOrReceptionist)
+            {
+                if (!_currentUserService.UserId.HasValue || _currentUserService.UserId.Value != staffId)
+                {
+                    return StatusCode(StatusCodes.Status403Forbidden, new ApiResponse<PagedResult<BoardingTaskResponseDTO>>
+                    {
+                        IsSuccess = false,
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Message = "You do not have permission to view boarding tasks of another staff member.",
+                        Result = null
+                    });
+                }
+            }
+
+            var query = new GetStaffBoardingTasksQuery
             {
                 StaffId = staffId,
                 PageNumber = pageNumber,

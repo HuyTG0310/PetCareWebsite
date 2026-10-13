@@ -10,7 +10,8 @@ namespace PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRec
                 .NotEmpty().WithMessage("BookingItemId is required.");
 
             RuleFor(x => x.StaffId)
-                .NotEmpty().WithMessage("StaffId is required.");
+                .NotEmpty().WithMessage("StaffId cannot be empty if provided.")
+                .When(x => x.StaffId.HasValue);
 
             RuleFor(x => x.RecordDate)
                 .NotEmpty().WithMessage("RecordDate is required.");

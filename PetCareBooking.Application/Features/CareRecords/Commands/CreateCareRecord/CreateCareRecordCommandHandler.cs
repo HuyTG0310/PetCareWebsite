@@ -11,23 +11,60 @@ namespace PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRec
         private readonly IGenericRepository<CareRecord> _careRecordRepository;
         private readonly IGenericRepository<BookingItem> _bookingItemRepository;
         private readonly IGenericRepository<Staff> _staffRepository;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateCareRecordCommandHandler(
             IGenericRepository<CareRecord> careRecordRepository,
             IGenericRepository<BookingItem> bookingItemRepository,
             IGenericRepository<Staff> staffRepository,
+            ICurrentUserService currentUserService,
             IUnitOfWork unitOfWork)
         {
             _careRecordRepository = careRecordRepository;
             _bookingItemRepository = bookingItemRepository;
             _staffRepository = staffRepository;
+            _currentUserService = currentUserService;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<ApiResponse<Guid>> Handle(CreateCareRecordCommand request, CancellationToken cancellationToken)
         {
-            // Kiểm tra BookingItem có tồn tại không
+            // 1. Chống IDOR: Tự động gán StaffId từ Token cho Boarding Staff
+            Guid effectiveStaffId;
+            bool isBoardingStaff = _currentUserService.IsInRole("Boarding Staff");
+
+            if (isBoardingStaff)
+            {
+                if (!_currentUserService.UserId.HasValue)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = StatusCodes.Status401Unauthorized,
+                        Message = "Invalid staff token.",
+                        Result = Guid.Empty
+                    };
+                }
+                effectiveStaffId = _currentUserService.UserId.Value;
+            }
+            else
+            {
+                effectiveStaffId = request.StaffId ?? _currentUserService.UserId ?? Guid.Empty;
+            }
+
+            if (effectiveStaffId == Guid.Empty)
+            {
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "StaffId is required.",
+                    Result = Guid.Empty
+                };
+            }
+
+            // 2. Kiểm tra BookingItem có tồn tại không
             var bookingItem = await _bookingItemRepository.GetByIdAsync(request.BookingItemId);
             if (bookingItem == null)
             {
@@ -40,15 +77,15 @@ namespace PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRec
                 };
             }
 
-            // Kiểm tra Staff có tồn tại không
-            var staff = await _staffRepository.GetByIdAsync(request.StaffId);
+            // 3. Kiểm tra Staff có tồn tại không
+            var staff = await _staffRepository.GetByIdAsync(effectiveStaffId);
             if (staff == null)
             {
                 return new ApiResponse<Guid>
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "Staff not found.",
+                    Message = $"Staff with ID {effectiveStaffId} not found.",
                     Result = Guid.Empty
                 };
             }
@@ -57,7 +94,7 @@ namespace PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRec
             {
                 Id = Guid.NewGuid(),
                 BookingItemId = request.BookingItemId,
-                StaffId = request.StaffId,
+                StaffId = effectiveStaffId,
                 RecordDate = request.RecordDate,
                 HealthStatus = request.HealthStatus?.Trim(),
                 Note = request.Note?.Trim(),
