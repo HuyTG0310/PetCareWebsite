@@ -10,6 +10,7 @@ using PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CreateBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CreateVnPayPaymentUrl;
 using PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingItemStatus;
+using PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingStatus;
 using PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings;
 using PetCareBooking.Application.Features.Bookings.Queries.GetBookingById;
 using PetCareBooking.Application.Features.Bookings.Queries.GetBookingPayments;
@@ -150,6 +151,18 @@ namespace PetCareBooking.API.Controllers
         {
             command.BookingId = bookingId;
             command.ItemId = itemId;
+            var response = await _mediator.Send(command);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Staff / Admin ONLY] Cập nhật trạng thái của đơn đặt lịch (Pending -> Confirmed / Completed / Cancelled)
+        /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
+        [HttpPut("{id:guid}/status")]
+        public async Task<IActionResult> UpdateBookingStatus(Guid id, [FromBody] UpdateBookingStatusCommand command)
+        {
+            command.Id = id;
             var response = await _mediator.Send(command);
             return StatusCode(response.StatusCode, response);
         }
@@ -336,7 +349,8 @@ namespace PetCareBooking.API.Controllers
             [FromQuery] int pageSize = 10,
             [FromQuery] BookingStatus? status = null,
             [FromQuery] DateTime? dateFrom = null,
-            [FromQuery] DateTime? dateTo = null)
+            [FromQuery] DateTime? dateTo = null,
+            [FromQuery] DateTime? serviceDate = null)
         {
             var query = new GetAdminBookingsQuery
             {
@@ -344,14 +358,15 @@ namespace PetCareBooking.API.Controllers
                 PageSize = pageSize,
                 Status = status,
                 DateFrom = dateFrom,
-                DateTo = dateTo
+                DateTo = dateTo,
+                ServiceDate = serviceDate
             };
             var response = await _mediator.Send(query);
             return StatusCode(response.StatusCode, response);
         }
 
         /// <summary>
-        /// [Staff / Admin ONLY] Tìm kiếm booking toàn hệ thống theo từ khóa
+        /// [Staff / Admin ONLY] Tìm kiếm booking toàn hệ thống theo từ khóa và ngày hẹn dịch vụ
         /// </summary>
         [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
         [HttpGet("search")]
@@ -360,6 +375,7 @@ namespace PetCareBooking.API.Controllers
             [FromQuery] BookingStatus? status = null,
             [FromQuery] DateTime? dateFrom = null,
             [FromQuery] DateTime? dateTo = null,
+            [FromQuery] DateTime? serviceDate = null,
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 10)
         {
@@ -369,6 +385,7 @@ namespace PetCareBooking.API.Controllers
                 Status = status,
                 DateFrom = dateFrom,
                 DateTo = dateTo,
+                ServiceDate = serviceDate,
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };

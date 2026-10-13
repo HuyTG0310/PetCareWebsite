@@ -22,11 +22,15 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings
             if (request.PageSize < 1) request.PageSize = 10;
             if (request.PageSize > 100) request.PageSize = 100;
 
+            DateTime? serviceDayStart = request.ServiceDate?.Date;
+            DateTime? serviceDayEnd = serviceDayStart.HasValue ? serviceDayStart.Value.AddDays(1) : null;
+
             // Get all bookings with filtering
             var bookings = await _bookingRepository.FindAsync(b =>
                 (!request.Status.HasValue || b.Status == request.Status.Value) &&
                 (!request.DateFrom.HasValue || b.CreatedAt >= request.DateFrom.Value) &&
-                (!request.DateTo.HasValue || b.CreatedAt <= request.DateTo.Value),
+                (!request.DateTo.HasValue || b.CreatedAt <= request.DateTo.Value) &&
+                (!serviceDayStart.HasValue || b.BookingItems.Any(bi => bi.ScheduledStartAt >= serviceDayStart.Value && bi.ScheduledStartAt < serviceDayEnd!.Value)),
                 "BookingItems", "Customer");
 
             // Calculate total count before pagination

@@ -27,6 +27,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Get customer list & Search customers (Admin/Staff)
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpGet]
         public async Task<IActionResult> GetCustomers([FromQuery] GetCustomersWithPaginationQuery query)
         {
@@ -37,6 +38,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// View customer profile details & history (Admin/Staff)
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetCustomerById(Guid id)
         {
@@ -47,6 +49,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Add new customer (Admin/Staff)
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpPost]
         public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerCommand command)
         {
@@ -57,6 +60,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Update customer information by ID (Admin/Staff)
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateCustomer(Guid id, [FromBody] UpdateCustomerCommand command)
         {
@@ -68,6 +72,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Soft delete / Deactivate customer (Admin/Staff)
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteCustomer(Guid id)
         {
@@ -78,6 +83,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Toggle active status of customer (Admin/Staff)
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpPatch("{id:guid}/toggle-status")]
         public async Task<IActionResult> ToggleStatus(Guid id)
         {
