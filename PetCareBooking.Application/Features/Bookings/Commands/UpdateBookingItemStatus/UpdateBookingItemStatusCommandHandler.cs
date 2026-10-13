@@ -191,7 +191,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
         {
             var itemStatuses = booking.BookingItems.Select(bi => bi.Status).ToList();
 
-            if (itemStatuses.All(s => s == BookingItemStatus.Completed))
+            if (itemStatuses.All(s => s == BookingItemStatus.Completed || s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show) &&
+                itemStatuses.Any(s => s == BookingItemStatus.Completed))
             {
                 var payments = await _paymentTransactionRepository.FindAsync(t => t.BookingId == booking.Id && t.PaymentStatus == "SUCCESS");
                 var totalPaid = payments.Sum(t => t.Amount);
