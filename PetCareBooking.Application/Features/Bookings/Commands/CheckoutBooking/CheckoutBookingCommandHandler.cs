@@ -97,22 +97,26 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
 
             var now = DateTime.UtcNow;
 
-            // 5. Create PaymentTransaction
-            var transaction = new PaymentTransaction
+            // 5. Create PaymentTransaction (only if an additional payment amount is made at counter)
+            PaymentTransaction? transaction = null;
+            if (paymentAmount > 0)
             {
-                Id = Guid.NewGuid(),
-                BookingId = booking.Id,
-                TransactionType = "PAYMENT",
-                Amount = paymentAmount,
-                PaymentMethod = transactionMethod,
-                PaymentStatus = "SUCCESS",
-                TransactionCode = transactionCode,
-                PaidAt = now,
-                Note = request.Note?.Trim() ?? "Checkout and settled at counter",
-                CreatedAt = now
-            };
+                transaction = new PaymentTransaction
+                {
+                    Id = Guid.NewGuid(),
+                    BookingId = booking.Id,
+                    TransactionType = "PAYMENT",
+                    Amount = paymentAmount,
+                    PaymentMethod = transactionMethod,
+                    PaymentStatus = "SUCCESS",
+                    TransactionCode = transactionCode,
+                    PaidAt = now,
+                    Note = request.Note?.Trim() ?? "Checkout and settled at counter",
+                    CreatedAt = now
+                };
 
-            await _paymentTransactionRepository.AddAsync(transaction);
+                await _paymentTransactionRepository.AddAsync(transaction);
+            }
 
             // 6. Update booking status and release rooms if fully settled
             var newTotalPaid = totalPaid + paymentAmount;
@@ -161,17 +165,17 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
             var responseDto = new CheckoutResponseDTO
             {
                 BookingId = booking.Id,
-                TransactionId = transaction.Id,
-                TransactionCode = transaction.TransactionCode!,
-                PaymentMethod = transaction.PaymentMethod,
-                AmountPaid = transaction.Amount,
+                TransactionId = transaction?.Id ?? Guid.Empty,
+                TransactionCode = transaction?.TransactionCode ?? "PREPAID_ONLINE",
+                PaymentMethod = transaction?.PaymentMethod ?? "PREPAID",
+                AmountPaid = paymentAmount,
                 TotalPaid = newTotalPaid,
                 RemainingAmount = newRemainingAmount,
                 BookingStatus = booking.Status,
                 PaidAt = now,
                 ReleasedRooms = releasedRooms,
                 Message = (newTotalPaid >= booking.TotalPrice)
-                    ? "Checkout and settlement completed successfully. Pet care services closed and room(s) released."
+                    ? "Checkout and handover completed successfully. Pet care services closed and room(s) released."
                     : $"Partial payment of {paymentAmount:N0} VND recorded. Remaining balance: {newRemainingAmount:N0} VND."
             };
 

@@ -83,8 +83,7 @@ namespace PetCareBooking.API.Controllers
 
                     await _paymentTransactionRepository.AddAsync(transaction);
 
-                    // Confirm booking and items if they were pending
-                    booking.Status = BookingStatus.Confirmed;
+                    // Confirm items if they were pending
                     foreach (var item in booking.BookingItems)
                     {
                         if (item.Status == BookingItemStatus.Pending)
@@ -92,6 +91,12 @@ namespace PetCareBooking.API.Controllers
                             item.Status = BookingItemStatus.Confirmed;
                             _bookingItemRepository.Update(item);
                         }
+                    }
+
+                    // If booking was pending, confirm it upon payment
+                    if (booking.Status == BookingStatus.Pending)
+                    {
+                        booking.Status = BookingStatus.Confirmed;
                     }
 
                     _bookingRepository.Update(booking);

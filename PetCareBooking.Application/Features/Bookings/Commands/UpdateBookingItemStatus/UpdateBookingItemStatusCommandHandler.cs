@@ -155,8 +155,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
 
             _bookingItemRepository.Update(bookingItem);
 
-            // 8. Update booking status based on items and settlement
-            await UpdateBookingStatusAsync(booking);
+            // 8. Update booking status based on items
+            UpdateBookingStatus(booking);
 
             _bookingRepository.Update(booking);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -187,31 +187,16 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             return validTransitions.ContainsKey(from) && validTransitions[from].Contains(to);
         }
 
-        private async Task UpdateBookingStatusAsync(Booking booking)
+        private void UpdateBookingStatus(Booking booking)
         {
             var itemStatuses = booking.BookingItems.Select(bi => bi.Status).ToList();
 
-            if (itemStatuses.All(s => s == BookingItemStatus.Completed || s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show) &&
-                itemStatuses.Any(s => s == BookingItemStatus.Completed))
-            {
-                var payments = await _paymentTransactionRepository.FindAsync(t => t.BookingId == booking.Id && t.PaymentStatus == "SUCCESS");
-                var totalPaid = payments.Sum(t => t.Amount);
-
-                // Nếu đã thanh toán đủ 100% (vd: VNPay trước đó) thì hoàn tất luôn đơn,
-                // còn nếu chưa thanh toán đủ (Pay at counter) thì giữ Confirmed để Lễ tân Checkout thu tiền tại quầy.
-                if (totalPaid >= booking.TotalPrice && booking.TotalPrice > 0)
-                {
-                    booking.Status = BookingStatus.Completed;
-                }
-                else
-                {
-                    booking.Status = BookingStatus.Confirmed;
-                }
-            }
-            else if (itemStatuses.All(s => s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show))
+            // Nếu toàn bộ dịch vụ bị hủy hoặc khách không đến -> Đơn bị Hủy
+            if (itemStatuses.All(s => s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show))
             {
                 booking.Status = BookingStatus.Cancelled;
             }
+            // Đơn luôn giữ trạng thái Confirmed (đang hoạt động) để chờ Lễ tân kiểm tra và bấm Checkout bàn giao pet
             else if (itemStatuses.Any(s => s == BookingItemStatus.Confirmed || s == BookingItemStatus.Checked_In || s == BookingItemStatus.In_Progress || s == BookingItemStatus.Completed))
             {
                 booking.Status = BookingStatus.Confirmed;

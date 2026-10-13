@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.RoomTypes.Commands.CreateRoomType;
 using PetCareBooking.Application.Features.RoomTypes.Commands.DeleteRoomType;
@@ -23,6 +24,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Create a new room type
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateRoomType([FromBody] CreateRoomTypeCommand command)
         {
@@ -66,6 +68,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Update room type details by ID
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateRoomType(Guid id, [FromBody] UpdateRoomTypeCommand command)
         {
@@ -77,6 +80,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Delete room type by ID (only when no rooms belong to it)
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteRoomType(Guid id)
         {

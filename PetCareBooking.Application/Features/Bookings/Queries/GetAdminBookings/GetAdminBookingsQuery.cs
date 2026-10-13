@@ -10,6 +10,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings
         public BookingStatus? Status { get; set; }
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
+        public DateTime? ServiceDate { get; set; } // Filter by service appointment date
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
     }

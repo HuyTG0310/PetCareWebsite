@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Voucher;
@@ -11,6 +12,7 @@ using PetCareBooking.Application.Features.Vouchers.Queries.SearchVouchers;
 
 namespace PetCareBooking.API.Controllers
 {
+    [Authorize(Roles = "Admin,Receptionist")]
     [Route("api/[controller]")]
     [ApiController]
     public class VouchersController : ControllerBase

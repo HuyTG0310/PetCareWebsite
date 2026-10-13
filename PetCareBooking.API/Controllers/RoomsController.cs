@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Features.Rooms.Commands.CreateRoom;
 using PetCareBooking.Application.Features.Rooms.Commands.DeleteRoom;
@@ -25,6 +26,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Tạo mới một phòng vật lý (Room)
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpPost]
         public async Task<IActionResult> CreateRoom([FromBody] CreateRoomCommand command)
         {
@@ -35,6 +37,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Lấy danh sách các phòng (phân trang, lọc theo loại phòng, trạng thái, tìm kiếm tên phòng)
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff")]
         [HttpGet]
         public async Task<IActionResult> GetRooms([FromQuery] GetRoomsQuery query)
         {
@@ -45,6 +48,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Lấy danh sách các phòng cụ thể còn trống theo khoảng thời gian lưu trú (dành cho lễ tân xếp phòng)
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff")]
         [HttpGet("available")]
         public async Task<IActionResult> GetAvailableRooms([FromQuery] GetAvailableRoomsQuery query)
         {
@@ -56,6 +60,7 @@ namespace PetCareBooking.API.Controllers
         /// [Customer / Frontend Datepicker] Kiểm tra tình trạng phòng theo từng ngày trong tháng hoặc theo khoảng ngày.
         /// Dùng để bôi xám (disable) các ngày hết phòng trên bộ lịch (Datepicker) khi khách chọn dịch vụ Boarding.
         /// </summary>
+        [AllowAnonymous]
         [HttpGet("check-availability")]
         public async Task<IActionResult> CheckRoomAvailability([FromQuery] CheckRoomAvailabilityQuery query)
         {
@@ -66,6 +71,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Xem thông tin chi tiết một phòng theo ID
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist,Boarding Staff")]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetRoomById(Guid id)
         {
@@ -77,6 +83,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Cập nhật thông tin phòng (tên phòng, loại phòng) theo ID
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateRoom(Guid id, [FromBody] UpdateRoomCommand command)
         {
@@ -88,6 +95,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Cập nhật nhanh trạng thái phòng (Available <-> Maintenance)
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpPatch("{id:guid}/status")]
         public async Task<IActionResult> UpdateRoomStatus(Guid id, [FromBody] UpdateRoomStatusCommand command)
         {
@@ -99,6 +107,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Xóa phòng theo ID (chỉ xóa được khi chưa có lịch sử đặt phòng)
         /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteRoom(Guid id)
         {
