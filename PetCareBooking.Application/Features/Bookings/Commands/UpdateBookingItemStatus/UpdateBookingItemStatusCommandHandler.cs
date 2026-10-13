@@ -94,14 +94,16 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 request.RoomId = bookingItem.RoomId;
             }
 
-            // 4. Validate status transition is allowed
-            if (!IsValidStatusTransition(bookingItem.Status, request.Status))
+            // 4. Validate status transition is allowed (if status specified)
+            var targetStatus = request.Status ?? bookingItem.Status;
+
+            if (!IsValidStatusTransition(bookingItem.Status, targetStatus))
             {
                 return new ApiResponse<Guid>
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = $"Cannot transition from {bookingItem.Status} to {request.Status}.",
+                    Message = $"Cannot transition from {bookingItem.Status} to {targetStatus}.",
                     Result = Guid.Empty
                 };
             }
@@ -139,7 +141,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             }
 
             // 7. Update booking item
-            bookingItem.Status = request.Status;
+            bookingItem.Status = targetStatus;
             if (request.StaffId.HasValue)
                 bookingItem.StaffId = request.StaffId;
             if (request.RoomId.HasValue)
@@ -170,6 +172,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
 
         private bool IsValidStatusTransition(BookingItemStatus from, BookingItemStatus to)
         {
+            if (from == to) return true; // Giữ nguyên trạng thái (khi Lễ tân gán nhân viên, xếp phòng...)
             var validTransitions = new Dictionary<BookingItemStatus, List<BookingItemStatus>>
             {
                 { BookingItemStatus.Pending, new List<BookingItemStatus> { BookingItemStatus.Confirmed, BookingItemStatus.Cancelled } },

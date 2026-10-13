@@ -40,8 +40,8 @@ namespace PetCareBooking.Application.Features.Services.Commands.UpdateService
             existingService.Description = request.Description;
             existingService.ServiceType = request.ServiceType;
             if (request.ImageUrl != null) existingService.ImageUrl = request.ImageUrl.Trim();
+            existingService.RoomTypeId = request.ServiceType == Domain.Enums.ServiceType.Boarding ? request.RoomTypeId : null;
             existingService.IsActive = request.IsActive;
-
 
             _serviceRepository.Update(existingService);
 

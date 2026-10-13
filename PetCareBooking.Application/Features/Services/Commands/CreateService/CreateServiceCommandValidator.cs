@@ -13,6 +13,10 @@ namespace PetCareBooking.Application.Features.Services.Commands.CreateService
             RuleFor(x => x.ServiceType)
                 .IsInEnum().WithMessage("Invalid service type.");
 
+            RuleFor(x => x.RoomTypeId)
+                .NotEmpty().WithMessage("Room type is required for Boarding service.")
+                .When(x => x.ServiceType == Domain.Enums.ServiceType.Boarding);
+
             RuleForEach(x => x.Prices).ChildRules(prices =>
             {
                 prices.RuleFor(p => p.Price)

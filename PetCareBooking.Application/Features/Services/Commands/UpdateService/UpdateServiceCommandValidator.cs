@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace PetCareBooking.Application.Features.Services.Commands.UpdateService
 {
@@ -14,6 +14,10 @@ namespace PetCareBooking.Application.Features.Services.Commands.UpdateService
 
             RuleFor(x => x.ServiceType)
                 .IsInEnum().WithMessage("Invalid service type.");
+
+            RuleFor(x => x.RoomTypeId)
+                .NotEmpty().WithMessage("Room type is required for Boarding service.")
+                .When(x => x.ServiceType == Domain.Enums.ServiceType.Boarding);
 
             RuleForEach(x => x.Prices).ChildRules(prices =>
             {
