@@ -44,9 +44,7 @@ namespace PetCareBooking.Infrastructure.Services
                 return User.IsInRole("Admin") ||
                        User.IsInRole("Receptionist") ||
                        User.IsInRole("Boarding Staff") ||
-                       User.IsInRole("Grooming Staff") ||
-                       User.IsInRole("Staff") ||
-                       User.IsInRole("Manager");
+                       User.IsInRole("Grooming Staff");
             }
         }
     }

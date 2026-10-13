@@ -29,9 +29,9 @@ namespace PetCareBooking.API.Controllers
         // ==========================================
 
         /// <summary>
-        /// UC-13.1 & UC-13.6: View & Search staff list with pagination (Admin only)
+        /// UC-13.1 & UC-13.6: View & Search staff list with pagination (Admin/Receptionist)
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Receptionist")]
         [HttpGet]
         public async Task<IActionResult> GetStaffs([FromQuery] GetStaffsWithPaginationQuery query)
         {

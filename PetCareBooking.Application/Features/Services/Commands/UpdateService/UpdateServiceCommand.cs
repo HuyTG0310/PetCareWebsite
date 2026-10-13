@@ -15,6 +15,7 @@ namespace PetCareBooking.Application.Features.Services.Commands.UpdateService
         public string? Description { get; set; }
         public ServiceType ServiceType { get; set; }
         public string? ImageUrl { get; set; }
+        public Guid? RoomTypeId { get; set; }
         public bool IsActive { get; set; }
         public List<ServicePriceDTO> Prices { get; set; } = new List<ServicePriceDTO>();
     }

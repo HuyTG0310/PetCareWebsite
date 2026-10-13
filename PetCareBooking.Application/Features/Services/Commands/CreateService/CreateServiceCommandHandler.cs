@@ -25,6 +25,7 @@ namespace PetCareBooking.Application.Features.Services.Commands.CreateService
                 Description = request.Description,
                 ServiceType = request.ServiceType,
                 ImageUrl = request.ImageUrl?.Trim(),
+                RoomTypeId = request.ServiceType == Domain.Enums.ServiceType.Boarding ? request.RoomTypeId : null,
                 IsActive = true,
                 ServicePrices = new List<ServicePrice>()
             };

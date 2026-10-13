@@ -102,7 +102,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
             {
                 Id = Guid.NewGuid(),
                 BookingId = booking.Id,
-                TransactionType = (paymentAmount >= remainingAmount) ? "PAYMENT" : "DEPOSIT",
+                TransactionType = "PAYMENT",
                 Amount = paymentAmount,
                 PaymentMethod = transactionMethod,
                 PaymentStatus = "SUCCESS",

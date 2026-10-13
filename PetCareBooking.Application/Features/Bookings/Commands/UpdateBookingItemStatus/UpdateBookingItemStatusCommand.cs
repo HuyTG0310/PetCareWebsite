@@ -13,7 +13,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
         [JsonIgnore]
         public Guid ItemId { get; set; }
 
-        public BookingItemStatus Status { get; set; }
+        public BookingItemStatus? Status { get; set; }
         public string? ResultNote { get; set; }
         public string? BeforeImageUrl { get; set; }
         public string? ResultImageUrl { get; set; }
