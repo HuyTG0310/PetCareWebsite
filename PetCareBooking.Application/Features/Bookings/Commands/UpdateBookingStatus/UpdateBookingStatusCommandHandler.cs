@@ -64,6 +64,30 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                 }
             }
 
+            if (request.Status == BookingStatus.Cancelled)
+            {
+                bool hasStartedItems = booking.BookingItems.Any(bi =>
+                    bi.Status == BookingItemStatus.Checked_In ||
+                    bi.Status == BookingItemStatus.In_Progress ||
+                    bi.Status == BookingItemStatus.Completed);
+
+                if (hasStartedItems)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 400,
+                        Message = "Không thể hủy đơn đặt lịch khi thú cưng đã Check-in hoặc dịch vụ đang/đã được thực hiện.",
+                        Result = Guid.Empty
+                    };
+                }
+
+                foreach (var item in booking.BookingItems)
+                {
+                    item.Status = BookingItemStatus.Cancelled;
+                }
+            }
+
             // 4. Update booking status
             booking.Status = request.Status;
             _bookingRepository.Update(booking);

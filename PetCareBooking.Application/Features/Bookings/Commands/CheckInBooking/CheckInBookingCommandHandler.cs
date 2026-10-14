@@ -74,6 +74,13 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking
                 _bookingItemRepository.Update(item);
             }
 
+            // Ensure booking status advances from Pending to Confirmed upon physical check-in
+            if (booking.Status == BookingStatus.Pending)
+            {
+                booking.Status = BookingStatus.Confirmed;
+                _bookingRepository.Update(booking);
+            }
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new ApiResponse<Guid>

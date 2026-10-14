@@ -57,7 +57,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                 }
             }
 
-            // 2. Validate booking can be cancelled
+            // 2. Validate booking can be cancelled based on status & role
             if (booking.Status == BookingStatus.Completed || booking.Status == BookingStatus.Cancelled)
             {
                 return new ApiResponse<Guid>
@@ -67,6 +67,40 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                     Message = $"Cannot cancel booking with status {booking.Status}.",
                     Result = Guid.Empty
                 };
+            }
+
+            // Customer rule: Customer is ONLY allowed to cancel when status is Pending
+            if (!_currentUserService.IsAdminOrStaff)
+            {
+                if (booking.Status != BookingStatus.Pending)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 400,
+                        Message = "Đơn đặt lịch đã được xác nhận (Confirmed). Quý khách không thể tự hủy trên hệ thống. Vui lòng liên hệ trực tiếp với tiệm qua hotline để được hỗ trợ.",
+                        Result = Guid.Empty
+                    };
+                }
+            }
+            // Staff / Admin rule: Staff can cancel Pending or Confirmed, but NOT when pet has already Checked-In or service is in progress
+            else
+            {
+                bool hasStartedItems = booking.BookingItems.Any(bi =>
+                    bi.Status == BookingItemStatus.Checked_In ||
+                    bi.Status == BookingItemStatus.In_Progress ||
+                    bi.Status == BookingItemStatus.Completed);
+
+                if (hasStartedItems)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 400,
+                        Message = "Không thể hủy đơn đặt lịch khi thú cưng đã Check-in hoặc dịch vụ đang/đã được thực hiện.",
+                        Result = Guid.Empty
+                    };
+                }
             }
 
             // 3. Cancel all booking items
