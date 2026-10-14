@@ -25,7 +25,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking
         public async Task<ApiResponse<Guid>> Handle(CheckInBookingCommand request, CancellationToken cancellationToken)
         {
             // 1. Validate booking exists
-            var bookings = await _bookingRepository.FindAsync(b => b.Id == request.Id, "BookingItems");
+            var bookings = await _bookingRepository.FindAsync(b => b.Id == request.Id, "BookingItems.Service");
             var booking = bookings.FirstOrDefault();
 
             if (booking == null)
@@ -39,14 +39,14 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking
                 };
             }
 
-            // 2. Validate booking is not in a terminal state
-            if (booking.Status == BookingStatus.Completed || booking.Status == BookingStatus.Cancelled)
+            // 2. Validate booking status must be Confirmed
+            if (booking.Status != BookingStatus.Confirmed)
             {
                 return new ApiResponse<Guid>
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = $"Cannot check-in booking with status {booking.Status}.",
+                    Message = "Chỉ có thể Check-in cho đơn đặt lịch đã được Xác nhận (Confirmed). Vui lòng xác nhận đơn và phân công đầy đủ trước khi Check-in.",
                     Result = Guid.Empty
                 };
             }
@@ -67,18 +67,36 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking
                 };
             }
 
-            // 4. Update all eligible items to Checked_In
+            // 4. Validate that all eligible items are fully assigned before check-in
+            var unassignedItems = eligibleItems.Where(item =>
+            {
+                bool isBoarding = item.Service != null && item.Service.ServiceType == ServiceType.Boarding;
+                bool isDiet = item.Service != null && item.Service.ServiceType == ServiceType.Diet;
+                if (isDiet) return false; // Diet inherits boarding
+                if (isBoarding)
+                {
+                    return !item.StaffId.HasValue || !item.RoomId.HasValue;
+                }
+                // Grooming and other services
+                return !item.StaffId.HasValue;
+            }).ToList();
+
+            if (unassignedItems.Any())
+            {
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "Không thể Check-in. Vui lòng phân công nhân viên và xếp phòng đầy đủ cho tất cả dịch vụ trước khi Check-in.",
+                    Result = Guid.Empty
+                };
+            }
+
+            // 5. Update all eligible items to Checked_In
             foreach (var item in eligibleItems)
             {
                 item.Status = BookingItemStatus.Checked_In;
                 _bookingItemRepository.Update(item);
-            }
-
-            // Ensure booking status advances from Pending to Confirmed upon physical check-in
-            if (booking.Status == BookingStatus.Pending)
-            {
-                booking.Status = BookingStatus.Confirmed;
-                _bookingRepository.Update(booking);
             }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);

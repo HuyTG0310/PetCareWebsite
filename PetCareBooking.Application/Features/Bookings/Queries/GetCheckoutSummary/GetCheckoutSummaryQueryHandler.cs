@@ -83,8 +83,28 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummar
                 paymentStatus = "PARTIALLY_PAID";
             }
 
+            var hasUncompletedItems = booking.BookingItems.Any(bi =>
+                bi.Status != BookingItemStatus.Completed &&
+                bi.Status != BookingItemStatus.Cancelled &&
+                bi.Status != BookingItemStatus.No_Show);
+
             var canCheckout = booking.Status != BookingStatus.Cancelled &&
+                              !hasUncompletedItems &&
                               (remainingAmount > 0 || booking.Status != BookingStatus.Completed);
+
+            string? restrictionReason = null;
+            if (booking.Status == BookingStatus.Cancelled)
+            {
+                restrictionReason = "Đơn đặt lịch đã bị hủy.";
+            }
+            else if (hasUncompletedItems)
+            {
+                restrictionReason = "Vẫn còn dịch vụ chưa hoàn thành hoặc đang được thực hiện. Vui lòng chờ nhân viên hoàn tất trước khi Check-out.";
+            }
+            else if (booking.Status == BookingStatus.Completed && remainingAmount <= 0)
+            {
+                restrictionReason = "Đơn đặt lịch đã hoàn tất và thanh toán đầy đủ.";
+            }
 
             var response = new CheckoutSummaryResponseDTO
             {
@@ -104,6 +124,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummar
                 RemainingAmount = remainingAmount,
                 PaymentStatus = paymentStatus,
                 CanCheckout = canCheckout,
+                RestrictionReason = restrictionReason,
                 Items = booking.BookingItems.Select(bi => new CheckoutItemSummaryDTO
                 {
                     ItemId = bi.Id,
