@@ -23,15 +23,15 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetStaffBoardingT
             if (request.PageSize < 1) request.PageSize = 10;
             if (request.PageSize > 100) request.PageSize = 100;
 
-            // 2. Fetch Boarding & Hotel Care items
+            // 2. Fetch Boarding items (Diet is attached as an add-on option to the Boarding card)
             var items = await _bookingItemRepository.FindAsync(
-                bi => (bi.Service.ServiceType == ServiceType.Boarding || bi.Service.ServiceType == ServiceType.Diet) &&
+                bi => bi.Service.ServiceType == ServiceType.Boarding &&
                       (!request.StaffId.HasValue || bi.StaffId == request.StaffId.Value) &&
                       (!request.Status.HasValue || bi.Status == request.Status.Value) &&
                       (!request.OnlyActiveGuests || (bi.Status == BookingItemStatus.Checked_In || bi.Status == BookingItemStatus.In_Progress)) &&
                       (!request.Date.HasValue || (bi.ScheduledStartAt.Date <= request.Date.Value.Date &&
                                                  (!bi.ScheduledEndAt.HasValue || bi.ScheduledEndAt.Value.Date >= request.Date.Value.Date))),
-                "Pet", "Service", "Room.RoomType", "Booking.Customer", "Staff", "CareRecords"
+                "Pet", "Service", "Room.RoomType", "Booking.Customer", "Booking.BookingItems.Service", "Staff", "CareRecords"
             );
 
             var itemsList = items.ToList();
@@ -52,14 +52,19 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetStaffBoardingT
                     .OrderByDescending(c => c.RecordDate)
                     .FirstOrDefault();
 
+                var dietItem = bi.Booking?.BookingItems?.FirstOrDefault(other =>
+                    other.PetId == bi.PetId &&
+                    other.Service != null &&
+                    other.Service.ServiceType == ServiceType.Diet);
+
                 return new BoardingTaskResponseDTO
                 {
                     BookingId = bi.BookingId,
                     ItemId = bi.Id,
-                    CustomerId = bi.Booking.CustomerId,
-                    CustomerName = bi.Booking.Customer != null ? bi.Booking.Customer.FullName : string.Empty,
-                    CustomerPhone = bi.Booking.Customer != null ? bi.Booking.Customer.PhoneNumber : string.Empty,
-                    CustomerEmail = bi.Booking.Customer?.Email,
+                    CustomerId = bi.Booking != null ? bi.Booking.CustomerId : Guid.Empty,
+                    CustomerName = bi.Booking?.Customer != null ? bi.Booking.Customer.FullName : string.Empty,
+                    CustomerPhone = bi.Booking?.Customer != null ? bi.Booking.Customer.PhoneNumber : string.Empty,
+                    CustomerEmail = bi.Booking?.Customer?.Email,
                     PetId = bi.PetId,
                     PetName = bi.Pet != null ? bi.Pet.Name : string.Empty,
                     PetSpecies = bi.Pet != null ? bi.Pet.Species : default,
@@ -70,6 +75,8 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetStaffBoardingT
                     ServiceId = bi.ServiceId,
                     ServiceName = bi.Service != null ? bi.Service.Name : string.Empty,
                     ServiceType = bi.Service != null ? bi.Service.ServiceType : default,
+                    DietServiceName = dietItem?.Service?.Name,
+                    DietPrice = dietItem?.AssignedPrice,
                     RoomId = bi.RoomId,
                     RoomName = bi.Room?.RoomName,
                     RoomTypeName = bi.Room?.RoomType?.Name,

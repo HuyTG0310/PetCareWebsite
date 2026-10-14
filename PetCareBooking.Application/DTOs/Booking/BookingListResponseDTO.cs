@@ -11,5 +11,10 @@ namespace PetCareBooking.Application.DTOs.Booking
         public decimal TotalPrice { get; set; }
         public BookingStatus Status { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        public string BookingType { get; set; } = "Grooming"; // "Boarding" or "Grooming"
+        public DateTime? ScheduledStartAt { get; set; }
+        public DateTime? ScheduledEndAt { get; set; }
+        public List<string> ServiceNames { get; set; } = new List<string>();
     }
 }

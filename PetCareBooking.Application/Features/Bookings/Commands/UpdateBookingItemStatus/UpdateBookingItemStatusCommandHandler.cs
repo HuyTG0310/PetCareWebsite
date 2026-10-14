@@ -37,7 +37,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
         public async Task<ApiResponse<Guid>> Handle(UpdateBookingItemStatusCommand request, CancellationToken cancellationToken)
         {
             // 1. Validate booking exists
-            var bookings = await _bookingRepository.FindAsync(b => b.Id == request.BookingId, "BookingItems");
+            var bookings = await _bookingRepository.FindAsync(b => b.Id == request.BookingId, "BookingItems.Service");
             var booking = bookings.FirstOrDefault();
 
             if (booking == null)
@@ -63,6 +63,12 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                     Message = $"Booking item with ID {request.ItemId} not found.",
                     Result = Guid.Empty
                 };
+            }
+
+            // Quy tắc nghiệp vụ: Dịch vụ Diet là option đi kèm với dịch vụ Boarding, không gán phòng riêng
+            if (bookingItem.Service != null && bookingItem.Service.ServiceType == ServiceType.Diet)
+            {
+                request.RoomId = null; // Diet không được gán phòng riêng
             }
 
             // 3. IDOR and Role Permission Check:
@@ -154,6 +160,24 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 bookingItem.ResultImageUrl = request.ResultImageUrl;
 
             _bookingItemRepository.Update(bookingItem);
+
+            // Tự động đồng bộ sang dịch vụ Diet đi kèm nếu đây là dịch vụ Boarding
+            if (bookingItem.Service != null && bookingItem.Service.ServiceType == ServiceType.Boarding)
+            {
+                var accompanyingDietItem = booking.BookingItems.FirstOrDefault(bi =>
+                    bi.Id != bookingItem.Id &&
+                    bi.PetId == bookingItem.PetId &&
+                    bi.Service != null &&
+                    bi.Service.ServiceType == ServiceType.Diet);
+
+                if (accompanyingDietItem != null)
+                {
+                    accompanyingDietItem.StaffId = bookingItem.StaffId;
+                    accompanyingDietItem.RoomId = bookingItem.RoomId;
+                    accompanyingDietItem.Status = targetStatus;
+                    _bookingItemRepository.Update(accompanyingDietItem);
+                }
+            }
 
             // 8. Update booking status based on items
             UpdateBookingStatus(booking);

@@ -3,6 +3,7 @@ using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Booking;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
+using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookings
 {
@@ -41,11 +42,18 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookin
             if (request.PageSize < 1) request.PageSize = 10;
             if (request.PageSize > 100) request.PageSize = 100;
 
+            DateTime? serviceDayStart = request.ServiceDate?.Date;
+            DateTime? serviceDayEnd = serviceDayStart.HasValue ? serviceDayStart.Value.AddDays(1) : null;
+
             // Get customer bookings with filtering
             var bookings = await _bookingRepository.FindAsync(b =>
                 b.CustomerId == request.CustomerId &&
-                (!request.Status.HasValue || b.Status == request.Status.Value),
-                "BookingItems", "Customer");
+                (!request.Status.HasValue || b.Status == request.Status.Value) &&
+                (!request.ServiceType.HasValue || b.BookingItems.Any(bi => bi.Service.ServiceType == request.ServiceType.Value)) &&
+                (!serviceDayStart.HasValue || b.BookingItems.Any(bi => 
+                    (bi.ScheduledStartAt >= serviceDayStart.Value && bi.ScheduledStartAt < serviceDayEnd!.Value) ||
+                    (bi.ScheduledEndAt.HasValue && bi.ScheduledStartAt <= serviceDayStart.Value && bi.ScheduledEndAt.Value >= serviceDayStart.Value))),
+                "BookingItems.Service", "Customer");
 
             // Calculate total count before pagination
             int totalCount = bookings.Count();
@@ -58,15 +66,26 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookin
                 .ToList();
 
             // Map to DTO
-            var bookingDTOs = paginatedBookings.Select(b => new BookingListResponseDTO
+            var bookingDTOs = paginatedBookings.Select(b =>
             {
-                Id = b.Id,
-                CustomerId = b.CustomerId,
-                CustomerName = b.Customer.FullName,
-                ItemsCount = b.BookingItems.Count,
-                TotalPrice = b.TotalPrice,
-                Status = b.Status,
-                CreatedAt = b.CreatedAt
+                bool isBoarding = b.BookingItems.Any(bi => bi.Service != null && bi.Service.ServiceType == ServiceType.Boarding);
+                var firstStart = b.BookingItems.OrderBy(bi => bi.ScheduledStartAt).Select(bi => (DateTime?)bi.ScheduledStartAt).FirstOrDefault();
+                var lastEnd = b.BookingItems.OrderByDescending(bi => bi.ScheduledEndAt ?? bi.ScheduledStartAt).Select(bi => bi.ScheduledEndAt).FirstOrDefault();
+
+                return new BookingListResponseDTO
+                {
+                    Id = b.Id,
+                    CustomerId = b.CustomerId,
+                    CustomerName = b.Customer?.FullName ?? "Unknown",
+                    ItemsCount = b.BookingItems.Count,
+                    TotalPrice = b.TotalPrice,
+                    Status = b.Status,
+                    CreatedAt = b.CreatedAt,
+                    BookingType = isBoarding ? "Boarding" : "Grooming",
+                    ScheduledStartAt = firstStart,
+                    ScheduledEndAt = lastEnd,
+                    ServiceNames = b.BookingItems.Where(bi => bi.Service != null).Select(bi => bi.Service.Name).Distinct().ToList()
+                };
             }).ToList();
 
             return new ApiResponse<PagedResult<BookingListResponseDTO>>
