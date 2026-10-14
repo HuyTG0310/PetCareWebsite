@@ -69,7 +69,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                 };
             }
 
-            // Customer rule: Customer is ONLY allowed to cancel when status is Pending
+            // Customer rule: Customer is ONLY allowed to cancel when status is Pending (Chưa xác nhận/chưa thanh toán)
+            // Once Confirmed (Paid via VNPay or confirmed by receptionist), salon enforces No-Refund policy and blocks online cancellation
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (booking.Status != BookingStatus.Pending)
@@ -78,7 +79,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                     {
                         IsSuccess = false,
                         StatusCode = 400,
-                        Message = "Đơn đặt lịch đã được xác nhận (Confirmed). Quý khách không thể tự hủy trên hệ thống. Vui lòng liên hệ trực tiếp với tiệm qua hotline để được hỗ trợ.",
+                        Message = "Đơn đặt lịch đã được xác nhận (Confirmed). Salon áp dụng chính sách không hoàn tiền và không hỗ trợ hủy online. Quý khách vui lòng liên hệ trực tiếp qua hotline để được hỗ trợ dời lịch hẹn.",
                         Result = Guid.Empty
                     };
                 }
