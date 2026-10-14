@@ -27,6 +27,7 @@ namespace PetCareBooking.Application.DTOs.Payment
         public decimal RemainingAmount { get; set; }
         public string PaymentStatus { get; set; } = "UNPAID"; // UNPAID, PARTIALLY_PAID, PAID
         public bool CanCheckout { get; set; }
+        public string? RestrictionReason { get; set; }
 
         // Previous Payments
         public List<PaymentTransactionResponseDTO> PaymentHistory { get; set; } = new List<PaymentTransactionResponseDTO>();

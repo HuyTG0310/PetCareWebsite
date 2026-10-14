@@ -64,6 +64,29 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.SearchBookings
                 var firstStart = b.BookingItems.OrderBy(bi => bi.ScheduledStartAt).Select(bi => (DateTime?)bi.ScheduledStartAt).FirstOrDefault();
                 var lastEnd = b.BookingItems.OrderByDescending(bi => bi.ScheduledEndAt ?? bi.ScheduledStartAt).Select(bi => bi.ScheduledEndAt).FirstOrDefault();
 
+                var activeItems = b.BookingItems
+                    .Where(bi => bi.Status != BookingItemStatus.Cancelled && bi.Status != BookingItemStatus.No_Show)
+                    .ToList();
+
+                bool isFullyAssigned = activeItems.All(bi =>
+                {
+                    bool isBoarding = bi.Service != null && bi.Service.ServiceType == ServiceType.Boarding;
+                    bool isDiet = bi.Service != null && bi.Service.ServiceType == ServiceType.Diet;
+                    if (isDiet) return true;
+                    if (isBoarding) return bi.StaffId.HasValue && bi.RoomId.HasValue;
+                    return bi.StaffId.HasValue;
+                });
+
+                bool canCheckIn = b.Status == BookingStatus.Confirmed &&
+                                  isFullyAssigned &&
+                                  activeItems.Any(bi => bi.Status == BookingItemStatus.Pending || bi.Status == BookingItemStatus.Confirmed);
+
+                bool hasInServiceItems = activeItems.Any(bi => bi.Status == BookingItemStatus.Checked_In || bi.Status == BookingItemStatus.In_Progress);
+
+                bool canCheckout = b.Status == BookingStatus.Confirmed &&
+                                   activeItems.Any() &&
+                                   activeItems.All(bi => bi.Status == BookingItemStatus.Completed);
+
                 return new BookingListResponseDTO
                 {
                     Id = b.Id,
@@ -76,7 +99,11 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.SearchBookings
                     BookingType = isBoarding ? "Boarding" : "Grooming",
                     ScheduledStartAt = firstStart,
                     ScheduledEndAt = lastEnd,
-                    ServiceNames = b.BookingItems.Where(bi => bi.Service != null).Select(bi => bi.Service.Name).Distinct().ToList()
+                    ServiceNames = b.BookingItems.Where(bi => bi.Service != null).Select(bi => bi.Service.Name).Distinct().ToList(),
+                    CanCheckIn = canCheckIn,
+                    CanCheckout = canCheckout,
+                    HasInServiceItems = hasInServiceItems,
+                    IsFullyAssigned = isFullyAssigned
                 };
             }).ToList();
 

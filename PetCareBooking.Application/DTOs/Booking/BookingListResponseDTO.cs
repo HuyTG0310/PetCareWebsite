@@ -16,5 +16,9 @@ namespace PetCareBooking.Application.DTOs.Booking
         public DateTime? ScheduledStartAt { get; set; }
         public DateTime? ScheduledEndAt { get; set; }
         public List<string> ServiceNames { get; set; } = new List<string>();
+        public bool CanCheckIn { get; set; }
+        public bool CanCheckout { get; set; }
+        public bool HasInServiceItems { get; set; }
+        public bool IsFullyAssigned { get; set; }
     }
 }

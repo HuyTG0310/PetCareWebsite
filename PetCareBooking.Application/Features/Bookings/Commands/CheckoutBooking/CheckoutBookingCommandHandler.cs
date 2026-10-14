@@ -61,6 +61,23 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
                 };
             }
 
+            // 2.1 Validate all active items are completed or cancelled/no-show
+            var hasUncompletedItems = booking.BookingItems.Any(bi =>
+                bi.Status != BookingItemStatus.Completed &&
+                bi.Status != BookingItemStatus.Cancelled &&
+                bi.Status != BookingItemStatus.No_Show);
+
+            if (hasUncompletedItems)
+            {
+                return new ApiResponse<CheckoutResponseDTO>
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "Không thể Check-out đơn đặt lịch. Vẫn còn dịch vụ chưa hoàn thành hoặc đang được thực hiện.",
+                    Result = null
+                };
+            }
+
             // 3. Fetch previous payment transactions
             var existingTransactions = await _paymentTransactionRepository.FindAsync(
                 t => t.BookingId == booking.Id

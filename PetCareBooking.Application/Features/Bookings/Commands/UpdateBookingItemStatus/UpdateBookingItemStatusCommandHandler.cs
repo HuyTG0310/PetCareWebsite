@@ -51,6 +51,18 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 };
             }
 
+            // 1.1 Validate booking is not already completed (checked out) or cancelled
+            if (booking.Status == BookingStatus.Completed || booking.Status == BookingStatus.Cancelled)
+            {
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "Không thể chỉnh sửa thông tin hoặc phân công nhân viên/phòng cho đơn đặt lịch đã hoàn thành (Check-out) hoặc đã hủy.",
+                    Result = Guid.Empty
+                };
+            }
+
             // 2. Validate booking item exists
             var bookingItem = booking.BookingItems.FirstOrDefault(bi => bi.Id == request.ItemId);
 
