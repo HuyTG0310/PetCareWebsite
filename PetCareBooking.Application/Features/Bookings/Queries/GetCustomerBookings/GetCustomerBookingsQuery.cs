@@ -9,6 +9,8 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookin
     {
         public Guid CustomerId { get; set; }
         public BookingStatus? Status { get; set; }
+        public DateTime? ServiceDate { get; set; }
+        public ServiceType? ServiceType { get; set; }
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
     }

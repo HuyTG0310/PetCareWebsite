@@ -61,7 +61,9 @@ namespace PetCareBooking.API.Controllers
         public async Task<IActionResult> GetMyBookings(
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 10,
-            [FromQuery] BookingStatus? status = null)
+            [FromQuery] BookingStatus? status = null,
+            [FromQuery] DateTime? serviceDate = null,
+            [FromQuery] ServiceType? serviceType = null)
         {
             if (!_currentUserService.UserId.HasValue)
             {
@@ -79,7 +81,9 @@ namespace PetCareBooking.API.Controllers
                 CustomerId = _currentUserService.UserId.Value,
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                Status = status
+                Status = status,
+                ServiceDate = serviceDate,
+                ServiceType = serviceType
             };
             var response = await _mediator.Send(query);
             return StatusCode(response.StatusCode, response);
