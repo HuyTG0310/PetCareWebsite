@@ -14,6 +14,7 @@ using PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingStatus;
 using PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings;
 using PetCareBooking.Application.Features.Bookings.Queries.GetBookingById;
 using PetCareBooking.Application.Features.Bookings.Queries.GetBookingPayments;
+using PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt;
 using PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummary;
 using PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookings;
 using PetCareBooking.Application.Features.Bookings.Queries.GetStaffBoardingTasks;
@@ -404,6 +405,17 @@ namespace PetCareBooking.API.Controllers
         public async Task<IActionResult> GetCheckoutSummary(Guid id)
         {
             var query = new GetCheckoutSummaryQuery(id);
+            var response = await _mediator.Send(query);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Customer (Own Booking) / Staff / Admin] Xuất biên lai in ấn / hóa đơn thanh toán Checkout (phục vụ in biên lai nhiệt hoặc xem hóa đơn điện tử)
+        /// </summary>
+        [HttpGet("{id:guid}/receipt")]
+        public async Task<IActionResult> GetBookingReceipt(Guid id)
+        {
+            var query = new GetBookingReceiptQuery(id);
             var response = await _mediator.Send(query);
             return StatusCode(response.StatusCode, response);
         }
