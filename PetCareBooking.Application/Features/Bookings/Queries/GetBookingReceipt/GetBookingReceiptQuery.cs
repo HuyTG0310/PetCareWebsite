@@ -14,3 +14,4 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
         }
     }
 }
+

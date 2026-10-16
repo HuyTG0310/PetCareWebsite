@@ -211,9 +211,9 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             if (from == to) return true; // Giữ nguyên trạng thái (khi Lễ tân gán nhân viên, xếp phòng...)
             var validTransitions = new Dictionary<BookingItemStatus, List<BookingItemStatus>>
             {
-                { BookingItemStatus.Pending, new List<BookingItemStatus> { BookingItemStatus.Confirmed, BookingItemStatus.Cancelled } },
-                { BookingItemStatus.Confirmed, new List<BookingItemStatus> { BookingItemStatus.Checked_In, BookingItemStatus.Cancelled } },
-                { BookingItemStatus.Checked_In, new List<BookingItemStatus> { BookingItemStatus.In_Progress, BookingItemStatus.No_Show } },
+                { BookingItemStatus.Pending, new List<BookingItemStatus> { BookingItemStatus.Confirmed, BookingItemStatus.Cancelled, BookingItemStatus.No_Show } },
+                { BookingItemStatus.Confirmed, new List<BookingItemStatus> { BookingItemStatus.Checked_In, BookingItemStatus.Cancelled, BookingItemStatus.No_Show } },
+                { BookingItemStatus.Checked_In, new List<BookingItemStatus> { BookingItemStatus.In_Progress, BookingItemStatus.Cancelled } },
                 { BookingItemStatus.In_Progress, new List<BookingItemStatus> { BookingItemStatus.Completed, BookingItemStatus.Cancelled } },
                 { BookingItemStatus.Completed, new List<BookingItemStatus> { } },
                 { BookingItemStatus.Cancelled, new List<BookingItemStatus> { } },
@@ -231,6 +231,10 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             if (itemStatuses.All(s => s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show))
             {
                 booking.Status = BookingStatus.Cancelled;
+                if (itemStatuses.All(s => s == BookingItemStatus.No_Show) && string.IsNullOrEmpty(booking.CancellationReason))
+                {
+                    booking.CancellationReason = "Khách không đến theo lịch hẹn (No-Show)";
+                }
             }
             // Đơn luôn giữ trạng thái Confirmed (đang hoạt động) để chờ Lễ tân kiểm tra và bấm Checkout bàn giao pet
             else if (itemStatuses.Any(s => s == BookingItemStatus.Confirmed || s == BookingItemStatus.Checked_In || s == BookingItemStatus.In_Progress || s == BookingItemStatus.Completed))

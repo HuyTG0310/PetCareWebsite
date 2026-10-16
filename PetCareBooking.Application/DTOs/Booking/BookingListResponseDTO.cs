@@ -20,5 +20,8 @@ namespace PetCareBooking.Application.DTOs.Booking
         public bool CanCheckout { get; set; }
         public bool HasInServiceItems { get; set; }
         public bool IsFullyAssigned { get; set; }
+        public string? CancellationReason { get; set; }
+        public bool CanMarkNoShow { get; set; }
+        public bool IsNoShow { get; set; }
     }
 }

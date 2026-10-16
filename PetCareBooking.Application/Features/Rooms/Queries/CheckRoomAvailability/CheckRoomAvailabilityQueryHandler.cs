@@ -155,6 +155,7 @@ namespace PetCareBooking.Application.Features.Rooms.Queries.CheckRoomAvailabilit
                 .Where(bi => bi.RoomId.HasValue &&
                              roomIds.Contains(bi.RoomId.Value) &&
                              bi.Status != BookingItemStatus.Cancelled &&
+                             bi.Status != BookingItemStatus.No_Show &&
                              bi.ScheduledStartAt < toDate &&
                              (bi.ScheduledEndAt ?? bi.ScheduledStartAt.AddDays(1)) > fromDate)
                 .Select(bi => new

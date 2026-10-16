@@ -87,6 +87,12 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.SearchBookings
                                    activeItems.Any() &&
                                    activeItems.All(bi => bi.Status == BookingItemStatus.Completed);
 
+                bool canMarkNoShow = (b.Status == BookingStatus.Pending || b.Status == BookingStatus.Confirmed) &&
+                                     !b.BookingItems.Any(bi => bi.Status == BookingItemStatus.Checked_In || bi.Status == BookingItemStatus.In_Progress || bi.Status == BookingItemStatus.Completed);
+
+                bool isNoShow = (b.Status == BookingStatus.Cancelled && (b.CancellationReason != null && b.CancellationReason.Contains("No-Show", StringComparison.OrdinalIgnoreCase))) ||
+                                (b.BookingItems.Any() && b.BookingItems.All(bi => bi.Status == BookingItemStatus.No_Show));
+
                 return new BookingListResponseDTO
                 {
                     Id = b.Id,
@@ -103,7 +109,10 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.SearchBookings
                     CanCheckIn = canCheckIn,
                     CanCheckout = canCheckout,
                     HasInServiceItems = hasInServiceItems,
-                    IsFullyAssigned = isFullyAssigned
+                    IsFullyAssigned = isFullyAssigned,
+                    CancellationReason = b.CancellationReason,
+                    CanMarkNoShow = canMarkNoShow,
+                    IsNoShow = isNoShow
                 };
             }).ToList();
 
