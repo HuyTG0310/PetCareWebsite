@@ -29,6 +29,7 @@ namespace PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeAvail
             var occupiedRoomIds = await _bookingItemRepository.GetQueryable()
                 .Where(bi => bi.RoomId.HasValue &&
                              bi.Status != BookingItemStatus.Cancelled &&
+                             bi.Status != BookingItemStatus.No_Show &&
                              bi.ScheduledStartAt < request.To &&
                              (bi.ScheduledEndAt == null ? bi.ScheduledStartAt.AddDays(1) : bi.ScheduledEndAt.Value) > request.From)
                 .Select(bi => bi.RoomId!.Value)

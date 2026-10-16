@@ -9,6 +9,7 @@ using PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CreateBooking;
 using PetCareBooking.Application.Features.Bookings.Commands.CreateVnPayPaymentUrl;
+using PetCareBooking.Application.Features.Bookings.Commands.MarkBookingNoShow;
 using PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingItemStatus;
 using PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingStatus;
 using PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings;
@@ -127,6 +128,22 @@ namespace PetCareBooking.API.Controllers
         [HttpPut("{id:guid}/cancel")]
         public async Task<IActionResult> CancelBooking(Guid id, [FromBody] CancelBookingCommand command)
         {
+            command.Id = id;
+            var response = await _mediator.Send(command);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// [Staff / Admin ONLY] Đánh dấu khách không đến theo lịch hẹn (No-Show).
+        /// Chuyển toàn bộ các dịch vụ sang No-Show, hủy đơn và tự động giải phóng phòng/lịch phân công.
+        /// </summary>
+        [Authorize(Roles = "Admin,Receptionist")]
+        [HttpPut("{id:guid}/no-show")]
+        public async Task<IActionResult> MarkBookingNoShow(
+            Guid id,
+            [FromBody(EmptyBodyBehavior = Microsoft.AspNetCore.Mvc.ModelBinding.EmptyBodyBehavior.Allow)] MarkBookingNoShowCommand? command = null)
+        {
+            command ??= new MarkBookingNoShowCommand();
             command.Id = id;
             var response = await _mediator.Send(command);
             return StatusCode(response.StatusCode, response);
