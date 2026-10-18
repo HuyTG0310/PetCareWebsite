@@ -1,6 +1,7 @@
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MimeKit;
 using PetCareBooking.Application.Interfaces;
@@ -11,11 +12,16 @@ namespace PetCareBooking.Infrastructure.Services
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _configuration;
+        private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<EmailService> _logger;
 
-        public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
+        public EmailService(
+            IConfiguration configuration,
+            IServiceScopeFactory scopeFactory,
+            ILogger<EmailService> logger)
         {
             _configuration = configuration;
+            _scopeFactory = scopeFactory;
             _logger = logger;
         }
 
@@ -54,6 +60,7 @@ namespace PetCareBooking.Infrastructure.Services
             try
             {
                 using var client = new SmtpClient();
+                client.Timeout = 10000;
                 await client.ConnectAsync(smtpServer, smtpPort, SecureSocketOptions.StartTls, cancellationToken);
 
                 if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
@@ -294,6 +301,7 @@ namespace PetCareBooking.Infrastructure.Services
             try
             {
                 using var client = new SmtpClient();
+                client.Timeout = 10000;
                 await client.ConnectAsync(smtpServer, smtpPort, SecureSocketOptions.StartTls, cancellationToken);
 
                 if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
@@ -311,6 +319,40 @@ namespace PetCareBooking.Infrastructure.Services
                 _logger.LogError(ex, "Failed to send booking confirmation email to: {Email} for Booking ID: {BookingId}", toEmail, booking.Id);
                 // We do not rethrow so email failures do not fail the booking workflow
             }
+        }
+
+        public void QueueBookingConfirmationEmail(Guid bookingId)
+        {
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    // Small delay to ensure the database commit of the calling request has finished
+                    await Task.Delay(300);
+
+                    using var scope = _scopeFactory.CreateScope();
+                    var bookingRepo = scope.ServiceProvider.GetRequiredService<IGenericRepository<Booking>>();
+
+                    var bookings = await bookingRepo.FindAsync(
+                        b => b.Id == bookingId,
+                        "BookingItems.Pet", "BookingItems.Service", "BookingItems.Room", "Customer", "PaymentTransactions", "Voucher"
+                    );
+
+                    var booking = bookings.FirstOrDefault();
+                    if (booking != null)
+                    {
+                        await SendBookingConfirmationEmailAsync(booking, CancellationToken.None);
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Background email confirmation skipped: Booking {BookingId} not found.", bookingId);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Background email confirmation failed for Booking ID: {BookingId}", bookingId);
+                }
+            });
         }
     }
 }

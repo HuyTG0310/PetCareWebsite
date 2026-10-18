@@ -60,7 +60,7 @@ namespace PetCareBooking.API.Controllers
 
             var bookings = await _bookingRepository.FindAsync(
                 b => b.Id == callbackResult.BookingId,
-                "BookingItems.Pet", "BookingItems.Service", "BookingItems.Room", "Customer", "PaymentTransactions", "Voucher"
+                "BookingItems"
             );
             var booking = bookings.FirstOrDefault();
 
@@ -110,18 +110,10 @@ namespace PetCareBooking.API.Controllers
                     _bookingRepository.Update(booking);
                     await _unitOfWork.SaveChangesAsync(CancellationToken.None);
 
-                    // Send confirmation email if booking just became Confirmed
+                    // Send confirmation email in background if booking just became Confirmed
                     if (wasPending)
                     {
-                        try
-                        {
-                            booking.PaymentTransactions.Add(transaction);
-                            await _emailService.SendBookingConfirmationEmailAsync(booking);
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError(ex, "Failed to send confirmation email after VNPay payment for Booking ID: {BookingId}", booking.Id);
-                        }
+                        _emailService.QueueBookingConfirmationEmail(booking.Id);
                     }
                 }
             }

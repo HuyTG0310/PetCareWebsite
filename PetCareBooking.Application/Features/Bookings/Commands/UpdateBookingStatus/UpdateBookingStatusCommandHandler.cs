@@ -146,22 +146,10 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
             _bookingRepository.Update(booking);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            // 5. Send confirmation email if transitioning to Confirmed
+            // 5. Send confirmation email in background if transitioning to Confirmed
             if (shouldSendConfirmationEmail)
             {
-                try
-                {
-                    var fullBookings = await _bookingRepository.FindAsync(
-                        b => b.Id == booking.Id,
-                        "BookingItems.Pet", "BookingItems.Service", "BookingItems.Room", "Customer", "PaymentTransactions", "Voucher"
-                    );
-                    var fullBooking = fullBookings.FirstOrDefault() ?? booking;
-                    await _emailService.SendBookingConfirmationEmailAsync(fullBooking, cancellationToken);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Failed to send confirmation email for Booking ID: {BookingId}", booking.Id);
-                }
+                _emailService.QueueBookingConfirmationEmail(booking.Id);
             }
 
             return new ApiResponse<Guid>
