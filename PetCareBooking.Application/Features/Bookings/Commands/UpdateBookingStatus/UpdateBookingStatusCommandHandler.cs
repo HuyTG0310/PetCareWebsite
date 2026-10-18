@@ -95,6 +95,39 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                 }
             }
 
+            if (request.Status == BookingStatus.No_Show)
+            {
+                bool hasStartedItems = booking.BookingItems.Any(bi =>
+                    bi.Status == BookingItemStatus.Checked_In ||
+                    bi.Status == BookingItemStatus.In_Progress ||
+                    bi.Status == BookingItemStatus.Completed);
+
+                if (hasStartedItems)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 400,
+                        Message = "Không thể đánh dấu No-Show khi thú cưng đã Check-in hoặc dịch vụ đang/đã được thực hiện.",
+                        Result = Guid.Empty
+                    };
+                }
+
+                foreach (var item in booking.BookingItems)
+                {
+                    if (item.Status != BookingItemStatus.Cancelled)
+                    {
+                        item.Status = BookingItemStatus.No_Show;
+                        item.ResultNote = "Khách không đến theo lịch hẹn (No-Show)";
+                    }
+                }
+
+                if (string.IsNullOrEmpty(booking.CancellationReason))
+                {
+                    booking.CancellationReason = "Khách không đến theo lịch hẹn (No-Show)";
+                }
+            }
+
             bool shouldSendConfirmationEmail = (booking.Status != BookingStatus.Confirmed && request.Status == BookingStatus.Confirmed);
 
             if (request.Status == BookingStatus.Confirmed)
@@ -153,7 +186,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                     {
                         BookingStatus.Confirmed,
                         BookingStatus.Completed,
-                        BookingStatus.Cancelled
+                        BookingStatus.Cancelled,
+                        BookingStatus.No_Show
                     }
                 },
                 {
@@ -161,7 +195,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                     new List<BookingStatus>
                     {
                         BookingStatus.Completed,
-                        BookingStatus.Cancelled
+                        BookingStatus.Cancelled,
+                        BookingStatus.No_Show
                     }
                 },
                 {
@@ -170,6 +205,10 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                 },
                 {
                     BookingStatus.Cancelled,
+                    new List<BookingStatus> { } // Terminal state
+                },
+                {
+                    BookingStatus.No_Show,
                     new List<BookingStatus> { } // Terminal state
                 }
             };

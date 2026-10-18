@@ -51,14 +51,14 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 };
             }
 
-            // 1.1 Validate booking is not already completed (checked out) or cancelled
-            if (booking.Status == BookingStatus.Completed || booking.Status == BookingStatus.Cancelled)
+            // 1.1 Validate booking is not already completed (checked out), cancelled, or no-show
+            if (booking.Status == BookingStatus.Completed || booking.Status == BookingStatus.Cancelled || booking.Status == BookingStatus.No_Show)
             {
                 return new ApiResponse<Guid>
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = "Không thể chỉnh sửa thông tin hoặc phân công nhân viên/phòng cho đơn đặt lịch đã hoàn thành (Check-out) hoặc đã hủy.",
+                    Message = "Không thể chỉnh sửa thông tin hoặc phân công nhân viên/phòng cho đơn đặt lịch đã hoàn thành (Check-out), đã hủy hoặc đã No-Show.",
                     Result = Guid.Empty
                 };
             }
@@ -316,14 +316,19 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
         {
             var itemStatuses = booking.BookingItems.Select(bi => bi.Status).ToList();
 
-            // Nếu toàn bộ dịch vụ bị hủy hoặc khách không đến -> Đơn bị Hủy
-            if (itemStatuses.All(s => s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show))
+            // Nếu toàn bộ dịch vụ là No-Show -> Đơn chuyển sang No_Show
+            if (itemStatuses.All(s => s == BookingItemStatus.No_Show))
             {
-                booking.Status = BookingStatus.Cancelled;
-                if (itemStatuses.All(s => s == BookingItemStatus.No_Show) && string.IsNullOrEmpty(booking.CancellationReason))
+                booking.Status = BookingStatus.No_Show;
+                if (string.IsNullOrEmpty(booking.CancellationReason))
                 {
                     booking.CancellationReason = "Khách không đến theo lịch hẹn (No-Show)";
                 }
+            }
+            // Nếu toàn bộ dịch vụ bị hủy hoặc kết hợp hủy/no-show -> Đơn bị Hủy
+            else if (itemStatuses.All(s => s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show))
+            {
+                booking.Status = BookingStatus.Cancelled;
             }
             // Đơn luôn giữ trạng thái Confirmed (đang hoạt động) nếu đã Confirmed để chờ Lễ tân kiểm tra và bấm Checkout bàn giao pet
             else if (booking.Status == BookingStatus.Confirmed && itemStatuses.Any(s => s == BookingItemStatus.Confirmed || s == BookingItemStatus.Checked_In || s == BookingItemStatus.In_Progress || s == BookingItemStatus.Completed))

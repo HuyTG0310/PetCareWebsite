@@ -89,6 +89,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummar
                 bi.Status != BookingItemStatus.No_Show);
 
             var canCheckout = booking.Status != BookingStatus.Cancelled &&
+                              booking.Status != BookingStatus.No_Show &&
                               !hasUncompletedItems &&
                               (remainingAmount > 0 || booking.Status != BookingStatus.Completed);
 
@@ -96,6 +97,10 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummar
             if (booking.Status == BookingStatus.Cancelled)
             {
                 restrictionReason = "Đơn đặt lịch đã bị hủy.";
+            }
+            else if (booking.Status == BookingStatus.No_Show)
+            {
+                restrictionReason = "Đơn đặt lịch đã bị đánh dấu là Khách không đến (No-Show).";
             }
             else if (hasUncompletedItems)
             {

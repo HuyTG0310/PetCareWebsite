@@ -58,7 +58,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
             }
 
             // 2. Validate booking can be cancelled based on status & role
-            if (booking.Status == BookingStatus.Completed || booking.Status == BookingStatus.Cancelled)
+            if (booking.Status == BookingStatus.Completed || booking.Status == BookingStatus.Cancelled || booking.Status == BookingStatus.No_Show)
             {
                 return new ApiResponse<Guid>
                 {

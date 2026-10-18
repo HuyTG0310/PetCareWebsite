@@ -28,6 +28,7 @@ namespace PetCareBooking.Application.DTOs.Dashboard
         public int ConfirmedBookings { get; set; }
         public int CompletedBookings { get; set; }
         public int CancelledBookings { get; set; }
+        public int NoShowBookings { get; set; }
     }
 
     public class RoomStatsDTO
