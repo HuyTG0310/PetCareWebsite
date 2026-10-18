@@ -84,7 +84,8 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookin
                     BookingType = isBoarding ? "Boarding" : "Grooming",
                     ScheduledStartAt = firstStart,
                     ScheduledEndAt = lastEnd,
-                    ServiceNames = b.BookingItems.Where(bi => bi.Service != null).Select(bi => bi.Service.Name).Distinct().ToList()
+                    ServiceNames = b.BookingItems.Where(bi => bi.Service != null).Select(bi => bi.Service.Name).Distinct().ToList(),
+                    HasPhotos = b.BookingItems.Any(bi => !string.IsNullOrEmpty(bi.BeforeImageUrl) || !string.IsNullOrEmpty(bi.ResultImageUrl))
                 };
             }).ToList();
 

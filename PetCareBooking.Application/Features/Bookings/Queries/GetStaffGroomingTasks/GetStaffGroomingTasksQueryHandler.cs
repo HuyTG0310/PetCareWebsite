@@ -23,9 +23,10 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetStaffGroomingT
             if (request.PageSize < 1) request.PageSize = 10;
             if (request.PageSize > 100) request.PageSize = 100;
 
-            // 2. Fetch Grooming tasks assigned to this staff
+            // 2. Fetch Grooming tasks assigned to this staff (chỉ hiển thị các đơn đã Confirmed)
             var items = await _bookingItemRepository.FindAsync(
                 bi => bi.StaffId == request.StaffId &&
+                      bi.Booking.Status == BookingStatus.Confirmed &&
                       (bi.Service.ServiceType == ServiceType.Grooming || bi.Service.ServiceType == ServiceType.Care) &&
                       (!request.Status.HasValue || bi.Status == request.Status.Value) &&
                       (!request.Date.HasValue || bi.ScheduledStartAt.Date == request.Date.Value.Date),

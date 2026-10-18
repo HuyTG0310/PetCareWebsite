@@ -57,13 +57,13 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateVnPayPayme
                 }
             }
 
-            if (booking.Status == BookingStatus.Cancelled)
+            if (booking.Status == BookingStatus.Cancelled || booking.Status == BookingStatus.No_Show)
             {
                 return new ApiResponse<string>
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = "Cannot pay for a cancelled booking.",
+                    Message = $"Cannot pay for a booking with status {booking.Status}.",
                     Result = null
                 };
             }

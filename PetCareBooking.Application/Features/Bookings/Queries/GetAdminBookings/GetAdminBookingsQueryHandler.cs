@@ -99,7 +99,8 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetAdminBookings
                     IsFullyAssigned = isFullyAssigned,
                     CancellationReason = b.CancellationReason,
                     CanMarkNoShow = canMarkNoShow,
-                    IsNoShow = isNoShow
+                    IsNoShow = isNoShow,
+                    HasPhotos = b.BookingItems.Any(bi => !string.IsNullOrEmpty(bi.BeforeImageUrl) || !string.IsNullOrEmpty(bi.ResultImageUrl))
                 };
             }).ToList();
 

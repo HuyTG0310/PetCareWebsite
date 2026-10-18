@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.Logging;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
@@ -10,13 +11,19 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
     {
         private readonly IGenericRepository<Booking> _bookingRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailService _emailService;
+        private readonly ILogger<UpdateBookingStatusCommandHandler> _logger;
 
         public UpdateBookingStatusCommandHandler(
             IGenericRepository<Booking> bookingRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IEmailService emailService,
+            ILogger<UpdateBookingStatusCommandHandler> logger)
         {
             _bookingRepository = bookingRepository;
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
+            _logger = logger;
         }
 
         public async Task<ApiResponse<Guid>> Handle(UpdateBookingStatusCommand request, CancellationToken cancellationToken)
@@ -88,10 +95,62 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                 }
             }
 
+            if (request.Status == BookingStatus.No_Show)
+            {
+                bool hasStartedItems = booking.BookingItems.Any(bi =>
+                    bi.Status == BookingItemStatus.Checked_In ||
+                    bi.Status == BookingItemStatus.In_Progress ||
+                    bi.Status == BookingItemStatus.Completed);
+
+                if (hasStartedItems)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 400,
+                        Message = "Không thể đánh dấu No-Show khi thú cưng đã Check-in hoặc dịch vụ đang/đã được thực hiện.",
+                        Result = Guid.Empty
+                    };
+                }
+
+                foreach (var item in booking.BookingItems)
+                {
+                    if (item.Status != BookingItemStatus.Cancelled)
+                    {
+                        item.Status = BookingItemStatus.No_Show;
+                        item.ResultNote = "Khách không đến theo lịch hẹn (No-Show)";
+                    }
+                }
+
+                if (string.IsNullOrEmpty(booking.CancellationReason))
+                {
+                    booking.CancellationReason = "Khách không đến theo lịch hẹn (No-Show)";
+                }
+            }
+
+            bool shouldSendConfirmationEmail = (booking.Status != BookingStatus.Confirmed && request.Status == BookingStatus.Confirmed);
+
+            if (request.Status == BookingStatus.Confirmed)
+            {
+                foreach (var item in booking.BookingItems)
+                {
+                    if (item.Status == BookingItemStatus.Pending)
+                    {
+                        item.Status = BookingItemStatus.Confirmed;
+                    }
+                }
+            }
+
             // 4. Update booking status
             booking.Status = request.Status;
             _bookingRepository.Update(booking);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            // 5. Send confirmation email in background if transitioning to Confirmed
+            if (shouldSendConfirmationEmail)
+            {
+                _emailService.QueueBookingConfirmationEmail(booking.Id);
+            }
 
             return new ApiResponse<Guid>
             {
@@ -115,7 +174,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                     {
                         BookingStatus.Confirmed,
                         BookingStatus.Completed,
-                        BookingStatus.Cancelled
+                        BookingStatus.Cancelled,
+                        BookingStatus.No_Show
                     }
                 },
                 {
@@ -123,7 +183,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                     new List<BookingStatus>
                     {
                         BookingStatus.Completed,
-                        BookingStatus.Cancelled
+                        BookingStatus.Cancelled,
+                        BookingStatus.No_Show
                     }
                 },
                 {
@@ -132,6 +193,10 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                 },
                 {
                     BookingStatus.Cancelled,
+                    new List<BookingStatus> { } // Terminal state
+                },
+                {
+                    BookingStatus.No_Show,
                     new List<BookingStatus> { } // Terminal state
                 }
             };

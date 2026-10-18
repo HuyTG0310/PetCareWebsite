@@ -64,6 +64,7 @@ namespace PetCareBooking.Application.Features.Dashboard.Queries.GetDashboardStat
             var confirmedBookings = await bookingsQuery.CountAsync(b => b.Status == BookingStatus.Confirmed, cancellationToken);
             var completedBookings = await bookingsQuery.CountAsync(b => b.Status == BookingStatus.Completed, cancellationToken);
             var cancelledBookings = await bookingsQuery.CountAsync(b => b.Status == BookingStatus.Cancelled, cancellationToken);
+            var noShowBookings = await bookingsQuery.CountAsync(b => b.Status == BookingStatus.No_Show, cancellationToken);
 
             // 3. ROOM METRICS
             var roomsQuery = _roomRepository.GetQueryable();
@@ -201,7 +202,8 @@ namespace PetCareBooking.Application.Features.Dashboard.Queries.GetDashboardStat
                     PendingBookings = pendingBookings,
                     ConfirmedBookings = confirmedBookings,
                     CompletedBookings = completedBookings,
-                    CancelledBookings = cancelledBookings
+                    CancelledBookings = cancelledBookings,
+                    NoShowBookings = noShowBookings
                 },
                 Rooms = new RoomStatsDTO
                 {

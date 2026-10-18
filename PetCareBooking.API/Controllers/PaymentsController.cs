@@ -17,19 +17,25 @@ namespace PetCareBooking.API.Controllers
         private readonly IGenericRepository<BookingItem> _bookingItemRepository;
         private readonly IGenericRepository<PaymentTransaction> _paymentTransactionRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailService _emailService;
+        private readonly ILogger<PaymentsController> _logger;
 
         public PaymentsController(
             IVnPayService vnPayService,
             IGenericRepository<Booking> bookingRepository,
             IGenericRepository<BookingItem> bookingItemRepository,
             IGenericRepository<PaymentTransaction> paymentTransactionRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IEmailService emailService,
+            ILogger<PaymentsController> logger)
         {
             _vnPayService = vnPayService;
             _bookingRepository = bookingRepository;
             _bookingItemRepository = bookingItemRepository;
             _paymentTransactionRepository = paymentTransactionRepository;
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -93,14 +99,22 @@ namespace PetCareBooking.API.Controllers
                         }
                     }
 
+                    bool wasPending = (booking.Status == BookingStatus.Pending);
+
                     // If booking was pending, confirm it upon payment
-                    if (booking.Status == BookingStatus.Pending)
+                    if (wasPending)
                     {
                         booking.Status = BookingStatus.Confirmed;
                     }
 
                     _bookingRepository.Update(booking);
                     await _unitOfWork.SaveChangesAsync(CancellationToken.None);
+
+                    // Send confirmation email in background if booking just became Confirmed
+                    if (wasPending)
+                    {
+                        _emailService.QueueBookingConfirmationEmail(booking.Id);
+                    }
                 }
             }
 

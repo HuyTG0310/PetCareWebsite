@@ -50,13 +50,13 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
             }
 
             // 2. Validate booking status
-            if (booking.Status == BookingStatus.Cancelled)
+            if (booking.Status == BookingStatus.Cancelled || booking.Status == BookingStatus.No_Show)
             {
                 return new ApiResponse<CheckoutResponseDTO>
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = "Cannot checkout a cancelled booking.",
+                    Message = $"Cannot checkout a booking with status {booking.Status}.",
                     Result = null
                 };
             }

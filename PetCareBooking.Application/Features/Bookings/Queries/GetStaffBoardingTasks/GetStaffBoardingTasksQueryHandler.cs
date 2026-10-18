@@ -23,9 +23,10 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetStaffBoardingT
             if (request.PageSize < 1) request.PageSize = 10;
             if (request.PageSize > 100) request.PageSize = 100;
 
-            // 2. Fetch Boarding items (Diet is attached as an add-on option to the Boarding card)
+            // 2. Fetch Boarding items (chỉ hiển thị các đơn đã Confirmed; Diet is attached as an add-on option to the Boarding card)
             var items = await _bookingItemRepository.FindAsync(
                 bi => bi.Service.ServiceType == ServiceType.Boarding &&
+                      bi.Booking.Status == BookingStatus.Confirmed &&
                       (!request.StaffId.HasValue || bi.StaffId == request.StaffId.Value) &&
                       (!request.Status.HasValue || bi.Status == request.Status.Value) &&
                       (!request.OnlyActiveGuests || (bi.Status == BookingItemStatus.Checked_In || bi.Status == BookingItemStatus.In_Progress)) &&

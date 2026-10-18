@@ -23,5 +23,6 @@ namespace PetCareBooking.Application.DTOs.Booking
         public string? CancellationReason { get; set; }
         public bool CanMarkNoShow { get; set; }
         public bool IsNoShow { get; set; }
+        public bool HasPhotos { get; set; }
     }
 }

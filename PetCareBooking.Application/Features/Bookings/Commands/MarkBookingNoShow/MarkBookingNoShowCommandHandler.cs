@@ -39,8 +39,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.MarkBookingNoSho
                 };
             }
 
-            // 2. Kiểm tra trạng thái đơn: Không thể đánh dấu No-Show nếu đơn đã hoàn thành hoặc đã bị hủy trước đó
-            if (booking.Status == BookingStatus.Completed || booking.Status == BookingStatus.Cancelled)
+            // 2. Kiểm tra trạng thái đơn: Không thể đánh dấu No-Show nếu đơn đã hoàn thành, đã bị hủy hoặc đã đánh dấu No-Show trước đó
+            if (booking.Status == BookingStatus.Completed || booking.Status == BookingStatus.Cancelled || booking.Status == BookingStatus.No_Show)
             {
                 return new ApiResponse<Guid>
                 {
@@ -81,8 +81,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.MarkBookingNoSho
                 }
             }
 
-            // 5. Cập nhật trạng thái Booking sang Cancelled với lý do rõ ràng
-            booking.Status = BookingStatus.Cancelled;
+            // 5. Cập nhật trạng thái Booking sang No_Show với lý do rõ ràng
+            booking.Status = BookingStatus.No_Show;
             booking.CancellationReason = string.IsNullOrWhiteSpace(request.Reason)
                 ? "Khách không đến theo lịch hẹn (No-Show)"
                 : request.Reason.Trim();
