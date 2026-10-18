@@ -77,6 +77,18 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 };
             }
 
+            // Re-check staff assignment against item's existing staffId
+            if (request.StaffId.HasValue && request.StaffId != bookingItem.StaffId && booking.Status != BookingStatus.Confirmed)
+            {
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "Chỉ có thể phân công nhân viên sau khi đơn đặt lịch đã được Xác nhận (Confirmed).",
+                    Result = Guid.Empty
+                };
+            }
+
             // Quy tắc nghiệp vụ: Dịch vụ Diet là option đi kèm với dịch vụ Boarding, không gán phòng riêng
             if (bookingItem.Service != null && bookingItem.Service.ServiceType == ServiceType.Diet)
             {
@@ -104,6 +116,16 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 // If not assigned yet and current staff starts the task, automatically claim/assign to current staff
                 if (!bookingItem.StaffId.HasValue && _currentUserService.UserId.HasValue)
                 {
+                    if (booking.Status != BookingStatus.Confirmed)
+                    {
+                        return new ApiResponse<Guid>
+                        {
+                            IsSuccess = false,
+                            StatusCode = 400,
+                            Message = "Chỉ có thể nhận việc sau khi đơn đặt lịch đã được Xác nhận (Confirmed).",
+                            Result = Guid.Empty
+                        };
+                    }
                     bookingItem.StaffId = _currentUserService.UserId.Value;
                 }
 
@@ -114,6 +136,18 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
 
             // 4. Validate status transition is allowed (if status specified)
             var targetStatus = request.Status ?? bookingItem.Status;
+
+            // Chặn check-in hoặc thực hiện dịch vụ nếu booking chưa Confirmed
+            if ((targetStatus == BookingItemStatus.Checked_In || targetStatus == BookingItemStatus.In_Progress) && booking.Status != BookingStatus.Confirmed)
+            {
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "Chỉ có thể Check-in hoặc thực hiện dịch vụ khi đơn đặt lịch đã được Xác nhận (Confirmed).",
+                    Result = Guid.Empty
+                };
+            }
 
             if (!IsValidStatusTransition(bookingItem.Status, targetStatus))
             {
@@ -129,7 +163,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             // 5. Validate staff if provided (Admin/Receptionist only)
             if (request.StaffId.HasValue)
             {
-                var staff = (await _staffRepository.FindAsync(s => s.Id == request.StaffId)).FirstOrDefault();
+                var staff = (await _staffRepository.FindAsync(s => s.Id == request.StaffId, "StaffRoles.Role")).FirstOrDefault();
                 if (staff == null)
                 {
                     return new ApiResponse<Guid>
@@ -139,6 +173,61 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                         Message = $"Staff with ID {request.StaffId} not found.",
                         Result = Guid.Empty
                     };
+                }
+
+                if (staff.Status != StaffStatus.Active)
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 400,
+                        Message = $"Nhân viên '{staff.FullName}' hiện đang ở trạng thái ngưng hoạt động (Inactive).",
+                        Result = Guid.Empty
+                    };
+                }
+
+                var staffRoleNames = staff.StaffRoles.Select(sr => sr.Role.RoleName).ToList();
+
+                // Do not allow assigning Admin without technical staff roles
+                if (staffRoleNames.Contains("Admin") && !staffRoleNames.Contains("Grooming Staff") && !staffRoleNames.Contains("Boarding Staff"))
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 400,
+                        Message = "Không thể phân công tài khoản Quản trị viên (Admin) làm nhân viên thực hiện dịch vụ.",
+                        Result = Guid.Empty
+                    };
+                }
+
+                if (bookingItem.Service != null)
+                {
+                    if (bookingItem.Service.ServiceType == ServiceType.Boarding)
+                    {
+                        if (!staffRoleNames.Any(r => r.Contains("Boarding", StringComparison.OrdinalIgnoreCase)))
+                        {
+                            return new ApiResponse<Guid>
+                            {
+                                IsSuccess = false,
+                                StatusCode = 400,
+                                Message = $"Nhân viên '{staff.FullName}' không thuộc bộ phận Chăm sóc lưu trú (Boarding Staff) để phụ trách dịch vụ '{bookingItem.Service.Name}'.",
+                                Result = Guid.Empty
+                            };
+                        }
+                    }
+                    else if (bookingItem.Service.ServiceType == ServiceType.Grooming || bookingItem.Service.ServiceType == ServiceType.Care)
+                    {
+                        if (!staffRoleNames.Any(r => r.Contains("Grooming", StringComparison.OrdinalIgnoreCase)))
+                        {
+                            return new ApiResponse<Guid>
+                            {
+                                IsSuccess = false,
+                                StatusCode = 400,
+                                Message = $"Nhân viên '{staff.FullName}' không thuộc bộ phận Cắt tỉa & Spa (Grooming Staff) để phụ trách dịch vụ '{bookingItem.Service.Name}'.",
+                                Result = Guid.Empty
+                            };
+                        }
+                    }
                 }
             }
 
@@ -236,8 +325,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                     booking.CancellationReason = "Khách không đến theo lịch hẹn (No-Show)";
                 }
             }
-            // Đơn luôn giữ trạng thái Confirmed (đang hoạt động) để chờ Lễ tân kiểm tra và bấm Checkout bàn giao pet
-            else if (itemStatuses.Any(s => s == BookingItemStatus.Confirmed || s == BookingItemStatus.Checked_In || s == BookingItemStatus.In_Progress || s == BookingItemStatus.Completed))
+            // Đơn luôn giữ trạng thái Confirmed (đang hoạt động) nếu đã Confirmed để chờ Lễ tân kiểm tra và bấm Checkout bàn giao pet
+            else if (booking.Status == BookingStatus.Confirmed && itemStatuses.Any(s => s == BookingItemStatus.Confirmed || s == BookingItemStatus.Checked_In || s == BookingItemStatus.In_Progress || s == BookingItemStatus.Completed))
             {
                 booking.Status = BookingStatus.Confirmed;
             }

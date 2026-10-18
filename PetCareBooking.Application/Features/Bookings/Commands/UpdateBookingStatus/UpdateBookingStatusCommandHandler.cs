@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.Logging;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
@@ -10,13 +11,19 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
     {
         private readonly IGenericRepository<Booking> _bookingRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailService _emailService;
+        private readonly ILogger<UpdateBookingStatusCommandHandler> _logger;
 
         public UpdateBookingStatusCommandHandler(
             IGenericRepository<Booking> bookingRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IEmailService emailService,
+            ILogger<UpdateBookingStatusCommandHandler> logger)
         {
             _bookingRepository = bookingRepository;
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
+            _logger = logger;
         }
 
         public async Task<ApiResponse<Guid>> Handle(UpdateBookingStatusCommand request, CancellationToken cancellationToken)
@@ -88,10 +95,41 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                 }
             }
 
+            bool shouldSendConfirmationEmail = (booking.Status != BookingStatus.Confirmed && request.Status == BookingStatus.Confirmed);
+
+            if (request.Status == BookingStatus.Confirmed)
+            {
+                foreach (var item in booking.BookingItems)
+                {
+                    if (item.Status == BookingItemStatus.Pending)
+                    {
+                        item.Status = BookingItemStatus.Confirmed;
+                    }
+                }
+            }
+
             // 4. Update booking status
             booking.Status = request.Status;
             _bookingRepository.Update(booking);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            // 5. Send confirmation email if transitioning to Confirmed
+            if (shouldSendConfirmationEmail)
+            {
+                try
+                {
+                    var fullBookings = await _bookingRepository.FindAsync(
+                        b => b.Id == booking.Id,
+                        "BookingItems.Pet", "BookingItems.Service", "BookingItems.Room", "Customer", "PaymentTransactions", "Voucher"
+                    );
+                    var fullBooking = fullBookings.FirstOrDefault() ?? booking;
+                    await _emailService.SendBookingConfirmationEmailAsync(fullBooking, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to send confirmation email for Booking ID: {BookingId}", booking.Id);
+                }
+            }
 
             return new ApiResponse<Guid>
             {
