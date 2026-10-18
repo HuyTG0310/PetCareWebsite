@@ -58,7 +58,8 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.SearchCustomerBoo
                 ItemsCount = b.BookingItems.Count,
                 TotalPrice = b.TotalPrice,
                 Status = b.Status,
-                CreatedAt = b.CreatedAt
+                CreatedAt = b.CreatedAt,
+                HasPhotos = b.BookingItems.Any(bi => !string.IsNullOrEmpty(bi.BeforeImageUrl) || !string.IsNullOrEmpty(bi.ResultImageUrl))
             }).ToList();
 
             return new ApiResponse<PagedResult<BookingListResponseDTO>>
