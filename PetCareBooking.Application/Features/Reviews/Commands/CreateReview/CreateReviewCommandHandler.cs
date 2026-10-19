@@ -55,7 +55,18 @@ namespace PetCareBooking.Application.Features.Reviews.Commands.CreateReview
                 };
             }
 
-            // 2. Only allow review when the service is Completed
+            // 2. Only allow review when the entire booking is Completed (checked-out at counter)
+            if (bookingItem.Booking.Status != BookingStatus.Completed)
+            {
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "You can only review services after the booking is completed (checked out)."
+                };
+            }
+
+            // 3. Only allow review when the service item is Completed
             if (bookingItem.Status != BookingItemStatus.Completed)
             {
                 return new ApiResponse<Guid>
