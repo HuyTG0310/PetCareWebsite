@@ -51,6 +51,20 @@ namespace PetCareBooking.Application.Features.Pets.Commands.DeletePet
                 }
             }
 
+            else
+            {
+                if (!_currentUserService.HasPermission("PET_MANAGE"))
+                {
+                    return new ApiResponse<bool>
+                    {
+                        IsSuccess = false,
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Message = "Bạn không có quyền xóa hồ sơ thú cưng (Yêu cầu quyền PET_MANAGE).",
+                        Result = false
+                    };
+                }
+            }
+
             if (!pet.IsActive)
             {
                 return new ApiResponse<bool>

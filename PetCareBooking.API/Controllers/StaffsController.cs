@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetCareBooking.API.Attributes;
 using PetCareBooking.Application.Features.Staffs.Commands.ChangeStaffPassword;
 using PetCareBooking.Application.Features.Staffs.Commands.CreateStaff;
 using PetCareBooking.Application.Features.Staffs.Commands.DeleteStaff;
@@ -25,13 +26,13 @@ namespace PetCareBooking.API.Controllers
         }
 
         // ==========================================
-        // SECTION 1: ADMIN - MANAGE STAFF (UC-13)
+        // SECTION 1: MANAGE STAFF (STAFF_VIEW / STAFF_MANAGE)
         // ==========================================
 
         /// <summary>
-        /// UC-13.1 & UC-13.6: View & Search staff list with pagination (Admin/Receptionist)
+        /// UC-13.1 & UC-13.6: View & Search staff list with pagination
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist")]
+        [RequirePermission("STAFF_VIEW")]
         [HttpGet]
         public async Task<IActionResult> GetStaffs([FromQuery] GetStaffsWithPaginationQuery query)
         {
@@ -40,9 +41,9 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// UC-13.2: View staff detail (Admin only)
+        /// UC-13.2: View staff detail
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        [RequirePermission("STAFF_VIEW")]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetStaffById(Guid id)
         {
@@ -51,9 +52,9 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// UC-13.3: Add new staff (Admin only)
+        /// UC-13.3: Add new staff
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        [RequirePermission("STAFF_MANAGE")]
         [HttpPost]
         public async Task<IActionResult> CreateStaff([FromBody] CreateStaffCommand command)
         {
@@ -62,9 +63,9 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// UC-13.4: Edit staff profile and roles (Admin only)
+        /// UC-13.4: Edit staff profile and roles
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        [RequirePermission("STAFF_MANAGE")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateStaff(Guid id, [FromBody] UpdateStaffCommand command)
         {
@@ -75,9 +76,9 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// UC-13.5: Deactivate staff account (Admin only)
+        /// UC-13.5: Deactivate staff account
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        [RequirePermission("STAFF_MANAGE")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteStaff(Guid id)
         {
@@ -100,7 +101,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Update personal profile information of the authenticated staff
+        /// Update own profile details for authenticated staff
         /// </summary>
         [HttpPut("profile")]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateStaffProfileCommand command)
@@ -110,7 +111,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Change password for the authenticated staff
+        /// Change password for authenticated staff
         /// </summary>
         [HttpPut("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangeStaffPasswordCommand command)

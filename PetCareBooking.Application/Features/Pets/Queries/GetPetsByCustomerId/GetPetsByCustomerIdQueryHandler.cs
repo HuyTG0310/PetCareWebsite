@@ -41,6 +41,20 @@ namespace PetCareBooking.Application.Features.Pets.Queries.GetPetsByCustomerId
                 }
             }
 
+            else
+            {
+                if (!_currentUserService.HasPermission("PET_VIEW"))
+                {
+                    return new ApiResponse<List<PetResponseDTO>>
+                    {
+                        IsSuccess = false,
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Message = "Bạn không có quyền xem hồ sơ thú cưng (Yêu cầu quyền PET_VIEW).",
+                        Result = null
+                    };
+                }
+            }
+
             var customer = await _customerRepository.GetByIdAsync(request.CustomerId);
             if (customer == null)
             {

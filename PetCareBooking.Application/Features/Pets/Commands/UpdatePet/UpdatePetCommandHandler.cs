@@ -51,6 +51,19 @@ namespace PetCareBooking.Application.Features.Pets.Commands.UpdatePet
                 }
             }
 
+            else
+            {
+                if (!_currentUserService.HasPermission("PET_MANAGE"))
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Message = "Bạn không có quyền chỉnh sửa hồ sơ thú cưng (Yêu cầu quyền PET_MANAGE).",
+                        Result = Guid.Empty
+                    };
+                }
+            }
             pet.Name = request.Name.Trim();
             pet.Species = request.Species;
             pet.Breed = request.Breed?.Trim();

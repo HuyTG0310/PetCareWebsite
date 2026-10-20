@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetCareBooking.API.Attributes;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.CareRecord;
 using PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRecord;
@@ -28,7 +29,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin] Lấy danh sách nhật ký chăm sóc phân trang toàn hệ thống
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff")]
+        [RequirePermission("CARE_RECORD_VIEW")]
         [HttpGet]
         public async Task<ActionResult<PagedResult<CareRecordListResponseDTO>>> GetCareRecords([FromQuery] GetCareRecordsWithPaginationQuery query)
         {
@@ -39,7 +40,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin] Tìm kiếm và lọc nhật ký chăm sóc theo từ khóa, nhân viên, hoặc mục đặt lịch
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff")]
+        [RequirePermission("CARE_RECORD_VIEW")]
         [HttpGet("search")]
         public async Task<ActionResult<PagedResult<CareRecordListResponseDTO>>> SearchCareRecords([FromQuery] SearchCareRecordsQuery query)
         {
@@ -50,7 +51,6 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Customer / Staff / Admin] Lấy toàn bộ timeline nhật ký chăm sóc của một dịch vụ lưu trú cụ thể (có kiểm tra chống IDOR)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Customer")]
         [HttpGet("booking-item/{bookingItemId:guid}")]
         public async Task<IActionResult> GetCareRecordsByBookingItem(Guid bookingItemId)
         {
@@ -61,7 +61,6 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Customer / Staff / Admin] Xem chi tiết một bản ghi nhật ký chăm sóc theo ID
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff,Customer")]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetCareRecordById(Guid id)
         {
@@ -72,7 +71,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Boarding Staff / Receptionist / Admin] Tạo mới một nhật ký chăm sóc cho thú cưng đang lưu trú (tự động nhận diện StaffId chống IDOR)
         /// </summary>
-        [Authorize(Roles = "Admin,Boarding Staff,Receptionist")]
+        [RequirePermission("CARE_RECORD_CREATE")]
         [HttpPost]
         public async Task<IActionResult> CreateCareRecord([FromBody] CreateCareRecordCommand command)
         {
@@ -83,7 +82,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Boarding Staff / Receptionist / Admin] Cập nhật bản ghi nhật ký chăm sóc
         /// </summary>
-        [Authorize(Roles = "Admin,Boarding Staff,Receptionist")]
+        [RequirePermission("CARE_RECORD_MANAGE")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateCareRecord(Guid id, [FromBody] UpdateCareRecordCommand command)
         {
@@ -95,7 +94,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Admin / Receptionist] Xóa một bản ghi nhật ký chăm sóc
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist")]
+        [RequirePermission("CARE_RECORD_MANAGE")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteCareRecord(Guid id)
         {

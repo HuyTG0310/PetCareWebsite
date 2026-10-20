@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetCareBooking.API.Attributes;
 using PetCareBooking.Application.Features.Customers.Command.ChangePassword;
 using PetCareBooking.Application.Features.Customers.Command.UpdateProfile;
 using PetCareBooking.Application.Features.Customers.Commands.CreateCustomer;
@@ -27,7 +28,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Get customer list & Search customers (Admin/Staff)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist")]
+        [RequirePermission("CUSTOMER_VIEW")]
         [HttpGet]
         public async Task<IActionResult> GetCustomers([FromQuery] GetCustomersWithPaginationQuery query)
         {
@@ -38,7 +39,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// View customer profile details & history (Admin/Staff)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist")]
+        [RequirePermission("CUSTOMER_VIEW")]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetCustomerById(Guid id)
         {
@@ -49,7 +50,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Add new customer (Admin/Staff)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist")]
+        [RequirePermission("CUSTOMER_MANAGE")]
         [HttpPost]
         public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerCommand command)
         {
@@ -60,7 +61,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Update customer information by ID (Admin/Staff)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist")]
+        [RequirePermission("CUSTOMER_MANAGE")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateCustomer(Guid id, [FromBody] UpdateCustomerCommand command)
         {
@@ -72,7 +73,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Soft delete / Deactivate customer (Admin/Staff)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist")]
+        [RequirePermission("CUSTOMER_MANAGE")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteCustomer(Guid id)
         {
@@ -83,7 +84,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// Toggle active status of customer (Admin/Staff)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist")]
+        [RequirePermission("CUSTOMER_MANAGE")]
         [HttpPatch("{id:guid}/toggle-status")]
         public async Task<IActionResult> ToggleStatus(Guid id)
         {

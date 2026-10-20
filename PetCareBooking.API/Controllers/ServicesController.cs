@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetCareBooking.API.Attributes;
 using PetCareBooking.Application.Features.Services.Commands.CreateService;
 using PetCareBooking.Application.Features.Services.Commands.DeleteService;
 using PetCareBooking.Application.Features.Services.Commands.UpdateService;
@@ -54,7 +55,7 @@ namespace PetCareBooking.API.Controllers
 
 
         // this endpoints is used by admin to view all services include inactive
-        [Authorize(Roles = "Admin,Receptionist")]
+        [RequirePermission("SERVICE_VIEW")]
         [HttpGet("admin")]
         public async Task<IActionResult> GetAllServicesForAdmin([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
@@ -69,7 +70,7 @@ namespace PetCareBooking.API.Controllers
 
 
         // this endpoint is used by admin to search both active and inactive services
-        [Authorize(Roles = "Admin,Receptionist")]
+        [RequirePermission("SERVICE_VIEW")]
         [HttpGet("admin/search")]
         public async Task<IActionResult> SearchServicesForAdmin([FromQuery] SearchServicesForAdminQuery query)
         {
@@ -78,7 +79,7 @@ namespace PetCareBooking.API.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [RequirePermission("SERVICE_MANAGE")]
         [HttpPost]
         public async Task<IActionResult> CreateService([FromBody] CreateServiceCommand command)
         {
@@ -86,7 +87,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        [Authorize(Roles = "Admin")]
+        [RequirePermission("SERVICE_MANAGE")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateService(Guid id, [FromBody] UpdateServiceCommand command)
         {
@@ -97,7 +98,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        [Authorize(Roles = "Admin")]
+        [RequirePermission("SERVICE_MANAGE")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteService(Guid id)
         {

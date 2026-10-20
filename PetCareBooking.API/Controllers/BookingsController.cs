@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PetCareBooking.API.Attributes;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Booking;
 using PetCareBooking.Application.Features.Bookings.Commands.CancelBooking;
@@ -192,7 +193,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Grooming Staff ONLY] Lấy danh sách ca làm việc Grooming của chính mình (Tự động đọc StaffId từ JWT Token, chống IDOR tuyệt đối)
         /// </summary>
-        [Authorize(Roles = "Admin,Grooming Staff,Receptionist")]
+        [RequirePermission("GROOMING_TASK_VIEW")]
         [HttpGet("my-grooming-tasks")]
         public async Task<IActionResult> GetMyGroomingTasks(
             [FromQuery] int pageNumber = 1,
@@ -226,7 +227,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Admin / Receptionist] Lấy danh sách ca làm việc Grooming của một nhân viên theo StaffId (có chống IDOR)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Grooming Staff")]
+        [RequirePermission("GROOMING_TASK_VIEW")]
         [HttpGet("staff/{staffId:guid}/grooming-tasks")]
         public async Task<IActionResult> GetStaffGroomingTasks(
             Guid staffId,
@@ -268,7 +269,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Boarding Staff ONLY] Lấy danh sách ca lưu trú / phòng phụ trách của chính mình (Tự động đọc StaffId từ JWT Token, chống IDOR tuyệt đối)
         /// </summary>
-        [Authorize(Roles = "Admin,Boarding Staff,Receptionist")]
+        [RequirePermission("CARE_RECORD_VIEW", "ROOM_VIEW")]
         [HttpGet("my-boarding-tasks")]
         public async Task<IActionResult> GetMyBoardingTasks(
             [FromQuery] int pageNumber = 1,
@@ -302,7 +303,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Boarding Staff / Receptionist / Admin] Lấy danh sách toàn bộ thú cưng đang thực tế lưu trú tại khách sạn (Checked-In hoặc In-Progress)
         /// </summary>
-        [Authorize(Roles = "Admin,Boarding Staff,Receptionist")]
+        [RequirePermission("CARE_RECORD_VIEW", "ROOM_VIEW")]
         [HttpGet("active-boarding-tasks")]
         public async Task<IActionResult> GetActiveBoardingTasks(
             [FromQuery] int pageNumber = 1,
@@ -323,7 +324,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Admin / Receptionist] Lấy danh sách ca làm việc Boarding theo StaffId chỉ định (có kiểm tra chống IDOR)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff")]
+        [RequirePermission("CARE_RECORD_VIEW", "ROOM_VIEW")]
         [HttpGet("staff/{staffId:guid}/boarding-tasks")]
         public async Task<IActionResult> GetStaffBoardingTasks(
             Guid staffId,
@@ -364,7 +365,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Lấy danh sách booking toàn hệ thống (phân trang, lọc thời gian, trạng thái)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
+        [RequirePermission("BOOKING_VIEW")]
         [HttpGet("admin")]
         public async Task<IActionResult> GetAdminBookings(
             [FromQuery] int pageNumber = 1,
@@ -390,7 +391,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff / Admin ONLY] Tìm kiếm booking toàn hệ thống theo từ khóa và ngày hẹn dịch vụ
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
+        [RequirePermission("BOOKING_VIEW")]
         [HttpGet("search")]
         public async Task<IActionResult> SearchBookings(
             [FromQuery] string? keyword = null,
