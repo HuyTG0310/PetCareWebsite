@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
@@ -55,6 +55,20 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                         IsSuccess = false,
                         StatusCode = 403,
                         Message = "You do not have permission to cancel this booking.",
+                        Result = Guid.Empty
+                    };
+                }
+            }
+
+            else
+            {
+                if (!_currentUserService.HasPermission("BOOKING_CANCEL"))
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 403,
+                        Message = "Bạn không có quyền hủy đơn đặt lịch (Yêu cầu quyền BOOKING_CANCEL).",
                         Result = Guid.Empty
                     };
                 }

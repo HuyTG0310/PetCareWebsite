@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
@@ -10,20 +11,35 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking
     {
         private readonly IGenericRepository<Booking> _bookingRepository;
         private readonly IGenericRepository<BookingItem> _bookingItemRepository;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
 
         public CheckInBookingCommandHandler(
             IGenericRepository<Booking> bookingRepository,
             IGenericRepository<BookingItem> bookingItemRepository,
+            ICurrentUserService currentUserService,
             IUnitOfWork unitOfWork)
         {
             _bookingRepository = bookingRepository;
             _bookingItemRepository = bookingItemRepository;
+            _currentUserService = currentUserService;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<ApiResponse<Guid>> Handle(CheckInBookingCommand request, CancellationToken cancellationToken)
         {
+            // 0. Phân quyền: Nhân viên thực hiện Check-in bắt buộc phải có quyền BOOKING_CHECKIN
+            if (_currentUserService.IsAdminOrStaff && !_currentUserService.HasPermission("BOOKING_CHECKIN"))
+            {
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = StatusCodes.Status403Forbidden,
+                    Message = "Bạn không có quyền Check-in đơn đặt lịch (Yêu cầu quyền BOOKING_CHECKIN).",
+                    Result = Guid.Empty
+                };
+            }
+
             // 1. Validate booking exists
             var bookings = await _bookingRepository.FindAsync(b => b.Id == request.Id, "BookingItems.Service");
             var booking = bookings.FirstOrDefault();

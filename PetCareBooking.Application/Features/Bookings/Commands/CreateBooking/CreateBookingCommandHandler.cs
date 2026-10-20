@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
@@ -75,6 +75,18 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             }
             else
             {
+                // Phân quyền: Nhân viên tạo đơn đặt lịch tại quầy bắt buộc phải có quyền BOOKING_CREATE
+                if (!_currentUserService.HasPermission("BOOKING_CREATE"))
+                {
+                    return new ApiResponse<CreateBookingResponseDTO>
+                    {
+                        IsSuccess = false,
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Message = "Bạn không có quyền tạo đơn đặt lịch tại quầy (Yêu cầu quyền BOOKING_CREATE).",
+                        Result = null
+                    };
+                }
+
                 // Staff/Admin tạo hộ khách: Bắt buộc chỉ định CustomerId
                 if (!request.CustomerId.HasValue || request.CustomerId.Value == Guid.Empty)
                 {

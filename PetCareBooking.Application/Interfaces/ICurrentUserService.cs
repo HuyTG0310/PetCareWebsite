@@ -8,6 +8,7 @@ namespace PetCareBooking.Application.Interfaces
         bool IsAuthenticated { get; }
         bool IsInRole(string role);
         bool IsAdminOrStaff { get; }
+        bool HasPermission(string permissionCode);
+        List<string> Permissions { get; }
     }
 }
-

@@ -1,6 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Features.Auth.Commands.ForgotPassword;
 using PetCareBooking.Application.Features.Auth.Commands.Login;
 using PetCareBooking.Application.Features.Auth.Commands.Logout;
@@ -9,6 +11,7 @@ using PetCareBooking.Application.Features.Auth.Commands.ResendOtp;
 using PetCareBooking.Application.Features.Auth.Commands.ResetPassword;
 using PetCareBooking.Application.Features.Auth.Commands.StaffLogin;
 using PetCareBooking.Application.Features.Auth.Commands.VerifyOtp;
+using PetCareBooking.Application.Interfaces;
 
 namespace PetCareBooking.API.Controllers
 {
@@ -17,10 +20,12 @@ namespace PetCareBooking.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ICurrentUserService _currentUserService;
 
-        public AuthController(IMediator mediator)
+        public AuthController(IMediator mediator, ICurrentUserService currentUserService)
         {
             _mediator = mediator;
+            _currentUserService = currentUserService;
         }
 
 
@@ -105,5 +110,21 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// 8. Lấy danh sách quyền hạn thực tế theo thời gian thực của người dùng hiện tại
+        /// </summary>
+        [Authorize]
+        [HttpGet("my-permissions")]
+        public IActionResult GetMyPermissions()
+        {
+            var perms = _currentUserService.Permissions;
+            return Ok(new ApiResponse<List<string>>
+            {
+                IsSuccess = true,
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Success",
+                Result = perms
+            });
+        }
     }
 }

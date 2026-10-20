@@ -173,6 +173,30 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 };
             }
 
+            // Phân quyền: Cập nhật trạng thái dịch vụ yêu cầu quyền BOOKING_UPDATE_STATUS (đối với Admin/Lễ tân)
+            if (request.Status.HasValue && isAdminOrReceptionist && !_currentUserService.HasPermission("BOOKING_UPDATE_STATUS"))
+            {
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = 403,
+                    Message = "Bạn không có quyền cập nhật tiến độ dịch vụ (Yêu cầu quyền BOOKING_UPDATE_STATUS).",
+                    Result = Guid.Empty
+                };
+            }
+
+            // Phân quyền: Phân công nhân viên hoặc xếp phòng yêu cầu quyền BOOKING_ASSIGN_STAFF
+            if ((request.StaffId.HasValue || request.RoomId.HasValue) && isAdminOrReceptionist && !_currentUserService.HasPermission("BOOKING_ASSIGN_STAFF"))
+            {
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = 403,
+                    Message = "Bạn không có quyền phân công nhân viên hoặc xếp phòng (Yêu cầu quyền BOOKING_ASSIGN_STAFF).",
+                    Result = Guid.Empty
+                };
+            }
+
             // 5. Validate staff if provided (Admin/Receptionist only)
             if (request.StaffId.HasValue)
             {
