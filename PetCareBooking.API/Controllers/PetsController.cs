@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetCareBooking.API.Attributes;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Pet;
 using PetCareBooking.Application.Features.Pets.Commands.CreatePet;
@@ -34,7 +35,7 @@ namespace PetCareBooking.API.Controllers
         public async Task<IActionResult> GetMyPets([FromQuery] bool? isActive = null)
         {
             var customerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                               ?? User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+                                ?? User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
 
             if (!Guid.TryParse(customerIdClaim, out var customerId))
             {
@@ -73,7 +74,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff/Admin ONLY] Lấy danh sách toàn bộ thú cưng trong hệ thống (phân trang)
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
+        [RequirePermission("PET_VIEW")]
         [HttpGet]
         public async Task<ActionResult<PagedResult<PetListResponseDTO>>> GetPets([FromQuery] GetPetsWithPaginationQuery query)
         {
@@ -84,7 +85,7 @@ namespace PetCareBooking.API.Controllers
         /// <summary>
         /// [Staff/Admin ONLY] Tìm kiếm thú cưng toàn hệ thống
         /// </summary>
-        [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
+        [RequirePermission("PET_VIEW")]
         [HttpGet("search")]
         public async Task<ActionResult<PagedResult<PetListResponseDTO>>> SearchPets([FromQuery] SearchPetsQuery query)
         {

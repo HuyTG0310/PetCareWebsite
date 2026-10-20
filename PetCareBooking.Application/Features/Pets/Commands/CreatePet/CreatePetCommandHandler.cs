@@ -48,6 +48,17 @@ namespace PetCareBooking.Application.Features.Pets.Commands.CreatePet
             }
             else
             {
+                if (!_currentUserService.HasPermission("PET_MANAGE"))
+                {
+                    return new ApiResponse<Guid>
+                    {
+                        IsSuccess = false,
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Message = "Bạn không có quyền thêm mới hồ sơ thú cưng (Yêu cầu quyền PET_MANAGE).",
+                        Result = Guid.Empty
+                    };
+                }
+
                 // Nhân viên/Admin tạo hộ tại quầy: Bắt buộc chỉ định CustomerId hợp lệ
                 if (targetCustomerId == Guid.Empty)
                 {

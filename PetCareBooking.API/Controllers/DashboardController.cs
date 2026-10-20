@@ -1,13 +1,13 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetCareBooking.API.Attributes;
 using PetCareBooking.Application.Features.Dashboard.Queries.GetDashboardStats;
 
 namespace PetCareBooking.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,Receptionist")]
+    [RequirePermission("DASHBOARD_VIEW")]
     public class DashboardController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -28,4 +28,3 @@ namespace PetCareBooking.API.Controllers
         }
     }
 }
-

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetCareBooking.API.Attributes;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Voucher;
 using PetCareBooking.Application.Features.Vouchers.Commands.CreateVoucher;
@@ -12,7 +13,7 @@ using PetCareBooking.Application.Features.Vouchers.Queries.SearchVouchers;
 
 namespace PetCareBooking.API.Controllers
 {
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class VouchersController : ControllerBase
@@ -24,7 +25,7 @@ namespace PetCareBooking.API.Controllers
             _mediator = mediator;
         }
 
-
+        [RequirePermission("VOUCHER_MANAGE")]
         [HttpPost]
         public async Task<IActionResult> CreateVoucher([FromBody] CreateVoucherCommand command)
         {
@@ -37,7 +38,7 @@ namespace PetCareBooking.API.Controllers
             return CreatedAtAction(nameof(GetVoucherById), new { id = response.Result }, response);
         }
 
-   
+        [RequirePermission("VOUCHER_VIEW")]
         [HttpGet]
         public async Task<ActionResult<PagedResult<VoucherListResponseDTO>>> GetVouchers([FromQuery] GetVouchersWithPaginationQuery query)
         {
@@ -45,6 +46,7 @@ namespace PetCareBooking.API.Controllers
             return Ok(response);
         }
 
+        [RequirePermission("VOUCHER_VIEW")]
         [HttpGet("search")]
         public async Task<ActionResult<PagedResult<VoucherListResponseDTO>>> SearchVouchers([FromQuery] SearchVouchersQuery query)
         {
@@ -52,7 +54,7 @@ namespace PetCareBooking.API.Controllers
             return Ok(response);
         }
 
-    
+        [RequirePermission("VOUCHER_VIEW")]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetVoucherById(Guid id)
         {
@@ -60,6 +62,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        [RequirePermission("VOUCHER_MANAGE")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateVoucher(Guid id, [FromBody] UpdateVoucherCommand command)
         {
@@ -68,6 +71,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        [RequirePermission("VOUCHER_MANAGE")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteVoucher(Guid id)
         {
