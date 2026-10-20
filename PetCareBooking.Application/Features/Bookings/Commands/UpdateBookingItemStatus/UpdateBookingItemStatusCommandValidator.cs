@@ -29,10 +29,6 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             RuleFor(x => x.ResultNote)
                 .NotEmpty().WithMessage("Result note is required when status is Completed.")
                 .When(x => x.Status == BookingItemStatus.Completed);
-
-            RuleFor(x => x.StaffId)
-                .NotEmpty().WithMessage("Staff ID is required when status is Checked_In or In_Progress.")
-                .When(x => x.Status == BookingItemStatus.Checked_In || x.Status == BookingItemStatus.In_Progress);
         }
     }
 }

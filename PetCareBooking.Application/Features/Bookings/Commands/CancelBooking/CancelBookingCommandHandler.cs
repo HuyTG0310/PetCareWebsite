@@ -10,17 +10,20 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
     {
         private readonly IGenericRepository<Booking> _bookingRepository;
         private readonly IGenericRepository<BookingItem> _bookingItemRepository;
+        private readonly IGenericRepository<Voucher> _voucherRepository;
         private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
 
         public CancelBookingCommandHandler(
             IGenericRepository<Booking> bookingRepository,
             IGenericRepository<BookingItem> bookingItemRepository,
+            IGenericRepository<Voucher> voucherRepository,
             ICurrentUserService currentUserService,
             IUnitOfWork unitOfWork)
         {
             _bookingRepository = bookingRepository;
             _bookingItemRepository = bookingItemRepository;
+            _voucherRepository = voucherRepository;
             _currentUserService = currentUserService;
             _unitOfWork = unitOfWork;
         }
@@ -115,6 +118,17 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
             booking.Status = BookingStatus.Cancelled;
             booking.CancellationReason = request.CancellationReason;
             _bookingRepository.Update(booking);
+
+            // 5. Restore voucher usage if a voucher was applied
+            if (booking.VoucherId.HasValue)
+            {
+                var voucher = await _voucherRepository.GetByIdAsync(booking.VoucherId.Value);
+                if (voucher != null && voucher.CurrentUsage > 0)
+                {
+                    voucher.CurrentUsage -= 1;
+                    _voucherRepository.Update(voucher);
+                }
+            }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

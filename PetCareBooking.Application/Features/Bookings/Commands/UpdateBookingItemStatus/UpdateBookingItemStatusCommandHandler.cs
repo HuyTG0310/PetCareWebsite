@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
@@ -145,6 +145,19 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                     IsSuccess = false,
                     StatusCode = 400,
                     Message = "Chỉ có thể Check-in hoặc thực hiện dịch vụ khi đơn đặt lịch đã được Xác nhận (Confirmed).",
+                    Result = Guid.Empty
+                };
+            }
+
+            // Bắt buộc phải có nhân viên phụ trách khi Checked_In hoặc In_Progress
+            if ((targetStatus == BookingItemStatus.Checked_In || targetStatus == BookingItemStatus.In_Progress) &&
+                !bookingItem.StaffId.HasValue && !request.StaffId.HasValue)
+            {
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "Staff ID is required when status is Checked_In or In_Progress.",
                     Result = Guid.Empty
                 };
             }
