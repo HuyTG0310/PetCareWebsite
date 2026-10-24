@@ -264,36 +264,50 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     };
                 }
 
-                // TÍNH TOÁN SỐ NGÀY & THỜI GIAN LƯU TRÚ CHO DỊCH VỤ BOARDING / DIET
+                // TÍNH TOÁN SỐ NGÀY, CHUẨN HÓA GIỜ MỐC & XỬ LÝ PHÒNG CHO DỊCH VỤ BOARDING / DIET
                 var itemStartAt = itemRequest.ScheduledStartAt;
                 var itemEndAt = itemRequest.ScheduledEndAt;
                 decimal durationDays = 1;
-
-                if (service.ServiceType == ServiceType.Boarding || service.ServiceType == ServiceType.Diet)
-                {
-                    if (itemEndAt.HasValue && itemEndAt.Value > itemStartAt)
-                    {
-                        durationDays = (decimal)Math.Max(1, Math.Ceiling((itemEndAt.Value.Date - itemStartAt.Date).TotalDays));
-                    }
-                    else
-                    {
-                        durationDays = Math.Max(1m, itemRequest.Quantity);
-                    }
-                }
-
-                // XỬ LÝ PHÒNG CHO DỊCH VỤ BOARDING (LƯU TRÚ)
                 Guid? assignedRoomId = null;
+
                 if (service.ServiceType == ServiceType.Boarding)
                 {
-                    if (!itemRequest.ScheduledEndAt.HasValue || itemRequest.ScheduledEndAt.Value <= itemRequest.ScheduledStartAt)
+                    if (!itemRequest.ScheduledEndAt.HasValue)
                     {
                         return new ApiResponse<CreateBookingResponseDTO>
                         {
                             IsSuccess = false,
                             StatusCode = 400,
-                            Message = $"Boarding service '{service.Name}' requires a valid ScheduledEndAt after ScheduledStartAt.",
+                            Message = $"Dịch vụ lưu trú '{service.Name}' yêu cầu phải có Ngày trả phòng (ScheduledEndAt).",
                             Result = null
                         };
+                    }
+
+                    if (itemRequest.ScheduledEndAt.Value.Date < itemRequest.ScheduledStartAt.Date)
+                    {
+                        return new ApiResponse<CreateBookingResponseDTO>
+                        {
+                            IsSuccess = false,
+                            StatusCode = 400,
+                            Message = $"Dịch vụ lưu trú '{service.Name}' yêu cầu Ngày trả phòng phải bằng hoặc sau Ngày nhận phòng.",
+                            Result = null
+                        };
+                    }
+
+                    // Chuẩn hóa giờ mốc theo quy định ngành khách sạn thú cưng:
+                    if (itemRequest.ScheduledEndAt.Value.Date == itemRequest.ScheduledStartAt.Date)
+                    {
+                        // Trường hợp gửi trong ngày (Daycare): Nhận 08:00 - Trả 18:00
+                        itemStartAt = itemRequest.ScheduledStartAt.Date.AddHours(8);
+                        itemEndAt = itemRequest.ScheduledStartAt.Date.AddHours(18);
+                        durationDays = 1;
+                    }
+                    else
+                    {
+                        // Trường hợp lưu trú qua đêm: Nhận từ 14:00 - Trả trước 12:00 (đệm 2 tiếng dọn chuồng)
+                        itemStartAt = itemRequest.ScheduledStartAt.Date.AddHours(14);
+                        itemEndAt = itemRequest.ScheduledEndAt.Value.Date.AddHours(12);
+                        durationDays = (decimal)(itemRequest.ScheduledEndAt.Value.Date - itemRequest.ScheduledStartAt.Date).TotalDays;
                     }
 
                     // Tự động xác định loại phòng từ Dịch vụ (đã được liên kết trong DB)
@@ -313,8 +327,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                         .Where(bi => bi.RoomId.HasValue &&
                                      bi.Status != BookingItemStatus.Cancelled &&
                                      bi.Status != BookingItemStatus.No_Show &&
-                                     bi.ScheduledStartAt < itemRequest.ScheduledEndAt.Value &&
-                                     (bi.ScheduledEndAt == null ? bi.ScheduledStartAt.AddDays(1) : bi.ScheduledEndAt.Value) > itemRequest.ScheduledStartAt)
+                                     bi.ScheduledStartAt < itemEndAt.Value &&
+                                     (bi.ScheduledEndAt == null ? bi.ScheduledStartAt.AddDays(1) : bi.ScheduledEndAt.Value) > itemStartAt)
                         .Select(bi => bi.RoomId!.Value)
                         .Distinct()
                         .ToListAsync(cancellationToken);
@@ -339,6 +353,19 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
 
                     assignedRoomId = availableRoom.Id;
                     allocatedRoomIdsInThisBooking.Add(availableRoom.Id);
+                }
+                else if (service.ServiceType == ServiceType.Diet)
+                {
+                    if (itemEndAt.HasValue && itemEndAt.Value.Date >= itemStartAt.Date)
+                    {
+                        durationDays = (itemEndAt.Value.Date == itemStartAt.Date)
+                            ? 1
+                            : (decimal)(itemEndAt.Value.Date - itemStartAt.Date).TotalDays;
+                    }
+                    else
+                    {
+                        durationDays = Math.Max(1m, itemRequest.Quantity);
+                    }
                 }
 
                 // Số lượng thực tế: Với Boarding/Diet theo ngày, Quantity đại diện cho số ngày * số lượng phần/phòng

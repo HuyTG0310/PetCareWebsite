@@ -32,8 +32,8 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     .LessThanOrEqualTo(100).WithMessage("Quantity cannot exceed 100.");
 
                 items.RuleFor(p => p.ScheduledEndAt)
-                    .GreaterThan(x => x.ScheduledStartAt)
-                    .WithMessage("Scheduled end time must be after start time.")
+                    .GreaterThanOrEqualTo(x => x.ScheduledStartAt)
+                    .WithMessage("Scheduled end time must be after or equal to start time.")
                     .When(p => p.ScheduledEndAt.HasValue);
             });
 
