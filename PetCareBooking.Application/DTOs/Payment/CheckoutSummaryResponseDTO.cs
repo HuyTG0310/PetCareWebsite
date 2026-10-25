@@ -22,6 +22,10 @@ namespace PetCareBooking.Application.DTOs.Payment
         public Guid? VoucherId { get; set; }
         public string? VoucherCode { get; set; }
         public decimal DiscountAmount { get; set; }
+        public decimal OriginalTotalPrice { get; set; }
+        public decimal LateFee { get; set; }
+        public double LateHours { get; set; }
+        public string? LateFeeReason { get; set; }
         public decimal TotalPrice { get; set; }
         public decimal TotalPaid { get; set; }
         public decimal RemainingAmount { get; set; }
@@ -51,6 +55,6 @@ namespace PetCareBooking.Application.DTOs.Payment
         public BookingItemStatus Status { get; set; }
         public DateTime ScheduledStartAt { get; set; }
         public DateTime? ScheduledEndAt { get; set; }
+        public string? ResultNote { get; set; }
     }
 }
-

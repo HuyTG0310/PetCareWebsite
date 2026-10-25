@@ -11,10 +11,10 @@ namespace PetCareBooking.Application.DTOs.Payment
         public decimal AmountPaid { get; set; }
         public decimal TotalPaid { get; set; }
         public decimal RemainingAmount { get; set; }
+        public decimal LateFee { get; set; }
         public BookingStatus BookingStatus { get; set; }
         public DateTime PaidAt { get; set; }
         public List<string> ReleasedRooms { get; set; } = new List<string>();
         public string Message { get; set; } = null!;
     }
 }
-

@@ -25,7 +25,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
 
                 items.RuleFor(p => p.ScheduledStartAt)
                     .NotEmpty().WithMessage("Scheduled start time is required.")
-                    .GreaterThan(System.DateTime.UtcNow).WithMessage("Scheduled start time must be in the future.");
+                    .GreaterThan(System.DateTime.UtcNow.AddHours(7).AddMinutes(-5)).WithMessage("Scheduled start time must be in the future.");
 
                 items.RuleFor(p => p.Quantity)
                     .GreaterThan(0).WithMessage("Quantity must be greater than 0.")

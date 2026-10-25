@@ -1,4 +1,5 @@
 using MediatR;
+using PetCareBooking.Application.Common.Helpers;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Payment;
 using PetCareBooking.Application.Interfaces;
@@ -31,10 +32,10 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
 
         public async Task<ApiResponse<CheckoutResponseDTO>> Handle(CheckoutBookingCommand request, CancellationToken cancellationToken)
         {
-            // 1. Fetch booking with items and room navigation
+            // 1. Fetch booking with items, service, room, and pet
             var bookings = await _bookingRepository.FindAsync(
                 b => b.Id == request.BookingId,
-                "BookingItems.Room"
+                "BookingItems.Room", "BookingItems.Service", "BookingItems.Pet"
             );
 
             var booking = bookings.FirstOrDefault();
@@ -78,6 +79,34 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
                 };
             }
 
+            var now = DateTime.UtcNow;
+            var nowLocal = now.AddHours(7); // Vietnam local time
+
+            // 2.2 Tự động áp dụng phụ phí đón trễ (Late Checkout Surcharge) nếu đơn chưa Completed
+            decimal appliedLateFee = 0;
+            if (booking.Status != BookingStatus.Completed)
+            {
+                var lateFeeResult = BookingPricingHelper.CalculateLateFees(booking, nowLocal);
+                if (lateFeeResult.TotalLateFee > 0)
+                {
+                    appliedLateFee = lateFeeResult.TotalLateFee;
+                    booking.TotalPrice += appliedLateFee;
+
+                    foreach (var kvp in lateFeeResult.ItemFees)
+                    {
+                        var item = booking.BookingItems.FirstOrDefault(bi => bi.Id == kvp.Key);
+                        if (item != null && kvp.Value.Fee > 0)
+                        {
+                            item.AssignedPrice += kvp.Value.Fee;
+                            item.ResultNote = string.IsNullOrEmpty(item.ResultNote)
+                                ? $"[{kvp.Value.Reason}]"
+                                : $"{item.ResultNote} | [{kvp.Value.Reason}]";
+                            _bookingItemRepository.Update(item);
+                        }
+                    }
+                }
+            }
+
             // 3. Fetch previous payment transactions
             var existingTransactions = await _paymentTransactionRepository.FindAsync(
                 t => t.BookingId == booking.Id
@@ -112,8 +141,6 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
                 ? request.TransactionCode.Trim()
                 : $"TXN-{DateTime.UtcNow:yyyyMMddHHmmss}-{Random.Shared.Next(1000, 9999)}";
 
-            var now = DateTime.UtcNow;
-
             // 5. Create PaymentTransaction (only if an additional payment amount is made at counter)
             PaymentTransaction? transaction = null;
             if (paymentAmount > 0)
@@ -128,7 +155,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
                     PaymentStatus = "SUCCESS",
                     TransactionCode = transactionCode,
                     PaidAt = now,
-                    Note = request.Note?.Trim() ?? "Checkout and settled at counter",
+                    Note = request.Note?.Trim() ?? (appliedLateFee > 0 ? $"Thanh toán phụ phí đón trễ ({appliedLateFee:N0} VND) và hoàn tất tại quầy" : "Checkout and settled at counter"),
                     CreatedAt = now
                 };
 
@@ -188,6 +215,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
                 AmountPaid = paymentAmount,
                 TotalPaid = newTotalPaid,
                 RemainingAmount = newRemainingAmount,
+                LateFee = appliedLateFee,
                 BookingStatus = booking.Status,
                 PaidAt = now,
                 ReleasedRooms = releasedRooms,
