@@ -297,14 +297,14 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     // Chuẩn hóa giờ mốc theo quy định ngành khách sạn thú cưng:
                     if (itemRequest.ScheduledEndAt.Value.Date == itemRequest.ScheduledStartAt.Date)
                     {
-                        // Trường hợp gửi trong ngày (Daycare): Nhận 08:00 - Trả 18:00
+                        // Trường hợp gửi trong ngày (Daycare): Nhận 08:00 - Trả 18:00 (UTC+7: 01:00 UTC - 11:00 UTC)
                         itemStartAt = itemRequest.ScheduledStartAt.Date.AddHours(8);
                         itemEndAt = itemRequest.ScheduledStartAt.Date.AddHours(18);
                         durationDays = 1;
                     }
                     else
                     {
-                        // Trường hợp lưu trú qua đêm: Nhận từ 14:00 - Trả trước 12:00 (đệm 2 tiếng dọn chuồng)
+                        // Trường hợp lưu trú qua đêm: Nhận từ 14:00 - Trả trước 12:00 (UTC+7: 07:00 UTC - 05:00 UTC)
                         itemStartAt = itemRequest.ScheduledStartAt.Date.AddHours(14);
                         itemEndAt = itemRequest.ScheduledEndAt.Value.Date.AddHours(12);
                         durationDays = (decimal)(itemRequest.ScheduledEndAt.Value.Date - itemRequest.ScheduledStartAt.Date).TotalDays;

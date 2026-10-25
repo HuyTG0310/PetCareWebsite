@@ -1,4 +1,5 @@
 using MediatR;
+using PetCareBooking.Application.Common.Helpers;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.Payment;
 using PetCareBooking.Application.Interfaces;
@@ -67,14 +68,21 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummar
                 .ToList();
 
             var totalPaid = successfulTransactions.Sum(t => t.Amount);
-            var remainingAmount = Math.Max(0, booking.TotalPrice - totalPaid);
+
+            // Tự động tính phụ phí đón trễ (Late Checkout Surcharge)
+            var now = DateTime.UtcNow.AddHours(7); // Vietnam local time
+            var lateFeeResult = BookingPricingHelper.CalculateLateFees(booking, now);
+
+            var originalTotalPrice = booking.TotalPrice;
+            var totalPriceWithLateFee = originalTotalPrice + lateFeeResult.TotalLateFee;
+            var remainingAmount = Math.Max(0, totalPriceWithLateFee - totalPaid);
 
             // Subtotal calculation
             var subTotal = booking.BookingItems.Sum(bi => bi.AssignedPrice);
-            var discountAmount = Math.Max(0, subTotal - booking.TotalPrice);
+            var discountAmount = Math.Max(0, subTotal - originalTotalPrice);
 
             var paymentStatus = "UNPAID";
-            if (totalPaid >= booking.TotalPrice && booking.TotalPrice > 0)
+            if (totalPaid >= totalPriceWithLateFee && totalPriceWithLateFee > 0)
             {
                 paymentStatus = "PAID";
             }
@@ -124,30 +132,48 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummar
                 VoucherId = booking.VoucherId,
                 VoucherCode = booking.Voucher?.Code,
                 DiscountAmount = discountAmount,
-                TotalPrice = booking.TotalPrice,
+                OriginalTotalPrice = originalTotalPrice,
+                LateFee = lateFeeResult.TotalLateFee,
+                LateHours = lateFeeResult.MaxLateHours,
+                LateFeeReason = lateFeeResult.LateFeeReason,
+                TotalPrice = totalPriceWithLateFee,
                 TotalPaid = totalPaid,
                 RemainingAmount = remainingAmount,
                 PaymentStatus = paymentStatus,
                 CanCheckout = canCheckout,
                 RestrictionReason = restrictionReason,
-                Items = booking.BookingItems.Select(bi => new CheckoutItemSummaryDTO
+                Items = booking.BookingItems.Select(bi =>
                 {
-                    ItemId = bi.Id,
-                    PetId = bi.PetId,
-                    PetName = bi.Pet.Name,
-                    ServiceId = bi.ServiceId,
-                    ServiceName = bi.Service.Name,
-                    ServiceType = bi.Service.ServiceType,
-                    RoomId = bi.RoomId,
-                    RoomName = bi.Room?.RoomName,
-                    StaffId = bi.StaffId,
-                    StaffName = bi.Staff?.FullName,
-                    Quantity = bi.Quantity,
-                    UnitPrice = bi.UnitPrice,
-                    AssignedPrice = bi.AssignedPrice,
-                    Status = bi.Status,
-                    ScheduledStartAt = bi.ScheduledStartAt,
-                    ScheduledEndAt = bi.ScheduledEndAt
+                    var hasFeeInfo = lateFeeResult.ItemFees.TryGetValue(bi.Id, out var itemFee);
+                    var itemFeeAmount = hasFeeInfo ? itemFee.Fee : 0m;
+                    var itemNote = bi.ResultNote;
+                    if (hasFeeInfo && !string.IsNullOrEmpty(itemFee.Reason))
+                    {
+                        itemNote = string.IsNullOrEmpty(itemNote)
+                            ? itemFee.Reason
+                            : $"{itemNote} | {itemFee.Reason}";
+                    }
+
+                    return new CheckoutItemSummaryDTO
+                    {
+                        ItemId = bi.Id,
+                        PetId = bi.PetId,
+                        PetName = bi.Pet.Name,
+                        ServiceId = bi.ServiceId,
+                        ServiceName = bi.Service.Name,
+                        ServiceType = bi.Service.ServiceType,
+                        RoomId = bi.RoomId,
+                        RoomName = bi.Room?.RoomName,
+                        StaffId = bi.StaffId,
+                        StaffName = bi.Staff?.FullName,
+                        Quantity = bi.Quantity,
+                        UnitPrice = bi.UnitPrice,
+                        AssignedPrice = bi.AssignedPrice + itemFeeAmount,
+                        Status = bi.Status,
+                        ScheduledStartAt = bi.ScheduledStartAt,
+                        ScheduledEndAt = bi.ScheduledEndAt,
+                        ResultNote = itemNote
+                    };
                 }).ToList(),
                 PaymentHistory = transactions
                     .OrderByDescending(t => t.CreatedAt)
@@ -176,4 +202,3 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummar
         }
     }
 }
-
