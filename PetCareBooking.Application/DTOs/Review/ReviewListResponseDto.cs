@@ -1,4 +1,4 @@
-﻿namespace PetCareBooking.Application.DTOs.Review
+namespace PetCareBooking.Application.DTOs.Review
 {
     public class ReviewListResponseDto
     {
@@ -11,5 +11,6 @@
         public int Rating { get; set; }
         public string? Comment { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }
