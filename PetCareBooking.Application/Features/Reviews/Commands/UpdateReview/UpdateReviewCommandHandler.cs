@@ -61,6 +61,17 @@ namespace PetCareBooking.Application.Features.Reviews.Commands.UpdateReview
                 };
             }
 
+            // UC-8.4: Customers are only allowed to edit their review once
+            if (!isAdminOrStaff && review.UpdatedAt != null)
+            {
+                return new ApiResponse<bool>
+                {
+                    IsSuccess = false,
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "You can only edit your review once. If you wish to change your review, you can delete it and submit a new one."
+                };
+            }
+
             review.Rating = request.Rating;
             review.Comment = request.Comment;
             review.UpdatedAt = DateTime.UtcNow;

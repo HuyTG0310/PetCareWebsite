@@ -33,7 +33,8 @@ namespace PetCareBooking.Application.Features.Reviews.Queries.GetReviewById
                     CustomerEmail = r.Customer.Email,
                     Rating = r.Rating,
                     Comment = r.Comment,
-                    CreatedAt = r.CreatedAt
+                    CreatedAt = r.CreatedAt,
+                    UpdatedAt = r.UpdatedAt
                 })
                 .FirstOrDefaultAsync(cancellationToken);
 
