@@ -52,7 +52,8 @@ namespace PetCareBooking.Application.Features.Reviews.Queries.GetReviewsWithPagi
                     CustomerAvatarUrl = r.Customer.AvatarUrl,
                     Rating = r.Rating,
                     Comment = r.Comment,
-                    CreatedAt = r.CreatedAt
+                    CreatedAt = r.CreatedAt,
+                    UpdatedAt = r.UpdatedAt
                 })
                 .ToListAsync(cancellationToken);
 
