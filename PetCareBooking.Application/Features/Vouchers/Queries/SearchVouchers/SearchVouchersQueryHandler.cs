@@ -32,7 +32,7 @@ namespace PetCareBooking.Application.Features.Vouchers.Queries.SearchVouchers
 
             if (request.IsValidOnly == true)
             {
-                query = query.Where(v => now <= v.EndDate && (!v.MaxUsage.HasValue || v.CurrentUsage < v.MaxUsage.Value));
+                query = query.Where(v => now >= v.StartDate && now <= v.EndDate && (!v.MaxUsage.HasValue || v.CurrentUsage < v.MaxUsage.Value));
             }
 
             int totalCount = await query.CountAsync(cancellationToken);
@@ -51,7 +51,7 @@ namespace PetCareBooking.Application.Features.Vouchers.Queries.SearchVouchers
                     EndDate = v.EndDate,
                     MaxUsage = v.MaxUsage,
                     CurrentUsage = v.CurrentUsage,
-                    IsValid = now <= v.EndDate && (!v.MaxUsage.HasValue || v.CurrentUsage < v.MaxUsage.Value)
+                    IsValid = now >= v.StartDate && now <= v.EndDate && (!v.MaxUsage.HasValue || v.CurrentUsage < v.MaxUsage.Value)
                 })
                 .ToListAsync(cancellationToken);
 
