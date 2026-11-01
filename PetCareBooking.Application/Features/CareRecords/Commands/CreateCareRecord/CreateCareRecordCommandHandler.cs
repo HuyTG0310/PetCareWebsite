@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
+using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRecord
 {
@@ -73,6 +74,19 @@ namespace PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRec
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status404NotFound,
                     Message = "Booking item not found.",
+                    Result = Guid.Empty
+                };
+            }
+
+            if (bookingItem.Status == BookingItemStatus.Completed ||
+                bookingItem.Status == BookingItemStatus.Cancelled ||
+                bookingItem.Status == BookingItemStatus.No_Show)
+            {
+                return new ApiResponse<Guid>
+                {
+                    IsSuccess = false,
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Không thể ghi nhật ký chăm sóc cho dịch vụ lưu trú đã hoàn thành hoặc đã hủy.",
                     Result = Guid.Empty
                 };
             }
