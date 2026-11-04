@@ -46,7 +46,9 @@ namespace PetCareBooking.API.Controllers
             return Ok(response);
         }
 
-        [RequirePermission("VOUCHER_VIEW")]
+        /// <summary>
+        /// [Customer / Staff / Admin] Tìm kiếm và kiểm tra hiệu lực voucher theo mã
+        /// </summary>
         [HttpGet("search")]
         public async Task<ActionResult<PagedResult<VoucherListResponseDTO>>> SearchVouchers([FromQuery] SearchVouchersQuery query)
         {

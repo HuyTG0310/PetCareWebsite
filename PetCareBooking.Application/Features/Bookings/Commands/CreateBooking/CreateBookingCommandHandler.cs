@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
@@ -199,8 +199,9 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
 
             if (!string.IsNullOrEmpty(request.VoucherCode))
             {
+                var trimmedCode = request.VoucherCode.Trim().ToLower();
                 var vouchers = await _voucherRepository.FindAsync(v =>
-                    v.Code == request.VoucherCode &&
+                    v.Code.ToLower() == trimmedCode &&
                     v.StartDate <= DateTime.UtcNow &&
                     v.EndDate >= DateTime.UtcNow);
 
