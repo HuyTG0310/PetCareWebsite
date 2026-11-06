@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
 using PetCareBooking.Domain.Entities;
@@ -9,11 +10,16 @@ namespace PetCareBooking.Application.Features.Vouchers.Commands.DeleteVoucher
     public class DeleteVoucherCommandHandler : IRequestHandler<DeleteVoucherCommand, ApiResponse<bool>>
     {
         private readonly IGenericRepository<Voucher> _voucherRepository;
+        private readonly IGenericRepository<Booking> _bookingRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteVoucherCommandHandler(IGenericRepository<Voucher> voucherRepository, IUnitOfWork unitOfWork)
+        public DeleteVoucherCommandHandler(
+            IGenericRepository<Voucher> voucherRepository,
+            IGenericRepository<Booking> bookingRepository,
+            IUnitOfWork unitOfWork)
         {
             _voucherRepository = voucherRepository;
+            _bookingRepository = bookingRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -30,35 +36,28 @@ namespace PetCareBooking.Application.Features.Vouchers.Commands.DeleteVoucher
                     Result = false
                 };
             }
-            if (voucher.CurrentUsage == 0)
+
+            // Unlink any bookings referencing this voucher to prevent foreign key constraint violations
+            var referencingBookings = await _bookingRepository.GetQueryable()
+                .Where(b => b.VoucherId == voucher.Id)
+                .ToListAsync(cancellationToken);
+
+            foreach (var booking in referencingBookings)
             {
-                _voucherRepository.Delete(voucher);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-                return new ApiResponse<bool>
-                {
-                    IsSuccess = true,
-                    StatusCode = StatusCodes.Status200OK,
-                    Message = "Voucher has been permanently deleted successfully.",
-                    Result = true
-                };
+                booking.VoucherId = null;
+                _bookingRepository.Update(booking);
             }
-            else
+
+            _voucherRepository.Delete(voucher);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return new ApiResponse<bool>
             {
-                voucher.EndDate = DateTime.UtcNow;
-                voucher.UpdatedAt = DateTime.UtcNow;
-
-                _voucherRepository.Update(voucher);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-                return new ApiResponse<bool>
-                {
-                    IsSuccess = true,
-                    StatusCode = StatusCodes.Status200OK,
-                    Message = "Voucher has already been used and cannot be permanently deleted. It has been deactivated by setting its end date to now.",
-                    Result = true
-                };
-            }
+                IsSuccess = true,
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Voucher has been deleted successfully.",
+                Result = true
+            };
         }
     }
 }
