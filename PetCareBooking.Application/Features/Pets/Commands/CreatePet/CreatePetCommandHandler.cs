@@ -29,10 +29,10 @@ namespace PetCareBooking.Application.Features.Pets.Commands.CreatePet
         {
             Guid targetCustomerId = request.CustomerId;
 
-            // Phân quyền tạo thú cưng:
+            // Pet creation authorization:
             if (!_currentUserService.IsAdminOrStaff)
             {
-                // Customer thông thường: Bắt buộc lấy CustomerId từ Token đăng nhập (ngăn chặn IDOR)
+                // Regular Customer: CustomerId must be taken from login Token (preventing IDOR)
                 if (!_currentUserService.UserId.HasValue)
                 {
                     return new ApiResponse<Guid>
@@ -59,7 +59,7 @@ namespace PetCareBooking.Application.Features.Pets.Commands.CreatePet
                     };
                 }
 
-                // Nhân viên/Admin tạo hộ tại quầy: Bắt buộc chỉ định CustomerId hợp lệ
+                // Staff/Admin creating on behalf at counter: Must specify a valid CustomerId
                 if (targetCustomerId == Guid.Empty)
                 {
                     return new ApiResponse<Guid>

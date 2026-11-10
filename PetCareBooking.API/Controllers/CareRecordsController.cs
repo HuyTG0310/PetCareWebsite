@@ -27,7 +27,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Staff / Admin] Lấy danh sách nhật ký chăm sóc phân trang toàn hệ thống
+        /// [Staff / Admin] Get paginated list of care records system-wide
         /// </summary>
         [RequirePermission("CARE_RECORD_VIEW")]
         [HttpGet]
@@ -38,7 +38,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Staff / Admin] Tìm kiếm và lọc nhật ký chăm sóc theo từ khóa, nhân viên, hoặc mục đặt lịch
+        /// [Staff / Admin] Search and filter care records by keyword, staff, or booking item
         /// </summary>
         [RequirePermission("CARE_RECORD_VIEW")]
         [HttpGet("search")]
@@ -49,7 +49,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Customer / Staff / Admin] Lấy toàn bộ timeline nhật ký chăm sóc của một dịch vụ lưu trú cụ thể (có kiểm tra chống IDOR)
+        /// [Customer / Staff / Admin] Get full care record timeline of a specific boarding service (with IDOR prevention)
         /// </summary>
         [HttpGet("booking-item/{bookingItemId:guid}")]
         public async Task<IActionResult> GetCareRecordsByBookingItem(Guid bookingItemId)
@@ -59,7 +59,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Customer / Staff / Admin] Xem chi tiết một bản ghi nhật ký chăm sóc theo ID
+        /// [Customer / Staff / Admin] View details of a care record by ID
         /// </summary>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetCareRecordById(Guid id)
@@ -69,7 +69,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Boarding Staff / Receptionist / Admin] Tạo mới một nhật ký chăm sóc cho thú cưng đang lưu trú (tự động nhận diện StaffId chống IDOR)
+        /// [Boarding Staff / Receptionist / Admin] Create a new care record for a boarding pet (auto-detect StaffId with IDOR protection)
         /// </summary>
         [RequirePermission("CARE_RECORD_CREATE")]
         [HttpPost]
@@ -80,7 +80,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Boarding Staff / Receptionist / Admin] Cập nhật bản ghi nhật ký chăm sóc
+        /// [Boarding Staff / Receptionist / Admin] Update a care record
         /// </summary>
         [RequirePermission("CARE_RECORD_MANAGE")]
         [HttpPut("{id:guid}")]
@@ -92,7 +92,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Admin / Receptionist] Xóa một bản ghi nhật ký chăm sóc
+        /// [Admin / Receptionist] Delete a care record
         /// </summary>
         [RequirePermission("CARE_RECORD_MANAGE")]
         [HttpDelete("{id:guid}")]

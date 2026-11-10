@@ -24,7 +24,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.MarkBookingNoSho
 
         public async Task<ApiResponse<Guid>> Handle(MarkBookingNoShowCommand request, CancellationToken cancellationToken)
         {
-            // 1. Kiểm tra đơn đặt lịch tồn tại kèm danh sách các dịch vụ (BookingItems)
+            // 1. Verify booking exists along with list of service items (BookingItems)
             var bookings = await _bookingRepository.FindAsync(b => b.Id == request.Id, "BookingItems");
             var booking = bookings.FirstOrDefault();
 
@@ -39,7 +39,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.MarkBookingNoSho
                 };
             }
 
-            // 2. Kiểm tra trạng thái đơn: Không thể đánh dấu No-Show nếu đơn đã hoàn thành, đã bị hủy hoặc đã đánh dấu No-Show trước đó
+            // 2. Check booking status: Cannot mark as No-Show if booking is completed, cancelled, or previously marked as No-Show
             if (booking.Status == BookingStatus.Completed || booking.Status == BookingStatus.Cancelled || booking.Status == BookingStatus.No_Show)
             {
                 return new ApiResponse<Guid>
@@ -51,7 +51,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.MarkBookingNoSho
                 };
             }
 
-            // 3. Ràng buộc nghiệp vụ: Thú cưng chưa được Check-in và dịch vụ chưa bắt đầu thực hiện
+            // 3. Business constraint: Pet has not been checked in and service has not started
             bool hasStartedItems = booking.BookingItems.Any(bi =>
                 bi.Status == BookingItemStatus.Checked_In ||
                 bi.Status == BookingItemStatus.In_Progress ||
@@ -68,7 +68,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.MarkBookingNoSho
                 };
             }
 
-            // 4. Cập nhật toàn bộ các dịch vụ chưa bắt đầu sang trạng thái No_Show
+            // 4. Update all unstarted service items to No_Show status
             foreach (var item in booking.BookingItems)
             {
                 if (item.Status != BookingItemStatus.Cancelled)
@@ -81,7 +81,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.MarkBookingNoSho
                 }
             }
 
-            // 5. Cập nhật trạng thái Booking sang No_Show với lý do rõ ràng
+            // 5. Update Booking status to No_Show with clear reason
             booking.Status = BookingStatus.No_Show;
             booking.CancellationReason = string.IsNullOrWhiteSpace(request.Reason)
                 ? "Khách không đến theo lịch hẹn (No-Show)"

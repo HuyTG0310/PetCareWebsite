@@ -10,7 +10,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
         public string? VoucherCode { get; set; }
 
         /// <summary>
-        /// Lựa chọn thanh toán: PAY_AT_COUNTER (Thanh toán tại quầy khi đến tiệm) hoặc VNPAY (Thanh toán online qua cổng VNPAY)
+        /// Payment option: PAY_AT_COUNTER (Pay at counter upon arrival) or VNPAY (Online payment via VNPay gateway)
         /// </summary>
         public string PaymentChoice { get; set; } = "PAY_AT_COUNTER";
 

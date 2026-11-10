@@ -36,7 +36,7 @@ namespace PetCareBooking.Application.Features.Pets.Commands.DeletePet
                 };
             }
 
-            // Kiểm tra quyền sở hữu (Customer chỉ được xóa pet của mình)
+            // Check ownership (Customer can only delete their own pet)
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || pet.CustomerId != _currentUserService.UserId.Value)

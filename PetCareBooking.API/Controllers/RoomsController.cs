@@ -25,7 +25,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Tạo mới một phòng vật lý (Room)
+        /// Create a new physical room
         /// </summary>
         [RequirePermission("ROOM_MANAGE")]
         [HttpPost]
@@ -36,7 +36,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Lấy danh sách các phòng (phân trang, lọc theo loại phòng, trạng thái, tìm kiếm tên phòng)
+        /// Get list of rooms (paginated, filter by room type, status, and room name search)
         /// </summary>
         [RequirePermission("ROOM_VIEW")]
         [HttpGet]
@@ -47,7 +47,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Lấy danh sách các phòng cụ thể còn trống theo khoảng thời gian lưu trú (dành cho lễ tân xếp phòng)
+        /// Get list of specific available rooms within a stay period (for receptionist room assignment)
         /// </summary>
         [RequirePermission("ROOM_CHECK_AVAILABILITY", "ROOM_VIEW")]
         [HttpGet("available")]
@@ -58,8 +58,8 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Customer / Frontend Datepicker] Kiểm tra tình trạng phòng theo từng ngày trong tháng hoặc theo khoảng ngày.
-        /// Dùng để bôi xám (disable) các ngày hết phòng trên bộ lịch (Datepicker) khi khách chọn dịch vụ Boarding.
+        /// [Customer / Frontend Datepicker] Check room availability status per day in month or across date range.
+        /// Used to disable/grey out fully-booked dates on calendar datepicker when customer selects Boarding service.
         /// </summary>
         [AllowAnonymous]
         [HttpGet("check-availability")]
@@ -70,7 +70,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Xem thông tin chi tiết một phòng theo ID
+        /// View room details by ID
         /// </summary>
         [RequirePermission("ROOM_VIEW")]
         [HttpGet("{id:guid}")]
@@ -82,7 +82,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Cập nhật thông tin phòng (tên phòng, loại phòng) theo ID
+        /// Update room information (room name, room type) by ID
         /// </summary>
         [RequirePermission("ROOM_MANAGE")]
         [HttpPut("{id:guid}")]
@@ -94,7 +94,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Cập nhật nhanh trạng thái phòng (Available <-> Maintenance)
+        /// Quick update room status (Available <-> Maintenance)
         /// </summary>
         [RequirePermission("ROOM_MANAGE")]
         [HttpPatch("{id:guid}/status")]
@@ -106,7 +106,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Xóa phòng theo ID (chỉ xóa được khi chưa có lịch sử đặt phòng)
+        /// Delete room by ID (can only delete when there is no booking history)
         /// </summary>
         [RequirePermission("ROOM_MANAGE")]
         [HttpDelete("{id:guid}")]

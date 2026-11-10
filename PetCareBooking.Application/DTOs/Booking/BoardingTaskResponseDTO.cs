@@ -27,7 +27,7 @@ namespace PetCareBooking.Application.DTOs.Booking
         public string ServiceName { get; set; } = null!;
         public ServiceType ServiceType { get; set; }
 
-        // Gói khẩu phần ăn đi kèm (Diet Add-on)
+        // Diet add-on meal package
         public string? DietServiceName { get; set; }
         public decimal? DietPrice { get; set; }
 

@@ -1,0 +1,122 @@
+<mxfile host="app.diagrams.net" version="24.0.0" type="device">
+  <diagram id="manage-review" name="Manage Review">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="720" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="review_frame" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=none;" vertex="1" parent="1">
+      <mxGeometry x="50" y="65" width="800" height="615" as="geometry" />
+    </mxCell>
+<mxCell id="review_h1" value="&lt;b&gt;&lt;font color=&quot;#990000&quot; style=&quot;font-size: 15px;&quot;&gt;IV. Design specification&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="50" y="8" width="250" height="20" as="geometry" />
+    </mxCell>
+<mxCell id="review_h2" value="&lt;b&gt;&lt;font style=&quot;font-size: 13px;&quot;&gt;IV.1 Integrated Communication Diagrams&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="50" y="28" width="300" height="20" as="geometry" />
+    </mxCell>
+<mxCell id="review_h3" value="&lt;b&gt;&lt;i&gt;&lt;font style=&quot;font-size: 13px;&quot;&gt;Manage Review&lt;/font&gt;&lt;/i&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="50" y="46" width="250" height="20" as="geometry" />
+    </mxCell>
+<mxCell id="review_actor" value="Customer / Staff" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;strokeColor=#000000;strokeWidth=1.5;fillColor=#ffffff;fontStyle=1;fontSize=11;fontFamily=Arial;" vertex="1" parent="1">
+      <mxGeometry x="200" y="125" width="30" height="60" as="geometry" />
+    </mxCell>
+<mxCell id="review_dash" value=":CustomerDashboardView" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="360" y="175" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="review_manage" value=":ManageReviewView" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="360" y="355" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="review_add" value=":AddReviewView" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="610" y="235" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="review_edit" value=":EditReviewView" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="155" y="485" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="review_ctrl" value=":ReviewController" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="610" y="455" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="review_s1" value=":BookingService" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="360" y="595" width="130" height="40" as="geometry" />
+        </mxCell>
+<mxCell id="review_s2" value=":ReviewService" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="610" y="595" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="review_e1" value="Select manage review function" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;verticalAlign=bottom;labelBackgroundColor=none;" edge="1" parent="1" source="review_actor" target="review_dash">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="review_e2" value="Show" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;verticalAlign=middle;align=right;labelBackgroundColor=none;" edge="1" parent="1" source="review_dash" target="review_manage">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="review_e3" value="Show" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;verticalAlign=bottom;align=center;labelBackgroundColor=none;" edge="1" parent="1" source="review_dash" target="review_add">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="review_e4" value="fill review information&#xa;submit add review" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=center;verticalAlign=bottom;labelBackgroundColor=none;" edge="1" parent="1" source="review_actor" target="review_add">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="215" y="90" />
+          <mxPoint x="675" y="90" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+<mxCell id="review_e5" value="Select Add Review function&#xa;Select Delete Review function&#xa;Select Update Review function&#xa;confirm to delete&#xa;cancel to delete" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=left;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="review_actor" target="review_manage">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="review_e6" value="edit review information&#xa;submit edit review" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=center;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="review_actor" target="review_edit">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="215" y="440" />
+          <mxPoint x="215" y="440" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+<mxCell id="review_e7" value="Show" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=right;verticalAlign=bottom;labelBackgroundColor=none;" edge="1" parent="1" source="review_manage" target="review_edit">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="review_e8" value="verify review info" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=left;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="review_add" target="review_add">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="740" y="245" />
+          <mxPoint x="775" y="245" />
+          <mxPoint x="775" y="265" />
+          <mxPoint x="740" y="265" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+<mxCell id="review_e9" value="checkBookingItem&#xa;addReview" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=left;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="review_add" target="review_ctrl">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="review_e10" value="deleteReview&#xa;getReviews" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=center;verticalAlign=bottom;labelBackgroundColor=none;" edge="1" parent="1" source="review_manage" target="review_ctrl">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="review_e11" value="verify review info" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=center;verticalAlign=top;labelBackgroundColor=none;" edge="1" parent="1" source="review_edit" target="review_edit">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="180" y="525" />
+          <mxPoint x="180" y="555" />
+          <mxPoint x="220" y="555" />
+          <mxPoint x="220" y="525" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+<mxCell id="review_e12" value="updateReview" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=center;verticalAlign=top;labelBackgroundColor=none;" edge="1" parent="1" source="review_edit" target="review_ctrl">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="review_e13" value="verify permission" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=left;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="review_ctrl" target="review_ctrl">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="740" y="465" />
+          <mxPoint x="775" y="465" />
+          <mxPoint x="775" y="485" />
+          <mxPoint x="740" y="485" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+<mxCell id="review_e14" value="checkBookingItem" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=right;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="review_ctrl" target="review_s1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+<mxCell id="review_e15" value="getReviews&#xa;addReview&#xa;updateReview&#xa;deleteReview" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=left;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="review_ctrl" target="review_s2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -28,7 +28,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking
 
         public async Task<ApiResponse<Guid>> Handle(CheckInBookingCommand request, CancellationToken cancellationToken)
         {
-            // 0. Phân quyền: Nhân viên thực hiện Check-in bắt buộc phải có quyền BOOKING_CHECKIN
+            // 0. Authorization: Staff performing Check-in must have BOOKING_CHECKIN permission
             if (_currentUserService.IsAdminOrStaff && !_currentUserService.HasPermission("BOOKING_CHECKIN"))
             {
                 return new ApiResponse<Guid>

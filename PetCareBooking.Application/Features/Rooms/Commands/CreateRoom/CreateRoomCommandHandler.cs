@@ -25,7 +25,7 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.CreateRoom
 
         public async Task<ApiResponse<Guid>> Handle(CreateRoomCommand request, CancellationToken cancellationToken)
         {
-            // 1. Kiểm tra loại phòng có tồn tại hay không
+            // 1. Check if room type exists
             var roomTypeExists = await _roomTypeRepository.GetQueryable()
                 .AnyAsync(rt => rt.Id == request.RoomTypeId, cancellationToken);
 
@@ -42,7 +42,7 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.CreateRoom
 
             var trimmedRoomName = request.RoomName.Trim();
 
-            // 2. Kiểm tra trùng tên phòng (không phân biệt hoa thường)
+            // 2. Check for duplicate room name (case-insensitive)
             var isDuplicateName = await _roomRepository.GetQueryable()
                 .AnyAsync(r => r.RoomName.ToLower() == trimmedRoomName.ToLower(), cancellationToken);
 
@@ -57,7 +57,7 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.CreateRoom
                 };
             }
 
-            // 3. Tạo phòng mới
+            // 3. Create new room
             var newRoom = new Room
             {
                 Id = Guid.NewGuid(),

@@ -22,10 +22,10 @@ namespace PetCareBooking.Application.DTOs.Booking
         // Pets Summary
         public List<ReceiptPetSummaryDTO> Pets { get; set; } = new();
 
-        // Line Items (Chi tiết từng dịch vụ)
+        // Line Items (Detailed service items)
         public List<ReceiptItemDTO> Items { get; set; } = new();
 
-        // Financial Breakdown (Bảng tính chi phí & giảm giá)
+        // Financial Breakdown (Cost and discount calculations)
         public decimal SubTotal { get; set; }
         public Guid? VoucherId { get; set; }
         public string? VoucherCode { get; set; }
@@ -36,7 +36,7 @@ namespace PetCareBooking.Application.DTOs.Booking
         public string PaymentStatus { get; set; } = null!; // PAID, PARTIALLY_PAID, UNPAID
         public string PrimaryPaymentMethod { get; set; } = null!;
 
-        // Payment Transactions (Lịch sử các đợt thanh toán)
+        // Payment Transactions (Payment history records)
         public List<ReceiptPaymentTransactionDTO> PaymentHistory { get; set; } = new();
 
         // Receipt Footer & Policies

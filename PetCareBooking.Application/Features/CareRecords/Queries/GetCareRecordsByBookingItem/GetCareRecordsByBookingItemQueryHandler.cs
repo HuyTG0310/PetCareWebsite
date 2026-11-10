@@ -43,7 +43,7 @@ namespace PetCareBooking.Application.Features.CareRecords.Queries.GetCareRecords
                 };
             }
 
-            // 2. Chống IDOR: Khách hàng chỉ được xem nhật ký chăm sóc của thú cưng thuộc đơn hàng của chính mình
+            // 2. IDOR Prevention: Customer can only view care records of pets belonging to their own booking
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || bookingItem.Booking.CustomerId != _currentUserService.UserId.Value)

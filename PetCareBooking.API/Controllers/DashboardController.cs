@@ -18,7 +18,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Admin / Receptionist] Lấy toàn bộ số liệu thống kê tổng quan (Doanh thu, Đơn đặt lịch, Trạng thái phòng, Công việc hôm nay, Biểu đồ 7 ngày)
+        /// [Admin / Receptionist] Get overall dashboard statistics (Revenue, Bookings, Room status, Today tasks, 7-day chart)
         /// </summary>
         [HttpGet("stats")]
         public async Task<IActionResult> GetDashboardStats()

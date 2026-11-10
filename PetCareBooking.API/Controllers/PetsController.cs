@@ -28,7 +28,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Customer/Staff/Admin] Lấy danh sách thú cưng của chính mình (đọc từ JWT Token)
+        /// [Customer/Staff/Admin] Get list of own pets (retrieved from JWT Token)
         /// </summary>
         [Authorize]
         [HttpGet("my-pets")]
@@ -57,7 +57,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Staff/Admin or Own Customer] Lấy danh sách thú cưng của một khách hàng cụ thể theo CustomerId
+        /// [Staff/Admin or Own Customer] Get list of pets of a specific customer by CustomerId
         /// </summary>
         [Authorize]
         [HttpGet("customer/{customerId:guid}")]
@@ -72,7 +72,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Staff/Admin ONLY] Lấy danh sách toàn bộ thú cưng trong hệ thống (phân trang)
+        /// [Staff/Admin ONLY] Get all pets in the system (paginated)
         /// </summary>
         [RequirePermission("PET_VIEW")]
         [HttpGet]
@@ -83,7 +83,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Staff/Admin ONLY] Tìm kiếm thú cưng toàn hệ thống
+        /// [Staff/Admin ONLY] Search pets system-wide
         /// </summary>
         [RequirePermission("PET_VIEW")]
         [HttpGet("search")]
@@ -94,7 +94,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Customer (Own Pet) / Staff / Admin] Xem chi tiết 1 thú cưng theo ID
+        /// [Customer (Own Pet) / Staff / Admin] View pet details by ID
         /// </summary>
         [Authorize]
         [HttpGet("{id:guid}")]
@@ -105,7 +105,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Customer / Staff / Admin] Tạo mới thú cưng
+        /// [Customer / Staff / Admin] Create a new pet
         /// </summary>
         [Authorize]
         [HttpPost]
@@ -116,7 +116,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Customer (Own Pet) / Staff / Admin] Cập nhật thông tin thú cưng
+        /// [Customer (Own Pet) / Staff / Admin] Update pet information
         /// </summary>
         [Authorize]
         [HttpPut("{id:guid}")]
@@ -128,7 +128,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Customer (Own Pet) / Staff / Admin] Xóa mềm thú cưng
+        /// [Customer (Own Pet) / Staff / Admin] Soft delete pet
         /// </summary>
         [Authorize]
         [HttpDelete("{id:guid}")]

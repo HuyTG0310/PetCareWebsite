@@ -47,7 +47,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// Kiểm tra số lượng phòng còn trống theo từng loại phòng trong khoảng thời gian lưu trú
+        /// Check available room count by room type within the boarding stay date range
         [HttpGet("availability")]
         public async Task<IActionResult> GetRoomTypeAvailability([FromQuery] GetRoomTypeAvailabilityQuery query)
         {
@@ -56,7 +56,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Xem chi tiết một loại phòng theo ID (kèm danh sách các phòng thuộc loại này)
+        /// View room type details by ID (including list of rooms under this type)
         /// </summary>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetRoomTypeById(Guid id)

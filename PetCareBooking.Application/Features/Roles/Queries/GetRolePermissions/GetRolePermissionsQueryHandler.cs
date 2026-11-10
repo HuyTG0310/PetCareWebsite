@@ -40,7 +40,7 @@ namespace PetCareBooking.Application.Features.Roles.Queries.GetRolePermissions
                 };
             }
 
-            // Sắp xếp danh sách quyền đã gán theo ModuleName và PermissionCode
+            // Sort assigned permissions by ModuleName and PermissionCode
             var assignedPermissions = role.RolePermissions
                 .Select(rp => rp.Permission)
                 .OrderBy(p => p.ModuleName)
@@ -54,7 +54,7 @@ namespace PetCareBooking.Application.Features.Roles.Queries.GetRolePermissions
                 })
                 .ToList();
 
-            // Sắp xếp toàn bộ danh sách quyền hiện có theo ModuleName và PermissionCode
+            // Sort all available permissions by ModuleName and PermissionCode
             var allPermissions = await _permissionRepository.GetQueryable()
                 .AsNoTracking()
                 .OrderBy(p => p.ModuleName)

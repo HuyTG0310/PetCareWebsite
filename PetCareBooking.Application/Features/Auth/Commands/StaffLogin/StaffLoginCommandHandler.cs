@@ -26,7 +26,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.StaffLogin
         {
             var normalizedEmail = request.Email.Trim().ToLower();
 
-            // 1. Query Staff kèm theo quan hệ Role và Permission
+            // 1. Query Staff along with Role and Permission relationships
             var staff = await _repository.GetQueryable()
                 .Include(s => s.StaffRoles)
                     .ThenInclude(sr => sr.Role)
@@ -44,7 +44,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.StaffLogin
                 };
             }
 
-            // 2. Kiểm tra mật khẩu (BCrypt)
+            // 2. Verify password (BCrypt)
             var isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, staff.PasswordHash);
             if (!isPasswordValid)
             {
@@ -56,7 +56,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.StaffLogin
                 };
             }
 
-            // 3. Kiểm tra trạng thái hoạt động của nhân sự
+            // 3. Check active status of staff member
             if (staff.Status != StaffStatus.Active)
             {
                 return new ApiResponse<StaffLoginResponseDto>
@@ -67,7 +67,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.StaffLogin
                 };
             }
 
-            // 4. Lấy danh sách Roles và Permissions không trùng lặp
+            // 4. Retrieve unique list of Roles and Permissions
             var roles = staff.StaffRoles
                 .Select(sr => sr.Role.RoleName)
                 .Distinct()
@@ -79,7 +79,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.StaffLogin
                 .Distinct()
                 .ToList();
 
-            // 5. Sinh JWT Token chứa đầy đủ Role và Permission
+            // 5. Generate JWT Token containing full Roles and Permissions
             var token = _jwtTokenGenerator.GenerateStaffToken(staff, roles, permissions);
 
             return new ApiResponse<StaffLoginResponseDto>

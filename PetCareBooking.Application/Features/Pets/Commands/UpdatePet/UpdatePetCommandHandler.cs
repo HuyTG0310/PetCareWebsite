@@ -36,7 +36,7 @@ namespace PetCareBooking.Application.Features.Pets.Commands.UpdatePet
                 };
             }
 
-            // Kiểm tra quyền sở hữu (Customer chỉ được sửa pet của mình)
+            // Check ownership (Customer can only update their own pet)
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || pet.CustomerId != _currentUserService.UserId.Value)

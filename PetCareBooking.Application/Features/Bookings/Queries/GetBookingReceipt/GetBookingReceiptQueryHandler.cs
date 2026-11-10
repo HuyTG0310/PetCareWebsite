@@ -50,7 +50,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 };
             }
 
-            // Chống IDOR: Khách hàng chỉ được xem biên lai đơn hàng của chính mình
+            // IDOR Prevention: Customer can only view receipt of their own booking
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || booking.CustomerId != _currentUserService.UserId.Value)
@@ -65,7 +65,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 }
             }
 
-            // Lấy danh sách giao dịch thanh toán
+            // Retrieve payment transaction list
             var transactions = await _paymentTransactionRepository.FindAsync(
                 t => t.BookingId == booking.Id
             );
@@ -75,7 +75,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 .OrderBy(t => t.PaidAt ?? t.CreatedAt)
                 .ToList();
 
-            // Tính toán tài chính
+            // Calculate financial summary
             var subTotal = booking.BookingItems.Sum(bi => bi.AssignedPrice);
             var discountAmount = Math.Max(0, subTotal - booking.TotalPrice);
             var totalPaid = successfulTransactions.Sum(t => t.Amount);
@@ -91,7 +91,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 paymentStatus = "PARTIALLY_PAID";
             }
 
-            // Xác định phương thức thanh toán chính
+            // Determine primary payment method
             var distinctMethods = successfulTransactions
                 .Select(t => t.PaymentMethod.Trim().ToUpper())
                 .Distinct()
@@ -104,7 +104,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 _ => string.Join(" + ", distinctMethods)
             };
 
-            // Xác định tên thu ngân / lễ tân xuất biên lai
+            // Determine cashier / receptionist name issuing receipt
             string cashierName = "Thu ngân quầy Lễ tân";
             if (_currentUserService.IsAdminOrStaff && _currentUserService.UserId.HasValue)
             {
@@ -123,17 +123,17 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 }
             }
 
-            // Thời gian hoàn tất
+            // Completion timestamp
             DateTime? completedAt = null;
             if (booking.Status == BookingStatus.Completed)
             {
                 completedAt = successfulTransactions.LastOrDefault()?.PaidAt ?? booking.UpdatedAt ?? DateTime.UtcNow;
             }
 
-            // Mã biên lai
+            // Receipt code
             var receiptNo = $"REC-{booking.CreatedAt:yyyyMMdd}-{booking.Id.ToString()[..8].ToUpper()}";
 
-            // Tổng hợp thông tin thú cưng
+            // Aggregate pet information
             var pets = booking.BookingItems
                 .Where(bi => bi.Pet != null)
                 .Select(bi => bi.Pet)
@@ -149,7 +149,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 })
                 .ToList();
 
-            // Danh sách các dịch vụ chi tiết
+            // Detailed line items list
             var items = booking.BookingItems
                 .OrderBy(bi => bi.ScheduledStartAt)
                 .Select((bi, index) =>
@@ -183,7 +183,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 })
                 .ToList();
 
-            // Lịch sử thanh toán
+            // Payment history
             var paymentHistory = transactions
                 .OrderBy(t => t.CreatedAt)
                 .Select(t => new ReceiptPaymentTransactionDTO
