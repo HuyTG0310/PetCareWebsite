@@ -28,11 +28,8 @@ namespace PetCareBooking.Application.Features.Pets.Commands.CreatePet
         public async Task<ApiResponse<Guid>> Handle(CreatePetCommand request, CancellationToken cancellationToken)
         {
             Guid targetCustomerId = request.CustomerId;
-
-            // Phân quyền tạo thú cưng:
             if (!_currentUserService.IsAdminOrStaff)
             {
-                // Customer thông thường: Bắt buộc lấy CustomerId từ Token đăng nhập (ngăn chặn IDOR)
                 if (!_currentUserService.UserId.HasValue)
                 {
                     return new ApiResponse<Guid>
@@ -58,8 +55,6 @@ namespace PetCareBooking.Application.Features.Pets.Commands.CreatePet
                         Result = Guid.Empty
                     };
                 }
-
-                // Nhân viên/Admin tạo hộ tại quầy: Bắt buộc chỉ định CustomerId hợp lệ
                 if (targetCustomerId == Guid.Empty)
                 {
                     return new ApiResponse<Guid>
