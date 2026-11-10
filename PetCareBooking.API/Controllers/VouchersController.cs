@@ -47,8 +47,9 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// [Customer / Staff / Admin] Search and validate voucher eligibility by code
+        /// [Guest / Customer / Staff / Admin] Search and validate voucher eligibility by code
         /// </summary>
+        [AllowAnonymous]
         [HttpGet("search")]
         public async Task<ActionResult<PagedResult<VoucherListResponseDTO>>> SearchVouchers([FromQuery] SearchVouchersQuery query)
         {
