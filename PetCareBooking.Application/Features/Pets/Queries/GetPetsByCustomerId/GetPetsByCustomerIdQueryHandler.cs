@@ -26,7 +26,7 @@ namespace PetCareBooking.Application.Features.Pets.Queries.GetPetsByCustomerId
 
         public async Task<ApiResponse<List<PetResponseDTO>>> Handle(GetPetsByCustomerIdQuery request, CancellationToken cancellationToken)
         {
-            // Kiểm tra quyền: Customer chỉ được xem pet của chính mình, Admin/Staff được xem của bất kỳ ai
+         
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || request.CustomerId != _currentUserService.UserId.Value)

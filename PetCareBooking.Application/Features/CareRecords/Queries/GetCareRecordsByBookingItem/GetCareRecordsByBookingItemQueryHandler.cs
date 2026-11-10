@@ -25,7 +25,6 @@ namespace PetCareBooking.Application.Features.CareRecords.Queries.GetCareRecords
 
         public async Task<ApiResponse<List<CareRecordResponseDTO>>> Handle(GetCareRecordsByBookingItemQuery request, CancellationToken cancellationToken)
         {
-            // 1. Fetch BookingItem with parent booking to check authorization
             var bookingItems = await _bookingItemRepository.FindAsync(
                 bi => bi.Id == request.BookingItemId,
                 "Booking", "Pet"
@@ -43,7 +42,7 @@ namespace PetCareBooking.Application.Features.CareRecords.Queries.GetCareRecords
                 };
             }
 
-            // 2. Chống IDOR: Khách hàng chỉ được xem nhật ký chăm sóc của thú cưng thuộc đơn hàng của chính mình
+          
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || bookingItem.Booking.CustomerId != _currentUserService.UserId.Value)
@@ -58,7 +57,6 @@ namespace PetCareBooking.Application.Features.CareRecords.Queries.GetCareRecords
                 }
             }
 
-            // 3. Fetch Care Records for this booking item
             var records = await _careRecordRepository.FindAsync(
                 cr => cr.BookingItemId == request.BookingItemId,
                 "Staff", "BookingItem.Pet"

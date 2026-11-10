@@ -35,8 +35,6 @@ namespace PetCareBooking.Application.Features.Pets.Commands.UpdatePet
                     Result = Guid.Empty
                 };
             }
-
-            // Kiểm tra quyền sở hữu (Customer chỉ được sửa pet của mình)
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || pet.CustomerId != _currentUserService.UserId.Value)
@@ -59,7 +57,7 @@ namespace PetCareBooking.Application.Features.Pets.Commands.UpdatePet
                     {
                         IsSuccess = false,
                         StatusCode = StatusCodes.Status403Forbidden,
-                        Message = "Bạn không có quyền chỉnh sửa hồ sơ thú cưng (Yêu cầu quyền PET_MANAGE).",
+                        Message = "You do not have permission to edit the pet profile (requires PET_MANAGE permission).",
                         Result = Guid.Empty
                     };
                 }

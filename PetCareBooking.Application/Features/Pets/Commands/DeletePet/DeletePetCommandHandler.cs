@@ -35,8 +35,6 @@ namespace PetCareBooking.Application.Features.Pets.Commands.DeletePet
                     Result = false
                 };
             }
-
-            // Kiểm tra quyền sở hữu (Customer chỉ được xóa pet của mình)
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || pet.CustomerId != _currentUserService.UserId.Value)
