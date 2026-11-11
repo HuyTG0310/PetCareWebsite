@@ -25,39 +25,31 @@ namespace PetCareBooking.Application.Features.Auth.Commands.Register
 
         public async Task<ApiResponse<string>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            var existingCustomer = await _repository.GetQueryable()
-                .FirstOrDefaultAsync(c => c.Email == request.Email || c.PhoneNumber == request.PhoneNumber, cancellationToken);
+            // Check if email already exists regardless of active or inactive status
+            var emailExists = await _repository.GetQueryable()
+                .AnyAsync(c => c.Email == request.Email, cancellationToken);
 
-            if (existingCustomer != null)
+            if (emailExists)
             {
-                if (existingCustomer.IsActive)
-                {
-                    return new ApiResponse<string>
-                    {
-                        IsSuccess = false,
-                        StatusCode = StatusCodes.Status400BadRequest,
-                        Message = "Email or phone number already exists and is activated."
-                    };
-                }
-
-                // If existing account is not active: update info and issue new OTP
-                existingCustomer.FullName = request.FullName;
-                existingCustomer.PhoneNumber = request.PhoneNumber;
-                existingCustomer.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-                existingCustomer.OtpCode = Random.Shared.Next(100000, 999999).ToString();
-                existingCustomer.OtpExpiry = DateTime.UtcNow.AddMinutes(5);
-
-                _repository.Update(existingCustomer);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-                await _emailService.SendOtpEmailAsync(existingCustomer.Email, existingCustomer.OtpCode);
-
                 return new ApiResponse<string>
                 {
-                    IsSuccess = true,
-                    StatusCode = StatusCodes.Status200OK,
-                    Message = "A new OTP code has been sent to your email.",
-                    Result = existingCustomer.Email
+                    IsSuccess = false,
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Email already exists in the system."
+                };
+            }
+
+            // Check if phone number already exists regardless of active or inactive status
+            var phoneExists = await _repository.GetQueryable()
+                .AnyAsync(c => c.PhoneNumber == request.PhoneNumber, cancellationToken);
+
+            if (phoneExists)
+            {
+                return new ApiResponse<string>
+                {
+                    IsSuccess = false,
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Phone number already exists in the system."
                 };
             }
 
@@ -77,7 +69,7 @@ namespace PetCareBooking.Application.Features.Auth.Commands.Register
             await _repository.AddAsync(customer);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            await _emailService.SendOtpEmailAsync(customer.Email, otpCode);
+            await _emailService.SendOtpEmailAsync(customer.Email, otpCode, cancellationToken);
 
             return new ApiResponse<string>
             {
