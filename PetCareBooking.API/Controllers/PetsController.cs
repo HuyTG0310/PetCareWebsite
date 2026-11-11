@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.API.Attributes;
@@ -27,6 +27,9 @@ namespace PetCareBooking.API.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// [Customer/Staff/Admin] Get list of own pets (retrieved from JWT Token)
+        /// </summary>
         [Authorize]
         [HttpGet("my-pets")]
         public async Task<IActionResult> GetMyPets([FromQuery] bool? isActive = null)
@@ -53,6 +56,9 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// [Staff/Admin or Own Customer] Get list of pets of a specific customer by CustomerId
+        /// </summary>
         [Authorize]
         [HttpGet("customer/{customerId:guid}")]
         public async Task<IActionResult> GetPetsByCustomerId(Guid customerId, [FromQuery] bool? isActive = null)
@@ -65,6 +71,9 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// [Staff/Admin ONLY] Get all pets in the system (paginated)
+        /// </summary>
         [RequirePermission("PET_VIEW")]
         [HttpGet]
         public async Task<ActionResult<PagedResult<PetListResponseDTO>>> GetPets([FromQuery] GetPetsWithPaginationQuery query)
@@ -73,6 +82,9 @@ namespace PetCareBooking.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// [Staff/Admin ONLY] Search pets system-wide
+        /// </summary>
         [RequirePermission("PET_VIEW")]
         [HttpGet("search")]
         public async Task<ActionResult<PagedResult<PetListResponseDTO>>> SearchPets([FromQuery] SearchPetsQuery query)
@@ -81,6 +93,9 @@ namespace PetCareBooking.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// [Customer (Own Pet) / Staff / Admin] View pet details by ID
+        /// </summary>
         [Authorize]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetPetById(Guid id)
@@ -89,6 +104,9 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// [Customer / Staff / Admin] Create a new pet
+        /// </summary>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreatePet([FromBody] CreatePetCommand command)
@@ -97,6 +115,9 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// [Customer (Own Pet) / Staff / Admin] Update pet information
+        /// </summary>
         [Authorize]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdatePet(Guid id, [FromBody] UpdatePetCommand command)
@@ -106,6 +127,9 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// [Customer (Own Pet) / Staff / Admin] Soft delete pet
+        /// </summary>
         [Authorize]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeletePet(Guid id)

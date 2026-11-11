@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.API.Attributes;
@@ -46,6 +46,9 @@ namespace PetCareBooking.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// [Guest / Customer / Staff / Admin] Search and validate voucher eligibility by code
+        /// </summary>
         [AllowAnonymous]
         [HttpGet("search")]
         public async Task<ActionResult<PagedResult<VoucherListResponseDTO>>> SearchVouchers([FromQuery] SearchVouchersQuery query)

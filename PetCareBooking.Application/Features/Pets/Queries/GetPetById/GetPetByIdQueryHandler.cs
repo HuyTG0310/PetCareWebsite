@@ -55,7 +55,7 @@ namespace PetCareBooking.Application.Features.Pets.Queries.GetPetById
                 };
             }
 
-            // Kiểm tra quyền xem: Nếu không phải Admin/Staff thì chỉ được xem pet của chính mình
+            // Check view permission: If not Admin/Staff, customer can only view their own pet
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || pet.CustomerId != _currentUserService.UserId.Value)

@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.CareRecord;
@@ -42,7 +42,7 @@ namespace PetCareBooking.Application.Features.CareRecords.Queries.GetCareRecords
                 };
             }
 
-          
+            // 2. IDOR Prevention: Customer can only view care records of pets belonging to their own booking
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || bookingItem.Booking.CustomerId != _currentUserService.UserId.Value)

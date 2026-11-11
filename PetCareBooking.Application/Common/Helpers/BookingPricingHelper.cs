@@ -19,7 +19,7 @@ namespace PetCareBooking.Application.Common.Helpers
         {
             var result = new LateFeeCalculationResult();
 
-            // Chỉ tính phụ phí cho đơn chưa hoàn tất (đang diễn ra hoặc đang chờ check-out)
+            // Only calculate surcharges for uncompleted bookings (ongoing or awaiting check-out)
             if (booking.Status == BookingStatus.Completed ||
                 booking.Status == BookingStatus.Cancelled ||
                 booking.Status == BookingStatus.No_Show)

@@ -82,7 +82,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
             var now = DateTime.UtcNow;
             var nowLocal = now.AddHours(7); // Vietnam local time
 
-            // 2.2 Tự động áp dụng phụ phí đón trễ (Late Checkout Surcharge) nếu đơn chưa Completed
+            // 2.2 Automatically apply Late Checkout Surcharge if booking is not yet Completed
             decimal appliedLateFee = 0;
             if (booking.Status != BookingStatus.Completed)
             {

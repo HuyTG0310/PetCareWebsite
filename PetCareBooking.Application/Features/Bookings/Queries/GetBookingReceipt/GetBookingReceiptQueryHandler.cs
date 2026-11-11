@@ -128,7 +128,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 completedAt = successfulTransactions.LastOrDefault()?.PaidAt ?? booking.UpdatedAt ?? DateTime.UtcNow;
             }
 
-            // Mã biên lai
+            // Receipt code
             var receiptNo = $"REC-{booking.CreatedAt:yyyyMMdd}-{booking.Id.ToString()[..8].ToUpper()}";
 
             // Pet information
@@ -181,7 +181,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 })
                 .ToList();
 
-            // Lịch sử thanh toán
+            // Payment history
             var paymentHistory = transactions
                 .OrderBy(t => t.CreatedAt)
                 .Select(t => new ReceiptPaymentTransactionDTO

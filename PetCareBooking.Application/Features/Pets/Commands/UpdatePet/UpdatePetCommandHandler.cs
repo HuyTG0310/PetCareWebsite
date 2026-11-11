@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
@@ -35,6 +35,8 @@ namespace PetCareBooking.Application.Features.Pets.Commands.UpdatePet
                     Result = Guid.Empty
                 };
             }
+
+            // Check ownership (Customer can only update their own pet)
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || pet.CustomerId != _currentUserService.UserId.Value)

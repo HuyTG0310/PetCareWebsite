@@ -49,7 +49,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.MarkBookingNoSho
                 };
             }
 
-            // 3. Ràng buộc nghiệp vụ: Thú cưng chưa được Check-in và dịch vụ chưa bắt đầu thực hiện
+            // 3. Business constraint: Pet has not been checked in and service has not started
             bool hasStartedItems = booking.BookingItems.Any(bi =>
                 bi.Status == BookingItemStatus.Checked_In ||
                 bi.Status == BookingItemStatus.In_Progress ||

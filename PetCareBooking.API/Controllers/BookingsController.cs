@@ -200,7 +200,7 @@ namespace PetCareBooking.API.Controllers
             [FromQuery] BookingItemStatus? status = null,
             [FromQuery] DateTime? date = null)
         {
-            // Chống IDOR: Kỹ thuật viên Grooming chỉ được xem task của chính mình
+            // Prevent IDOR: Grooming technician can only view their own tasks
             bool isAdminOrReceptionist = _currentUserService.IsInRole("Admin") ||
                                          _currentUserService.IsInRole("Receptionist");
 

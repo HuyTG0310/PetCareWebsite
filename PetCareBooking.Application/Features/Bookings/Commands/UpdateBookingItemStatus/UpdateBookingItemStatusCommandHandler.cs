@@ -92,7 +92,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             // Diet services are parts of Boarding service and will not be assign specific rooms
             if (bookingItem.Service != null && bookingItem.Service.ServiceType == ServiceType.Diet)
             {
-                request.RoomId = null; // Diet không được gán phòng riêng
+                request.RoomId = null; // Diet cannot be assigned a separate room
             }
 
             bool isAdminOrReceptionist = _currentUserService.IsInRole("Admin") ||
