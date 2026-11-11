@@ -28,14 +28,14 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking
 
         public async Task<ApiResponse<Guid>> Handle(CheckInBookingCommand request, CancellationToken cancellationToken)
         {
-            // 0. Phân quyền: Nhân viên thực hiện Check-in bắt buộc phải có quyền BOOKING_CHECKIN
+            // Permissions: Staff performing check-in must have the BOOKING_CHECKIN permission.
             if (_currentUserService.IsAdminOrStaff && !_currentUserService.HasPermission("BOOKING_CHECKIN"))
             {
                 return new ApiResponse<Guid>
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status403Forbidden,
-                    Message = "Bạn không có quyền Check-in đơn đặt lịch (Yêu cầu quyền BOOKING_CHECKIN).",
+                    Message = "You do not have permission to check in for this booking (Requires BOOKING_CHECKIN permission).",
                     Result = Guid.Empty
                 };
             }
@@ -62,7 +62,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = "Chỉ có thể Check-in cho đơn đặt lịch đã được Xác nhận (Confirmed). Vui lòng xác nhận đơn và phân công đầy đủ trước khi Check-in.",
+                    Message = "Check-in is only possible for confirmed appointments. Please confirm your appointment and assignments fully before checking in.",
                     Result = Guid.Empty
                 };
             }
@@ -103,7 +103,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckInBooking
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = "Không thể Check-in. Vui lòng phân công nhân viên và xếp phòng đầy đủ cho tất cả dịch vụ trước khi Check-in.",
+                    Message = "Check-in is not possible. Please assign staff and arrange rooms for all services before check-in.",
                     Result = Guid.Empty
                 };
             }

@@ -55,7 +55,6 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
 
         public async Task<ApiResponse<CreateBookingResponseDTO>> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
         {
-            // 0. Xác thực & phân quyền: Customer bắt buộc lấy Id từ JWT token để chống IDOR
             Guid targetCustomerId;
 
             if (!_currentUserService.IsAdminOrStaff)
@@ -75,19 +74,17 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
             }
             else
             {
-                // Phân quyền: Nhân viên tạo đơn đặt lịch tại quầy bắt buộc phải có quyền BOOKING_CREATE
                 if (!_currentUserService.HasPermission("BOOKING_CREATE"))
                 {
                     return new ApiResponse<CreateBookingResponseDTO>
                     {
                         IsSuccess = false,
                         StatusCode = StatusCodes.Status403Forbidden,
-                        Message = "Bạn không có quyền tạo đơn đặt lịch tại quầy (Yêu cầu quyền BOOKING_CREATE).",
+                        Message = "You do not have permission to create bookings at the counter (BOOKING_CREATE permission required).",
                         Result = null
                     };
                 }
 
-                // Staff/Admin tạo hộ khách: Bắt buộc chỉ định CustomerId
                 if (!request.CustomerId.HasValue || request.CustomerId.Value == Guid.Empty)
                 {
                     return new ApiResponse<CreateBookingResponseDTO>
@@ -177,7 +174,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                 }
             }
 
-            // 3.1. Quy tắc nghiệp vụ: Dịch vụ lưu trú (Boarding) yêu cầu thanh toán online 100% qua VNPay để khóa phòng chắc chắn
+            // Boarding service requires 100% online payment via VNPay to secure room reservation.
             var hasBoardingService = services.Any(s => s.ServiceType == ServiceType.Boarding);
             var paymentChoice = request.PaymentChoice?.Trim().ToUpper() ?? "PAY_AT_COUNTER";
 
@@ -187,7 +184,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = "Dịch vụ lưu trú (Boarding) yêu cầu thanh toán trực tuyến 100% qua VNPay để đảm bảo phòng giữ chỗ.",
+                    Message = "The accommodation booking service requires 100% online payment via VNPay to secure your reservation.",
                     Result = null
                 };
             }
@@ -265,7 +262,6 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     };
                 }
 
-                // TÍNH TOÁN SỐ NGÀY, CHUẨN HÓA GIỜ MỐC & XỬ LÝ PHÒNG CHO DỊCH VỤ BOARDING / DIET
                 var itemStartAt = itemRequest.ScheduledStartAt;
                 var itemEndAt = itemRequest.ScheduledEndAt;
                 decimal durationDays = 1;
@@ -279,7 +275,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                         {
                             IsSuccess = false,
                             StatusCode = 400,
-                            Message = $"Dịch vụ lưu trú '{service.Name}' yêu cầu phải có Ngày trả phòng (ScheduledEndAt).",
+                            Message = $"Boarding service '{service.Name}' requires ScheduledEndAt.",
                             Result = null
                         };
                     }
@@ -290,28 +286,27 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                         {
                             IsSuccess = false,
                             StatusCode = 400,
-                            Message = $"Dịch vụ lưu trú '{service.Name}' yêu cầu Ngày trả phòng phải bằng hoặc sau Ngày nhận phòng.",
+                            Message = $"Boarding service'{service.Name}' requires Checkout date must be same or after Checkin date.",
                             Result = null
                         };
                     }
 
-                    // Chuẩn hóa giờ mốc theo quy định ngành khách sạn thú cưng:
                     if (itemRequest.ScheduledEndAt.Value.Date == itemRequest.ScheduledStartAt.Date)
                     {
-                        // Trường hợp gửi trong ngày (Daycare): Nhận 08:00 - Trả 18:00 (UTC+7: 01:00 UTC - 11:00 UTC)
+                        // Case boarding in one day (Daycare): Checkin 08:00 - Checkout 18:00
                         itemStartAt = itemRequest.ScheduledStartAt.Date.AddHours(8);
                         itemEndAt = itemRequest.ScheduledStartAt.Date.AddHours(18);
                         durationDays = 1;
                     }
                     else
                     {
-                        // Trường hợp lưu trú qua đêm: Nhận từ 14:00 - Trả trước 12:00 (UTC+7: 07:00 UTC - 05:00 UTC)
+                        // Case boarding overnight: Checkin 14:00 - Checkout before 12:00
                         itemStartAt = itemRequest.ScheduledStartAt.Date.AddHours(14);
                         itemEndAt = itemRequest.ScheduledEndAt.Value.Date.AddHours(12);
                         durationDays = (decimal)(itemRequest.ScheduledEndAt.Value.Date - itemRequest.ScheduledStartAt.Date).TotalDays;
                     }
 
-                    // Tự động xác định loại phòng từ Dịch vụ (đã được liên kết trong DB)
+                    // Automatically define room types from service
                     if (!service.RoomTypeId.HasValue)
                     {
                         return new ApiResponse<CreateBookingResponseDTO>
@@ -323,7 +318,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                         };
                     }
 
-                    // Hệ thống tự động tìm và khóa 1 phòng trống đúng loại phòng của gói dịch vụ
+                    // Automatically find and lock 1 available room based on room type of service
                     var occupiedRoomIds = await _bookingItemRepository.GetQueryable()
                         .Where(bi => bi.RoomId.HasValue &&
                                      bi.Status != BookingItemStatus.Cancelled &&
@@ -369,7 +364,6 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                     }
                 }
 
-                // Số lượng thực tế: Với Boarding/Diet theo ngày, Quantity đại diện cho số ngày * số lượng phần/phòng
                 decimal finalQuantity = itemRequest.Quantity;
                 if (service.ServiceType == ServiceType.Boarding || service.ServiceType == ServiceType.Diet)
                 {
@@ -425,7 +419,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
                 paymentUrl = _vnPayService.CreatePaymentUrl(
                     newBooking.Id,
                     newBooking.TotalPrice,
-                    $"Thanh toan don dat lich {newBooking.Id}",
+                    $"Pay for booking with Id {newBooking.Id}",
                     ipAddress
                 );
             }

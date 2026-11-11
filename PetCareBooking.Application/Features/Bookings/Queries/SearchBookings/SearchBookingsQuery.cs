@@ -5,9 +5,6 @@ using PetCareBooking.Domain.Enums;
 
 namespace PetCareBooking.Application.Features.Bookings.Queries.SearchBookings
 {
-    /// <summary>
-    /// ADMIN ONLY - Search all bookings by customer name, email, phone
-    /// </summary>
     public class SearchBookingsQuery : IRequest<ApiResponse<PagedResult<BookingListResponseDTO>>>
     {
         public string? Keyword { get; set; }  // Search by customer name/email/phone

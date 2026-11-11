@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.API.Attributes;
 using PetCareBooking.Application.Common.Models;
@@ -41,11 +40,7 @@ namespace PetCareBooking.API.Controllers
             _currentUserService = currentUserService;
         }
 
-        /// <summary>
-        /// [Customer / Staff / Admin] Tạo đơn booking mới.
-        /// Customer: tự động lấy CustomerId từ JWT token (không cần gửi customerId trong body).
-        /// Staff/Admin: có thể truyền customerId trong body để đặt hộ khách tại quầy.
-        /// </summary>
+
         [HttpPost]
         public async Task<IActionResult> CreateBooking([FromBody] CreateBookingCommand command)
         {
@@ -57,9 +52,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer ONLY] Lấy danh sách booking của chính mình (đọc từ JWT Token, an toàn 100%, không truyền Id qua URL)
-        /// </summary>
         [HttpGet("my-bookings")]
         public async Task<IActionResult> GetMyBookings(
             [FromQuery] int pageNumber = 1,
@@ -92,9 +84,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer (Own Booking) / Staff / Admin] Xem chi tiết 1 đơn đặt theo ID (có kiểm tra quyền sở hữu chống IDOR)
-        /// </summary>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetBookingById(Guid id)
         {
@@ -102,9 +91,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff/Admin or Own Customer] Lấy danh sách booking của một khách hàng theo CustomerId
-        /// </summary>
         [HttpGet("customer/{customerId:guid}")]
         public async Task<IActionResult> GetCustomerBookings(
             Guid customerId,
@@ -123,9 +109,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer (Own Booking) / Staff / Admin] Hủy đơn đặt lịch (có kiểm tra quyền sở hữu chống IDOR)
-        /// </summary>
         [HttpPut("{id:guid}/cancel")]
         public async Task<IActionResult> CancelBooking(Guid id, [FromBody] CancelBookingCommand command)
         {
@@ -134,10 +117,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Đánh dấu khách không đến theo lịch hẹn (No-Show).
-        /// Chuyển toàn bộ các dịch vụ sang No-Show, hủy đơn và tự động giải phóng phòng/lịch phân công.
-        /// </summary>
         [Authorize(Roles = "Admin,Receptionist")]
         [HttpPut("{id:guid}/no-show")]
         public async Task<IActionResult> MarkBookingNoShow(
@@ -150,9 +129,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Check-in toàn bộ các mục trong đơn (1-click check-in)
-        /// </summary>
         [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
         [HttpPut("{id:guid}/check-in")]
         public async Task<IActionResult> CheckInBooking(Guid id)
@@ -162,9 +138,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Cập nhật trạng thái từng mục, gán nhân viên, phòng, ghi chú kết quả
-        /// </summary>
         [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
         [HttpPut("{bookingId:guid}/items/{itemId:guid}/status")]
         public async Task<IActionResult> UpdateBookingItemStatus(
@@ -178,9 +151,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Cập nhật trạng thái của đơn đặt lịch (Pending -> Confirmed / Completed / Cancelled)
-        /// </summary>
         [Authorize(Roles = "Admin,Receptionist")]
         [HttpPut("{id:guid}/status")]
         public async Task<IActionResult> UpdateBookingStatus(Guid id, [FromBody] UpdateBookingStatusCommand command)
@@ -190,9 +160,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Grooming Staff ONLY] Lấy danh sách ca làm việc Grooming của chính mình (Tự động đọc StaffId từ JWT Token, chống IDOR tuyệt đối)
-        /// </summary>
         [RequirePermission("GROOMING_TASK_VIEW")]
         [HttpGet("my-grooming-tasks")]
         public async Task<IActionResult> GetMyGroomingTasks(
@@ -224,9 +191,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Admin / Receptionist] Lấy danh sách ca làm việc Grooming của một nhân viên theo StaffId (có chống IDOR)
-        /// </summary>
         [RequirePermission("GROOMING_TASK_VIEW")]
         [HttpGet("staff/{staffId:guid}/grooming-tasks")]
         public async Task<IActionResult> GetStaffGroomingTasks(
@@ -266,9 +230,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Boarding Staff ONLY] Lấy danh sách ca lưu trú / phòng phụ trách của chính mình (Tự động đọc StaffId từ JWT Token, chống IDOR tuyệt đối)
-        /// </summary>
         [RequirePermission("CARE_RECORD_VIEW", "ROOM_VIEW")]
         [HttpGet("my-boarding-tasks")]
         public async Task<IActionResult> GetMyBoardingTasks(
@@ -300,9 +261,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Boarding Staff / Receptionist / Admin] Lấy danh sách toàn bộ thú cưng đang thực tế lưu trú tại khách sạn (Checked-In hoặc In-Progress)
-        /// </summary>
         [RequirePermission("CARE_RECORD_VIEW", "ROOM_VIEW")]
         [HttpGet("active-boarding-tasks")]
         public async Task<IActionResult> GetActiveBoardingTasks(
@@ -321,9 +279,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Admin / Receptionist] Lấy danh sách ca làm việc Boarding theo StaffId chỉ định (có kiểm tra chống IDOR)
-        /// </summary>
         [RequirePermission("CARE_RECORD_VIEW", "ROOM_VIEW")]
         [HttpGet("staff/{staffId:guid}/boarding-tasks")]
         public async Task<IActionResult> GetStaffBoardingTasks(
@@ -362,9 +317,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Lấy danh sách booking toàn hệ thống (phân trang, lọc thời gian, trạng thái)
-        /// </summary>
         [RequirePermission("BOOKING_VIEW")]
         [HttpGet("admin")]
         public async Task<IActionResult> GetAdminBookings(
@@ -388,9 +340,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Tìm kiếm booking toàn hệ thống theo từ khóa và ngày hẹn dịch vụ
-        /// </summary>
         [RequirePermission("BOOKING_VIEW")]
         [HttpGet("search")]
         public async Task<IActionResult> SearchBookings(
@@ -416,9 +365,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer / Staff / Admin] Xem tóm tắt hóa đơn thanh toán trước khi check-out (Tổng tiền, giảm giá, số tiền đã cọc/trả, số tiền còn lại)
-        /// </summary>
+
         [HttpGet("{id:guid}/checkout-summary")]
         public async Task<IActionResult> GetCheckoutSummary(Guid id)
         {
@@ -427,9 +374,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer (Own Booking) / Staff / Admin] Xuất biên lai in ấn / hóa đơn thanh toán Checkout (phục vụ in biên lai nhiệt hoặc xem hóa đơn điện tử)
-        /// </summary>
         [HttpGet("{id:guid}/receipt")]
         public async Task<IActionResult> GetBookingReceipt(Guid id)
         {
@@ -438,9 +382,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Thực hiện check-out & thanh toán (tiền mặt / chuyển khoản), tạo PaymentTransaction, chuyển trạng thái Completed và tự động giải phóng phòng
-        /// </summary>
         [Authorize(Roles = "Admin,Receptionist")]
         [HttpPost("{id:guid}/checkout")]
         public async Task<IActionResult> CheckoutBooking(Guid id, [FromBody] CheckoutBookingCommand command)
@@ -450,10 +391,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-
-        /// <summary>
-        /// [Customer / Staff / Admin] Xem lịch sử các giao dịch thanh toán & đặt cọc của đơn đặt lịch
-        /// </summary>
         [HttpGet("{id:guid}/payments")]
         public async Task<IActionResult> GetBookingPayments(Guid id)
         {
@@ -462,9 +399,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer / Staff / Admin] Sinh đường dẫn thanh toán VNPay trực tuyến (dùng khi khách muốn thanh toán online sau khi tạo đơn)
-        /// </summary>
         [HttpPost("{id:guid}/create-vnpay-url")]
         public async Task<IActionResult> CreateVnPayUrl(
             Guid id,

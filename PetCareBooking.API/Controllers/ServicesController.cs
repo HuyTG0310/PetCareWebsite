@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.API.Attributes;
 using PetCareBooking.Application.Features.Services.Commands.CreateService;
@@ -24,7 +23,6 @@ namespace PetCareBooking.API.Controllers
             _mediator = mediator;
         }
 
-        // this endpoint is used by customer to view active services
         [HttpGet]
         public async Task<IActionResult> GetActiveServices([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
@@ -38,7 +36,6 @@ namespace PetCareBooking.API.Controllers
         }
 
 
-        // this endpoint is used by customer to search active services
         [HttpGet("search")]
         public async Task<IActionResult> SearchServices([FromQuery] SearchServicesQuery query)
         {
@@ -54,7 +51,6 @@ namespace PetCareBooking.API.Controllers
         }
 
 
-        // this endpoints is used by admin to view all services include inactive
         [RequirePermission("SERVICE_VIEW")]
         [HttpGet("admin")]
         public async Task<IActionResult> GetAllServicesForAdmin([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
@@ -69,7 +65,6 @@ namespace PetCareBooking.API.Controllers
         }
 
 
-        // this endpoint is used by admin to search both active and inactive services
         [RequirePermission("SERVICE_VIEW")]
         [HttpGet("admin/search")]
         public async Task<IActionResult> SearchServicesForAdmin([FromQuery] SearchServicesForAdminQuery query)

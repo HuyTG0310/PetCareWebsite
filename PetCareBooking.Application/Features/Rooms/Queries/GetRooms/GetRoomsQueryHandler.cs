@@ -26,19 +26,16 @@ namespace PetCareBooking.Application.Features.Rooms.Queries.GetRooms
                 .Include(r => r.RoomType)
                 .AsQueryable();
 
-            // 1. Lọc theo Loại phòng nếu có
             if (request.RoomTypeId.HasValue)
             {
                 query = query.Where(r => r.RoomTypeId == request.RoomTypeId.Value);
             }
 
-            // 2. Lọc theo Trạng thái nếu có
             if (request.Status.HasValue)
             {
                 query = query.Where(r => r.Status == request.Status.Value);
             }
 
-            // 3. Tìm kiếm theo tên phòng hoặc tên loại phòng
             if (!string.IsNullOrWhiteSpace(request.SearchTerm))
             {
                 var term = request.SearchTerm.Trim().ToLower();

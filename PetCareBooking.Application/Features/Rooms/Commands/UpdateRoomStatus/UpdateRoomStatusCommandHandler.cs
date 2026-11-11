@@ -31,7 +31,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.UpdateRoomStatus
                 };
             }
 
-            // Nếu trạng thái mới trùng với trạng thái hiện tại thì không cần cập nhật
             if (room.Status == request.Status)
             {
                 return new ApiResponse<Guid>

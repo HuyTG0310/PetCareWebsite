@@ -23,7 +23,7 @@ namespace PetCareBooking.Application.Features.Services.Commands.CreateService
                     .GreaterThanOrEqualTo(0).WithMessage("Price must be greater than or equal to 0.");
 
                 prices.RuleFor(p => p.PricingUnit)
-                    .IsInEnum().WithMessage("Invalid pricing unit."); // Automatically validate valid Enum
+                    .IsInEnum().WithMessage("Invalid pricing unit.");
 
                 prices.RuleFor(p => p.MinWeight)
                     .GreaterThanOrEqualTo(0).WithMessage("Min weight must be greater than or equal to 0.")

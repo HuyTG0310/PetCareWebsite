@@ -69,7 +69,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummar
 
             var totalPaid = successfulTransactions.Sum(t => t.Amount);
 
-            // Tự động tính phụ phí đón trễ (Late Checkout Surcharge)
+            // Late Checkout Surcharge
             var now = DateTime.UtcNow.AddHours(7); // Vietnam local time
             var lateFeeResult = BookingPricingHelper.CalculateLateFees(booking, now);
 
@@ -104,19 +104,19 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummar
             string? restrictionReason = null;
             if (booking.Status == BookingStatus.Cancelled)
             {
-                restrictionReason = "Đơn đặt lịch đã bị hủy.";
+                restrictionReason = "Booking was cancelled.";
             }
             else if (booking.Status == BookingStatus.No_Show)
             {
-                restrictionReason = "Đơn đặt lịch đã bị đánh dấu là Khách không đến (No-Show).";
+                restrictionReason = "Booking was marked as No show.";
             }
             else if (hasUncompletedItems)
             {
-                restrictionReason = "Vẫn còn dịch vụ chưa hoàn thành hoặc đang được thực hiện. Vui lòng chờ nhân viên hoàn tất trước khi Check-out.";
+                restrictionReason = "Some services are still incomplete or in progress. Please wait for staff to finish before checking out.";
             }
             else if (booking.Status == BookingStatus.Completed && remainingAmount <= 0)
             {
-                restrictionReason = "Đơn đặt lịch đã hoàn tất và thanh toán đầy đủ.";
+                restrictionReason = "Booking was completed and paid fully";
             }
 
             var response = new CheckoutSummaryResponseDTO

@@ -45,7 +45,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                 };
             }
 
-            // Phân quyền: Customer chỉ được hủy booking của chính mình
+            // Permissions: Customers can only cancel their own bookings.
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || booking.CustomerId != _currentUserService.UserId.Value)
@@ -68,7 +68,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                     {
                         IsSuccess = false,
                         StatusCode = 403,
-                        Message = "Bạn không có quyền hủy đơn đặt lịch (Yêu cầu quyền BOOKING_CANCEL).",
+                        Message = "You do not have the permission to cancel the booking (BOOKING_CANCEL permission required)",
                         Result = Guid.Empty
                     };
                 }
@@ -86,7 +86,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                 };
             }
 
-            // Customer rule: Customer is ONLY allowed to cancel when status is Pending (Chưa xác nhận/chưa thanh toán)
+            // Customer rule: Customer is ONLY allowed to cancel when status is Pending 
             // Once Confirmed (Paid via VNPay or confirmed by receptionist), salon enforces No-Refund policy and blocks online cancellation
             if (!_currentUserService.IsAdminOrStaff)
             {
@@ -96,7 +96,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                     {
                         IsSuccess = false,
                         StatusCode = 400,
-                        Message = "Đơn đặt lịch đã được xác nhận (Confirmed). Salon áp dụng chính sách không hoàn tiền và không hỗ trợ hủy online. Quý khách vui lòng liên hệ trực tiếp qua hotline để được hỗ trợ dời lịch hẹn.",
+                        Message = "Your appointment has been confirmed. The salon has a non-refundable policy and does not support online cancellations. Please contact us directly via hotline for assistance in rescheduling your appointment.",
                         Result = Guid.Empty
                     };
                 }
@@ -115,7 +115,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                     {
                         IsSuccess = false,
                         StatusCode = 400,
-                        Message = "Không thể hủy đơn đặt lịch khi thú cưng đã Check-in hoặc dịch vụ đang/đã được thực hiện.",
+                        Message = "It is not possible to cancel an appointment once the pet has checked in or the service is in progress or has already been performed.",
                         Result = Guid.Empty
                     };
                 }

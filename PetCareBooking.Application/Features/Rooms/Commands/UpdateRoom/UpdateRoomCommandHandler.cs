@@ -24,7 +24,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.UpdateRoom
 
         public async Task<ApiResponse<Guid>> Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
         {
-            // 1. Kiểm tra phòng có tồn tại hay không
             var existingRoom = await _roomRepository.GetByIdAsync(request.Id);
 
             if (existingRoom == null)
@@ -38,7 +37,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.UpdateRoom
                 };
             }
 
-            // 2. Kiểm tra Loại phòng mới có tồn tại hay không
             var roomTypeExists = await _roomTypeRepository.GetQueryable()
                 .AnyAsync(rt => rt.Id == request.RoomTypeId, cancellationToken);
 
@@ -55,7 +53,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.UpdateRoom
 
             var trimmedName = request.RoomName.Trim();
 
-            // 3. Kiểm tra trùng tên phòng với các phòng khác (trừ chính nó)
             var isDuplicateName = await _roomRepository.GetQueryable()
                 .AnyAsync(r => r.Id != request.Id && r.RoomName.ToLower() == trimmedName.ToLower(), cancellationToken);
 
@@ -70,7 +67,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.UpdateRoom
                 };
             }
 
-            // 4. Cập nhật thông tin
             existingRoom.RoomName = trimmedName;
             existingRoom.RoomTypeId = request.RoomTypeId;
             existingRoom.UpdatedAt = DateTime.UtcNow;

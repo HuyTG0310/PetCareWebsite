@@ -74,7 +74,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = "Không thể Check-out đơn đặt lịch. Vẫn còn dịch vụ chưa hoàn thành hoặc đang được thực hiện.",
+                    Message = "Unable to check out the booking. There are still services pending or in progress.",
                     Result = null
                 };
             }
@@ -155,7 +155,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CheckoutBooking
                     PaymentStatus = "SUCCESS",
                     TransactionCode = transactionCode,
                     PaidAt = now,
-                    Note = request.Note?.Trim() ?? (appliedLateFee > 0 ? $"Thanh toán phụ phí đón trễ ({appliedLateFee:N0} VND) và hoàn tất tại quầy" : "Checkout and settled at counter"),
+                    Note = request.Note?.Trim() ?? (appliedLateFee > 0 ? $"Pay late checkout surcharge ({appliedLateFee:N0} VND) and completed at counter" : "Checkout and settled at counter"),
                     CreatedAt = now
                 };
 

@@ -22,7 +22,6 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCustomerBookin
 
         public async Task<ApiResponse<PagedResult<BookingListResponseDTO>>> Handle(GetCustomerBookingsQuery request, CancellationToken cancellationToken)
         {
-            // Kiểm tra phân quyền: Customer chỉ được xem booking của chính mình, Admin/Staff xem được của bất kỳ ai
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || request.CustomerId != _currentUserService.UserId.Value)

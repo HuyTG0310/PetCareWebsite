@@ -48,32 +48,33 @@ namespace PetCareBooking.Application.Common.Helpers
                         result.MaxLateHours = lateHours;
                     }
 
-                    // 1. Ân hạn: Trễ <= 60 phút: Miễn phụ phí
+                    // 1. Late <= 60 minutes: Free
                     if (lateSpan.TotalMinutes <= GracePeriodMinutes)
                     {
-                        var graceReason = $"Đón trễ {Math.Ceiling(lateSpan.TotalMinutes)} phút (trong thời gian đệm 60 phút miễn phí)";
+                        var graceReason = $"Late checkout {Math.Ceiling(lateSpan.TotalMinutes)} minute(s) (within 60 minutes for free)";
                         result.ItemFees[item.Id] = (0, graceReason);
-                        reasons.Add($"{item.Pet?.Name ?? "Thú cưng"}: {graceReason}");
+                        reasons.Add($"{item.Pet?.Name ?? "Pet"}: {graceReason}");
                     }
-                    // 2. Trễ từ > 1h đến <= 6h: Phụ phí 50% đơn giá ngày của phòng
+
+                    // 2. Late from > 1h to <= 6h: Take 50% price
                     else if (lateHours <= 6)
                     {
                         var itemFee = Math.Round(item.UnitPrice * 0.5m, 0);
                         result.TotalLateFee += itemFee;
-                        var reason = $"Đón trễ {Math.Round(lateHours, 1)}h (sau giờ quy định): Phụ phí 50% giá phòng (+{itemFee:N0}đ)";
+                        var reason = $"Late checkout {Math.Round(lateHours, 1)}h (regulated hour): Take 50% price (+{itemFee:N0}đ)";
                         result.ItemFees[item.Id] = (itemFee, reason);
-                        reasons.Add($"{item.Pet?.Name ?? "Thú cưng"}: {reason}");
+                        reasons.Add($"{item.Pet?.Name ?? "Pet"}: {reason}");
                     }
-                    // 3. Trễ > 6h (sau 18h hoặc qua các ngày tiếp theo): Phụ phí 100% đơn giá ngày mỗi ngày trễ
+                    // 3. Late > 6h (after 18h): Surcharge 100% price
                     else
                     {
                         var extraDays = (int)Math.Ceiling(lateHours / 24.0);
                         if (extraDays < 1) extraDays = 1;
                         var itemFee = item.UnitPrice * extraDays;
                         result.TotalLateFee += itemFee;
-                        var reason = $"Đón trễ {Math.Round(lateHours, 1)}h (quá 6h/qua đêm): Phụ phí {extraDays} ngày lưu trú (+{itemFee:N0}đ)";
+                        var reason = $"Late checkout {Math.Round(lateHours, 1)}h (over 6h/overnight): Surcharge {extraDays} boarding day (+{itemFee:N0}đ)";
                         result.ItemFees[item.Id] = (itemFee, reason);
-                        reasons.Add($"{item.Pet?.Name ?? "Thú cưng"}: {reason}");
+                        reasons.Add($"{item.Pet?.Name ?? "Pet"}: {reason}");
                     }
                 }
             }

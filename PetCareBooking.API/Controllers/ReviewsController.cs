@@ -20,9 +20,6 @@ namespace PetCareBooking.API.Controllers
             _mediator = mediator;
         }
 
-        /// <summary>
-        /// UC-8.1: View review list (Public for Guest, Customer, Staff, Admin)
-        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetReviews([FromQuery] GetReviewsWithPaginationQuery query)
         {
@@ -30,9 +27,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// UC-8.2: View review detail
-        /// </summary>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetReviewById(Guid id)
         {
@@ -40,9 +34,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// UC-8.3: Add review (Requires Customer authentication)
-        /// </summary>
         [Authorize(Roles = "Customer")]
         [HttpPost]
         public async Task<IActionResult> CreateReview([FromBody] CreateReviewCommand command)
@@ -51,9 +42,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// UC-8.4: Edit review (Allowed for review owner OR Admin/Staff)
-        /// </summary>
         [Authorize]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateReview(Guid id, [FromBody] UpdateReviewCommand command)
@@ -63,9 +51,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// UC-8.5: Delete review (Allowed for review owner OR Admin/Staff)
-        /// </summary>
         [Authorize]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteReview(Guid id)

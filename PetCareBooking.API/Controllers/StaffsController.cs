@@ -25,13 +25,6 @@ namespace PetCareBooking.API.Controllers
             _mediator = mediator;
         }
 
-        // ==========================================
-        // SECTION 1: MANAGE STAFF (STAFF_VIEW / STAFF_MANAGE)
-        // ==========================================
-
-        /// <summary>
-        /// UC-13.1 & UC-13.6: View & Search staff list with pagination
-        /// </summary>
         [RequirePermission("STAFF_VIEW")]
         [HttpGet]
         public async Task<IActionResult> GetStaffs([FromQuery] GetStaffsWithPaginationQuery query)
@@ -40,9 +33,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// UC-13.2: View staff detail
-        /// </summary>
         [RequirePermission("STAFF_VIEW")]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetStaffById(Guid id)
@@ -51,9 +41,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// UC-13.3: Add new staff
-        /// </summary>
         [RequirePermission("STAFF_MANAGE")]
         [HttpPost]
         public async Task<IActionResult> CreateStaff([FromBody] CreateStaffCommand command)
@@ -62,9 +49,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// UC-13.4: Edit staff profile and roles
-        /// </summary>
         [RequirePermission("STAFF_MANAGE")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateStaff(Guid id, [FromBody] UpdateStaffCommand command)
@@ -75,9 +59,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// UC-13.5: Deactivate staff account
-        /// </summary>
         [RequirePermission("STAFF_MANAGE")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteStaff(Guid id)
@@ -86,13 +67,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // ==========================================
-        // SECTION 2: STAFF - MANAGE OWN PROFILE
-        // ==========================================
-
-        /// <summary>
-        /// View profile details of the authenticated staff
-        /// </summary>
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
         {
@@ -100,9 +74,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// Update own profile details for authenticated staff
-        /// </summary>
         [HttpPut("profile")]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateStaffProfileCommand command)
         {
@@ -110,9 +81,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// Change password for authenticated staff
-        /// </summary>
         [HttpPut("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangeStaffPasswordCommand command)
         {

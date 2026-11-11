@@ -93,7 +93,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateVnPayPayme
             var paymentUrl = _vnPayService.CreatePaymentUrl(
                 booking.Id,
                 payAmount,
-                $"Thanh toan don {booking.Id}",
+                $"Pay for booking {booking.Id}",
                 ipAddress,
                 request.ReturnUrl
             );

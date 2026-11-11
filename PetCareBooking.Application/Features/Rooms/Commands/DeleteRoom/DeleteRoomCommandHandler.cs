@@ -37,7 +37,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.DeleteRoom
                 };
             }
 
-            // Kiểm tra ràng buộc: Phòng đã từng có lịch đặt trong quá khứ hoặc tương lai hay chưa
             var hasBookingHistory = await _bookingItemRepository.GetQueryable()
                 .AnyAsync(bi => bi.RoomId == request.Id, cancellationToken);
 

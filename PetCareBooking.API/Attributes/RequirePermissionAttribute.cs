@@ -1,12 +1,7 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PetCareBooking.API.Attributes
 {
@@ -47,12 +42,12 @@ namespace PetCareBooking.API.Attributes
             // Check if the current user has at least one of the required permissions
             if (_permissions.Length > 0 && !_permissions.Any(p => currentUserService.HasPermission(p)))
             {
-                var permsString = string.Join(" hoặc ", _permissions);
+                var permsString = string.Join(" Or ", _permissions);
                 context.Result = new ObjectResult(new ApiResponse<object>
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status403Forbidden,
-                    Message = $"Bạn không có quyền thực hiện thao tác này (Yêu cầu quyền: {permsString}).",
+                    Message = $"You have no permissions to do this action (Requires permission: {permsString}).",
                     Result = null
                 })
                 {

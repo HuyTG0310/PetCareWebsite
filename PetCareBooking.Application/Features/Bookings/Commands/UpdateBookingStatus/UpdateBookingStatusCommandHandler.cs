@@ -84,7 +84,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                     {
                         IsSuccess = false,
                         StatusCode = 400,
-                        Message = "Không thể hủy đơn đặt lịch khi thú cưng đã Check-in hoặc dịch vụ đang/đã được thực hiện.",
+                        Message = "Can not cancel checked-in booking or booking have in progress services",
                         Result = Guid.Empty
                     };
                 }
@@ -108,7 +108,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                     {
                         IsSuccess = false,
                         StatusCode = 400,
-                        Message = "Không thể đánh dấu No-Show khi thú cưng đã Check-in hoặc dịch vụ đang/đã được thực hiện.",
+                        Message = "Can not mark No-Show when pets were checked-in or services were performed",
                         Result = Guid.Empty
                     };
                 }
@@ -118,13 +118,13 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingSta
                     if (item.Status != BookingItemStatus.Cancelled)
                     {
                         item.Status = BookingItemStatus.No_Show;
-                        item.ResultNote = "Khách không đến theo lịch hẹn (No-Show)";
+                        item.ResultNote = "No show";
                     }
                 }
 
                 if (string.IsNullOrEmpty(booking.CancellationReason))
                 {
-                    booking.CancellationReason = "Khách không đến theo lịch hẹn (No-Show)";
+                    booking.CancellationReason = "No-Show";
                 }
             }
 

@@ -58,7 +58,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = "Không thể chỉnh sửa thông tin hoặc phân công nhân viên/phòng cho đơn đặt lịch đã hoàn thành (Check-out), đã hủy hoặc đã No-Show.",
+                    Message = "Can not assign staffs for checked-out booking, or cancelled or no show",
                     Result = Guid.Empty
                 };
             }
@@ -84,18 +84,17 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = "Chỉ có thể phân công nhân viên sau khi đơn đặt lịch đã được Xác nhận (Confirmed).",
+                    Message = "Only can assign staffs after booking was Confirmed",
                     Result = Guid.Empty
                 };
             }
 
-            // Quy tắc nghiệp vụ: Dịch vụ Diet là option đi kèm với dịch vụ Boarding, không gán phòng riêng
+            // Diet services are parts of Boarding service and will not be assign specific rooms
             if (bookingItem.Service != null && bookingItem.Service.ServiceType == ServiceType.Diet)
             {
                 request.RoomId = null; // Diet không được gán phòng riêng
             }
 
-            // 3. IDOR and Role Permission Check:
             bool isAdminOrReceptionist = _currentUserService.IsInRole("Admin") ||
                                          _currentUserService.IsInRole("Receptionist");
 
@@ -122,7 +121,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                         {
                             IsSuccess = false,
                             StatusCode = 400,
-                            Message = "Chỉ có thể nhận việc sau khi đơn đặt lịch đã được Xác nhận (Confirmed).",
+                            Message = "Can only take the tasks after booking is confirmed.",
                             Result = Guid.Empty
                         };
                     }
@@ -137,19 +136,19 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             // 4. Validate status transition is allowed (if status specified)
             var targetStatus = request.Status ?? bookingItem.Status;
 
-            // Chặn check-in hoặc thực hiện dịch vụ nếu booking chưa Confirmed
+            // Prevent check-in or perform services if booking is not Confirmed
             if ((targetStatus == BookingItemStatus.Checked_In || targetStatus == BookingItemStatus.In_Progress) && booking.Status != BookingStatus.Confirmed)
             {
                 return new ApiResponse<Guid>
                 {
                     IsSuccess = false,
                     StatusCode = 400,
-                    Message = "Chỉ có thể Check-in hoặc thực hiện dịch vụ khi đơn đặt lịch đã được Xác nhận (Confirmed).",
+                    Message = "Can only check-in or perform services for Confirmed booking (Confirmed).",
                     Result = Guid.Empty
                 };
             }
 
-            // Bắt buộc phải có nhân viên phụ trách khi Checked_In hoặc In_Progress
+            // Must have staffs who are responsible for services when booking is in Checked_In or In_Progress status
             if ((targetStatus == BookingItemStatus.Checked_In || targetStatus == BookingItemStatus.In_Progress) &&
                 !bookingItem.StaffId.HasValue && !request.StaffId.HasValue)
             {
@@ -173,26 +172,24 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 };
             }
 
-            // Phân quyền: Cập nhật trạng thái dịch vụ yêu cầu quyền BOOKING_UPDATE_STATUS (đối với Admin/Lễ tân)
             if (request.Status.HasValue && isAdminOrReceptionist && !_currentUserService.HasPermission("BOOKING_UPDATE_STATUS"))
             {
                 return new ApiResponse<Guid>
                 {
                     IsSuccess = false,
                     StatusCode = 403,
-                    Message = "Bạn không có quyền cập nhật tiến độ dịch vụ (Yêu cầu quyền BOOKING_UPDATE_STATUS).",
+                    Message = "You have no permissions to update service progress (Require permission BOOKING_UPDATE_STATUS).",
                     Result = Guid.Empty
                 };
             }
 
-            // Phân quyền: Phân công nhân viên hoặc xếp phòng yêu cầu quyền BOOKING_ASSIGN_STAFF
             if ((request.StaffId.HasValue || request.RoomId.HasValue) && isAdminOrReceptionist && !_currentUserService.HasPermission("BOOKING_ASSIGN_STAFF"))
             {
                 return new ApiResponse<Guid>
                 {
                     IsSuccess = false,
                     StatusCode = 403,
-                    Message = "Bạn không có quyền phân công nhân viên hoặc xếp phòng (Yêu cầu quyền BOOKING_ASSIGN_STAFF).",
+                    Message = "You have no permission to assign staffs or roooms (Require permission BOOKING_ASSIGN_STAFF).",
                     Result = Guid.Empty
                 };
             }
@@ -218,7 +215,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                     {
                         IsSuccess = false,
                         StatusCode = 400,
-                        Message = $"Nhân viên '{staff.FullName}' hiện đang ở trạng thái ngưng hoạt động (Inactive).",
+                        Message = $"Staff '{staff.FullName}' is currently in Inactive status.",
                         Result = Guid.Empty
                     };
                 }
@@ -232,7 +229,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                     {
                         IsSuccess = false,
                         StatusCode = 400,
-                        Message = "Không thể phân công tài khoản Quản trị viên (Admin) làm nhân viên thực hiện dịch vụ.",
+                        Message = "Can not assign Admin account to perform service.",
                         Result = Guid.Empty
                     };
                 }
@@ -247,7 +244,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                             {
                                 IsSuccess = false,
                                 StatusCode = 400,
-                                Message = $"Nhân viên '{staff.FullName}' không thuộc bộ phận Chăm sóc lưu trú (Boarding Staff) để phụ trách dịch vụ '{bookingItem.Service.Name}'.",
+                                Message = $"Staff '{staff.FullName}' is not belong to Boarding department to perform service '{bookingItem.Service.Name}'.",
                                 Result = Guid.Empty
                             };
                         }
@@ -260,7 +257,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                             {
                                 IsSuccess = false,
                                 StatusCode = 400,
-                                Message = $"Nhân viên '{staff.FullName}' không thuộc bộ phận Cắt tỉa & Spa (Grooming Staff) để phụ trách dịch vụ '{bookingItem.Service.Name}'.",
+                                Message = $"Staff '{staff.FullName}' is not belong to Grooming department to perform service '{bookingItem.Service.Name}'.",
                                 Result = Guid.Empty
                             };
                         }
@@ -299,7 +296,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
 
             _bookingItemRepository.Update(bookingItem);
 
-            // Tự động đồng bộ sang dịch vụ Diet đi kèm nếu đây là dịch vụ Boarding
+            // Automatically synchning for Diet service
             if (bookingItem.Service != null && bookingItem.Service.ServiceType == ServiceType.Boarding)
             {
                 var accompanyingDietItem = booking.BookingItems.FirstOrDefault(bi =>
@@ -334,7 +331,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
 
         private bool IsValidStatusTransition(BookingItemStatus from, BookingItemStatus to)
         {
-            if (from == to) return true; // Giữ nguyên trạng thái (khi Lễ tân gán nhân viên, xếp phòng...)
+            if (from == to) return true;
             var validTransitions = new Dictionary<BookingItemStatus, List<BookingItemStatus>>
             {
                 { BookingItemStatus.Pending, new List<BookingItemStatus> { BookingItemStatus.Confirmed, BookingItemStatus.Cancelled, BookingItemStatus.No_Show } },
@@ -353,21 +350,20 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
         {
             var itemStatuses = booking.BookingItems.Select(bi => bi.Status).ToList();
 
-            // Nếu toàn bộ dịch vụ là No-Show -> Đơn chuyển sang No_Show
+            // if all services are No-Show -> booking will be No_Show
             if (itemStatuses.All(s => s == BookingItemStatus.No_Show))
             {
                 booking.Status = BookingStatus.No_Show;
                 if (string.IsNullOrEmpty(booking.CancellationReason))
                 {
-                    booking.CancellationReason = "Khách không đến theo lịch hẹn (No-Show)";
+                    booking.CancellationReason = "No show";
                 }
             }
-            // Nếu toàn bộ dịch vụ bị hủy hoặc kết hợp hủy/no-show -> Đơn bị Hủy
+            // if all service are cancelled -> booking will be Cancelled
             else if (itemStatuses.All(s => s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show))
             {
                 booking.Status = BookingStatus.Cancelled;
             }
-            // Đơn luôn giữ trạng thái Confirmed (đang hoạt động) nếu đã Confirmed để chờ Lễ tân kiểm tra và bấm Checkout bàn giao pet
             else if (booking.Status == BookingStatus.Confirmed && itemStatuses.Any(s => s == BookingItemStatus.Confirmed || s == BookingItemStatus.Checked_In || s == BookingItemStatus.In_Progress || s == BookingItemStatus.Completed))
             {
                 booking.Status = BookingStatus.Confirmed;

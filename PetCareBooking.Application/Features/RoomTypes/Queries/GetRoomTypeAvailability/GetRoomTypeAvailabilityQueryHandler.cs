@@ -23,9 +23,6 @@ namespace PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeAvail
 
         public async Task<ApiResponse<List<RoomTypeAvailabilityResponseDTO>>> Handle(GetRoomTypeAvailabilityQuery request, CancellationToken cancellationToken)
         {
-            // 1. Tìm các phòng (RoomId) đang bị chiếm dụng trong khoảng thời gian [request.From, request.To]
-            // Điều kiện giao nhau giữa 2 khoảng thời gian:
-            // Booking.Start < Request.To && Booking.End > Request.From
             var occupiedRoomIds = await _bookingItemRepository.GetQueryable()
                 .Where(bi => bi.RoomId.HasValue &&
                              bi.Status != BookingItemStatus.Cancelled &&
@@ -36,16 +33,11 @@ namespace PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeAvail
                 .Distinct()
                 .ToListAsync(cancellationToken);
 
-            // 2. Lấy danh sách các Loại phòng kèm danh sách phòng vật lý bên trong
             var roomTypes = await _roomTypeRepository.GetQueryable()
                 .Include(rt => rt.Rooms)
                 .OrderBy(rt => rt.Name)
                 .ToListAsync(cancellationToken);
 
-            // 3. Tính toán số lượng phòng còn trống cho từng loại phòng
-            // Điều kiện phòng trống:
-            // - Trạng thái vật lý không bảo trì (Status == Available)
-            // - Không nằm trong danh sách các phòng đang bị trùng lịch đặt (occupiedRoomIds)
             var response = roomTypes.Select(rt =>
             {
                 var totalRooms = rt.Rooms.Count;

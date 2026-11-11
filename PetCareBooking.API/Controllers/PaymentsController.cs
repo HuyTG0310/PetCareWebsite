@@ -38,9 +38,7 @@ namespace PetCareBooking.API.Controllers
             _logger = logger;
         }
 
-        /// <summary>
-        /// Webhook / Callback endpoint tiếp nhận kết quả trả về từ cổng thanh toán VNPay
-        /// </summary>
+
         [HttpGet("vnpay-return")]
         [AllowAnonymous]
         public async Task<IActionResult> VnPayReturn()
@@ -83,7 +81,7 @@ namespace PetCareBooking.API.Controllers
                         PaymentStatus = "SUCCESS",
                         TransactionCode = callbackResult.TransactionNo,
                         PaidAt = callbackResult.PayDate ?? DateTime.UtcNow,
-                        Note = $"Thanh toan truc tuyen qua VNPAY (Ma ngan hang: {callbackResult.BankCode})",
+                        Note = $"Online Banking Via VNPAY (Bank Account: {callbackResult.BankCode})",
                         CreatedAt = DateTime.UtcNow
                     };
 
