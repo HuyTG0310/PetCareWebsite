@@ -20,7 +20,6 @@ namespace PetCareBooking.API.Controllers
             _mediator = mediator;
         }
 
-        // View role list
         [RequirePermission("ROLE_VIEW")]
         [HttpGet]
         public async Task<IActionResult> GetRoles()
@@ -29,7 +28,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // View role permissions
         [RequirePermission("ROLE_VIEW")]
         [HttpGet("{roleId:guid}/permissions")]
         public async Task<IActionResult> GetRolePermissions(Guid roleId)
@@ -38,7 +36,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // Edit role permissions
         [RequirePermission("ROLE_MANAGE")]
         [HttpPut("{roleId:guid}/permissions")]
         public async Task<IActionResult> UpdateRolePermissions(Guid roleId, [FromBody] UpdateRolePermissionsCommand command)

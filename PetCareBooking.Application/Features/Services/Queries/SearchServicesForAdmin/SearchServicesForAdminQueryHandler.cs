@@ -17,25 +17,19 @@ namespace PetCareBooking.Application.Features.Services.Queries.SearchServicesFor
 
         public async Task<ApiResponse<PagedResult<ServiceListResponseDTO>>> Handle(SearchServicesForAdminQuery request, CancellationToken cancellationToken)
         {
-            // Validate pagination parameters
             if (request.PageNumber < 1) request.PageNumber = 1;
             if (request.PageSize < 1) request.PageSize = 10;
-            if (request.PageSize > 100) request.PageSize = 100; // Max 100 items per page
+            if (request.PageSize > 100) request.PageSize = 100;
 
-            // Flexible predicate structure for Admin
             var services = await _repository.FindAsync(s =>
-                // 1. Filter by active status (if specified by Admin, ignore if null)
                 (!request.IsActive.HasValue || s.IsActive == request.IsActive.Value) &&
 
-                // 2. Filter by Keyword
                 (string.IsNullOrEmpty(request.Keyword) ||
                  s.Name.ToLower().Contains(request.Keyword.ToLower()) ||
                  (s.Description != null && s.Description.ToLower().Contains(request.Keyword.ToLower()))) &&
 
-                // 3. Filter by ServiceType
                 (!request.ServiceType.HasValue || s.ServiceType == request.ServiceType.Value),
 
-                // Include ServicePrices navigation property
                 "ServicePrices"
             );
 

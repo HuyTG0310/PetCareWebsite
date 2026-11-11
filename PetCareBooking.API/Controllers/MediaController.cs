@@ -19,14 +19,7 @@ namespace PetCareBooking.API.Controllers
             _cloudinaryService = cloudinaryService;
         }
 
-        /// <summary>
-        /// Upload an image to Cloudinary (Multipart/form-data)
-        /// Supported formats: JPG, JPEG, PNG, WEBP, GIF. Max size: 10MB.
-        /// Optional folder values: "pets", "care-records", "grooming-results", "avatars".
-        /// </summary>
-        /// <param name="file">Image file from multipart/form-data</param>
-        /// <param name="folder">Optional target folder name (default: "petcare")</param>
-        /// <returns>Cloudinary secure URL and public ID</returns>
+
         [HttpPost("upload")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadImage([FromForm] UploadMediaRequestDto request)
@@ -45,9 +38,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// Delete an image from Cloudinary by its PublicId
-        /// </summary>
         [HttpDelete]
         public async Task<IActionResult> DeleteImage([FromQuery] string publicId)
         {

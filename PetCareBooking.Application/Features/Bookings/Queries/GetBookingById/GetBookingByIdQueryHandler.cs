@@ -38,7 +38,6 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingById
                 };
             }
 
-            // Authorization: Customer can only view their own booking
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || booking.CustomerId != _currentUserService.UserId.Value)

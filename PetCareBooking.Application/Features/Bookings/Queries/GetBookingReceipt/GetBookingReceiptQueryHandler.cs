@@ -50,7 +50,6 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 };
             }
 
-            // IDOR Prevention: Customer can only view receipt of their own booking
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || booking.CustomerId != _currentUserService.UserId.Value)
@@ -59,13 +58,13 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                     {
                         IsSuccess = false,
                         StatusCode = 403,
-                        Message = "Bạn không có quyền truy cập biên lai của đơn đặt lịch này.",
+                        Message = "You have no permission to access receipt of this booking",
                         Result = null
                     };
                 }
             }
 
-            // Retrieve payment transaction list
+            // Get payment transaction list
             var transactions = await _paymentTransactionRepository.FindAsync(
                 t => t.BookingId == booking.Id
             );
@@ -75,7 +74,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 .OrderBy(t => t.PaidAt ?? t.CreatedAt)
                 .ToList();
 
-            // Calculate financial summary
+            // Financial calculation
             var subTotal = booking.BookingItems.Sum(bi => bi.AssignedPrice);
             var discountAmount = Math.Max(0, subTotal - booking.TotalPrice);
             var totalPaid = successfulTransactions.Sum(t => t.Amount);
@@ -91,7 +90,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 paymentStatus = "PARTIALLY_PAID";
             }
 
-            // Determine primary payment method
+            // Define main payment method
             var distinctMethods = successfulTransactions
                 .Select(t => t.PaymentMethod.Trim().ToUpper())
                 .Distinct()
@@ -99,13 +98,13 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
 
             var primaryPaymentMethod = distinctMethods.Count switch
             {
-                0 => "CHƯA THANH TOÁN",
+                0 => "NOT PAID",
                 1 => distinctMethods[0],
                 _ => string.Join(" + ", distinctMethods)
             };
 
-            // Determine cashier / receptionist name issuing receipt
-            string cashierName = "Thu ngân quầy Lễ tân";
+            // Define receptionist name
+            string cashierName = "Receptionist";
             if (_currentUserService.IsAdminOrStaff && _currentUserService.UserId.HasValue)
             {
                 var staff = await _staffRepository.GetByIdAsync(_currentUserService.UserId.Value);
@@ -119,11 +118,10 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 var lastStaffTxn = successfulTransactions.LastOrDefault(t => !string.IsNullOrEmpty(t.Note));
                 if (lastStaffTxn != null && lastStaffTxn.PaymentMethod != "VNPAY")
                 {
-                    cashierName = "Lễ tân Pet Care";
+                    cashierName = "Pet Care Receptionist";
                 }
             }
 
-            // Completion timestamp
             DateTime? completedAt = null;
             if (booking.Status == BookingStatus.Completed)
             {
@@ -133,7 +131,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
             // Receipt code
             var receiptNo = $"REC-{booking.CreatedAt:yyyyMMdd}-{booking.Id.ToString()[..8].ToUpper()}";
 
-            // Aggregate pet information
+            // Pet information
             var pets = booking.BookingItems
                 .Where(bi => bi.Pet != null)
                 .Select(bi => bi.Pet)
@@ -149,7 +147,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 })
                 .ToList();
 
-            // Detailed line items list
+            // Detail service list
             var items = booking.BookingItems
                 .OrderBy(bi => bi.ScheduledStartAt)
                 .Select((bi, index) =>
@@ -212,7 +210,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 Customer = new ReceiptCustomerDTO
                 {
                     CustomerId = booking.CustomerId,
-                    FullName = booking.Customer?.FullName ?? "Khách vãng lai",
+                    FullName = booking.Customer?.FullName ?? "Guest",
                     PhoneNumber = booking.Customer?.PhoneNumber ?? "N/A",
                     Email = booking.Customer?.Email ?? "N/A",
                     Address = booking.Customer?.Address
@@ -229,7 +227,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
                 PaymentStatus = paymentStatus,
                 PrimaryPaymentMethod = primaryPaymentMethod,
                 PaymentHistory = paymentHistory,
-                FooterNote = "Cảm ơn Quý khách và các bé cưng đã sử dụng dịch vụ tại Pet Care! Quý khách vui lòng kiểm tra hóa đơn và tình trạng của bé trước khi rời quầy.",
+                FooterNote = "Thank you for using our services at Pet Care! Please check your bill and your pet's condition before leaving the counter",
                 HotlineSupport = "1900 8888 / 0901 234 567"
             };
 
@@ -237,7 +235,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingReceipt
             {
                 IsSuccess = true,
                 StatusCode = 200,
-                Message = "Xuất biên lai thanh toán thành công.",
+                Message = "Export payment receipt successfully.",
                 Result = receiptDto
             };
         }

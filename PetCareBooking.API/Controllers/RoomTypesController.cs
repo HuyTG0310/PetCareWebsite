@@ -22,9 +22,6 @@ namespace PetCareBooking.API.Controllers
             _mediator = mediator;
         }
 
-        /// <summary>
-        /// Create a new room type
-        /// </summary>
         [RequirePermission("ROOM_MANAGE")]
         [HttpPost]
         public async Task<IActionResult> CreateRoomType([FromBody] CreateRoomTypeCommand command)
@@ -33,9 +30,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// Get list of all room types (with room count and search by keyword)
-        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetRoomTypes([FromQuery] string? searchTerm)
         {
@@ -47,7 +41,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// Check available room count by room type within the boarding stay date range
         [HttpGet("availability")]
         public async Task<IActionResult> GetRoomTypeAvailability([FromQuery] GetRoomTypeAvailabilityQuery query)
         {
@@ -55,9 +48,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// View room type details by ID (including list of rooms under this type)
-        /// </summary>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetRoomTypeById(Guid id)
         {
@@ -66,9 +56,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// Update room type details by ID
-        /// </summary>
         [RequirePermission("ROOM_MANAGE")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateRoomType(Guid id, [FromBody] UpdateRoomTypeCommand command)
@@ -78,9 +65,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// Delete room type by ID (only when no rooms belong to it)
-        /// </summary>
         [RequirePermission("ROOM_MANAGE")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteRoomType(Guid id)

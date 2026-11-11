@@ -37,7 +37,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.DeleteRoom
                 };
             }
 
-            // Check constraint: Check whether the room has any past or future booking history
             var hasBookingHistory = await _bookingItemRepository.GetQueryable()
                 .AnyAsync(bi => bi.RoomId == request.Id, cancellationToken);
 

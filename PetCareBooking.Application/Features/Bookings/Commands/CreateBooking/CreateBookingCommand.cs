@@ -8,10 +8,6 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CreateBooking
     {
         public Guid? CustomerId { get; set; }
         public string? VoucherCode { get; set; }
-
-        /// <summary>
-        /// Payment option: PAY_AT_COUNTER (Pay at counter upon arrival) or VNPAY (Online payment via VNPay gateway)
-        /// </summary>
         public string PaymentChoice { get; set; } = "PAY_AT_COUNTER";
 
         public List<BookingItemRequestDTO> BookingItems { get; set; } = new List<BookingItemRequestDTO>();

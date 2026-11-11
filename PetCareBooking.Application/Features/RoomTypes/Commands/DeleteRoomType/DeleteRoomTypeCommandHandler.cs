@@ -34,7 +34,6 @@ namespace PetCareBooking.Application.Features.RoomTypes.Commands.DeleteRoomType
                 };
             }
 
-            // Constraint check: Do not delete if rooms still belong to this room type
             if (roomType.Rooms != null && roomType.Rooms.Any())
             {
                 return new ApiResponse<Guid>

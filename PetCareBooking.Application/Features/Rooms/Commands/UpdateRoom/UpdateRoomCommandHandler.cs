@@ -24,7 +24,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.UpdateRoom
 
         public async Task<ApiResponse<Guid>> Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
         {
-            // 1. Check if room exists
             var existingRoom = await _roomRepository.GetByIdAsync(request.Id);
 
             if (existingRoom == null)
@@ -38,7 +37,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.UpdateRoom
                 };
             }
 
-            // 2. Check if new room type exists
             var roomTypeExists = await _roomTypeRepository.GetQueryable()
                 .AnyAsync(rt => rt.Id == request.RoomTypeId, cancellationToken);
 
@@ -55,7 +53,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.UpdateRoom
 
             var trimmedName = request.RoomName.Trim();
 
-            // 3. Check for duplicate room name with other rooms (excluding itself)
             var isDuplicateName = await _roomRepository.GetQueryable()
                 .AnyAsync(r => r.Id != request.Id && r.RoomName.ToLower() == trimmedName.ToLower(), cancellationToken);
 
@@ -70,7 +67,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.UpdateRoom
                 };
             }
 
-            // 4. Update room details
             existingRoom.RoomName = trimmedName;
             existingRoom.RoomTypeId = request.RoomTypeId;
             existingRoom.UpdatedAt = DateTime.UtcNow;

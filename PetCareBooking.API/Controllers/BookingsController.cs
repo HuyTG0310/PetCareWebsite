@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.API.Attributes;
 using PetCareBooking.Application.Common.Models;
@@ -41,11 +40,7 @@ namespace PetCareBooking.API.Controllers
             _currentUserService = currentUserService;
         }
 
-        /// <summary>
-        /// [Customer / Staff / Admin] Create a new booking.
-        /// Customer: CustomerId is automatically retrieved from the JWT token (no need to send customerId in request body).
-        /// Staff/Admin: can provide customerId in the body to book on behalf of walk-in customers.
-        /// </summary>
+
         [HttpPost]
         public async Task<IActionResult> CreateBooking([FromBody] CreateBookingCommand command)
         {
@@ -57,9 +52,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer ONLY] Get the list of own bookings (retrieved from JWT Token, 100% secure, no Id passed via URL)
-        /// </summary>
         [HttpGet("my-bookings")]
         public async Task<IActionResult> GetMyBookings(
             [FromQuery] int pageNumber = 1,
@@ -92,9 +84,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer (Own Booking) / Staff / Admin] View booking details by ID (with ownership check to prevent IDOR)
-        /// </summary>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetBookingById(Guid id)
         {
@@ -102,9 +91,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff/Admin or Own Customer] Get bookings of a customer by CustomerId
-        /// </summary>
         [HttpGet("customer/{customerId:guid}")]
         public async Task<IActionResult> GetCustomerBookings(
             Guid customerId,
@@ -123,9 +109,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer (Own Booking) / Staff / Admin] Cancel booking (with ownership check to prevent IDOR)
-        /// </summary>
         [HttpPut("{id:guid}/cancel")]
         public async Task<IActionResult> CancelBooking(Guid id, [FromBody] CancelBookingCommand command)
         {
@@ -134,10 +117,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Mark customer as No-Show according to the appointment schedule.
-        /// Mark all items as No-Show, cancel the booking, and automatically release room/staff assignments.
-        /// </summary>
         [Authorize(Roles = "Admin,Receptionist")]
         [HttpPut("{id:guid}/no-show")]
         public async Task<IActionResult> MarkBookingNoShow(
@@ -150,9 +129,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Check-in all items in the booking (1-click check-in)
-        /// </summary>
         [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
         [HttpPut("{id:guid}/check-in")]
         public async Task<IActionResult> CheckInBooking(Guid id)
@@ -162,9 +138,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Update status of individual items, assign staff, room, and record service results
-        /// </summary>
         [Authorize(Roles = "Admin,Receptionist,Boarding Staff,Grooming Staff")]
         [HttpPut("{bookingId:guid}/items/{itemId:guid}/status")]
         public async Task<IActionResult> UpdateBookingItemStatus(
@@ -178,9 +151,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Update booking status (Pending -> Confirmed / Completed / Cancelled)
-        /// </summary>
         [Authorize(Roles = "Admin,Receptionist")]
         [HttpPut("{id:guid}/status")]
         public async Task<IActionResult> UpdateBookingStatus(Guid id, [FromBody] UpdateBookingStatusCommand command)
@@ -190,9 +160,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Grooming Staff ONLY] Get list of own grooming shifts/tasks (automatically reads StaffId from JWT Token, strictly preventing IDOR)
-        /// </summary>
         [RequirePermission("GROOMING_TASK_VIEW")]
         [HttpGet("my-grooming-tasks")]
         public async Task<IActionResult> GetMyGroomingTasks(
@@ -224,9 +191,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Admin / Receptionist] Get grooming task list of a specific staff by StaffId (with IDOR prevention)
-        /// </summary>
         [RequirePermission("GROOMING_TASK_VIEW")]
         [HttpGet("staff/{staffId:guid}/grooming-tasks")]
         public async Task<IActionResult> GetStaffGroomingTasks(
@@ -266,9 +230,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Boarding Staff ONLY] Get list of own boarding shifts/rooms under charge (automatically reads StaffId from JWT Token, strictly preventing IDOR)
-        /// </summary>
         [RequirePermission("CARE_RECORD_VIEW", "ROOM_VIEW")]
         [HttpGet("my-boarding-tasks")]
         public async Task<IActionResult> GetMyBoardingTasks(
@@ -300,9 +261,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Boarding Staff / Receptionist / Admin] Get list of all pets currently boarding at the facility (Checked-In or In-Progress)
-        /// </summary>
         [RequirePermission("CARE_RECORD_VIEW", "ROOM_VIEW")]
         [HttpGet("active-boarding-tasks")]
         public async Task<IActionResult> GetActiveBoardingTasks(
@@ -321,9 +279,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Admin / Receptionist] Get boarding task list by designated StaffId (with IDOR prevention check)
-        /// </summary>
         [RequirePermission("CARE_RECORD_VIEW", "ROOM_VIEW")]
         [HttpGet("staff/{staffId:guid}/boarding-tasks")]
         public async Task<IActionResult> GetStaffBoardingTasks(
@@ -362,9 +317,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Get system-wide bookings list (paginated, filter by date range, status)
-        /// </summary>
         [RequirePermission("BOOKING_VIEW")]
         [HttpGet("admin")]
         public async Task<IActionResult> GetAdminBookings(
@@ -388,9 +340,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Search system-wide bookings by keyword and service appointment date
-        /// </summary>
         [RequirePermission("BOOKING_VIEW")]
         [HttpGet("search")]
         public async Task<IActionResult> SearchBookings(
@@ -416,9 +365,7 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer / Staff / Admin] View checkout payment summary before checking out (Total, discount, deposit/paid amount, remaining balance)
-        /// </summary>
+
         [HttpGet("{id:guid}/checkout-summary")]
         public async Task<IActionResult> GetCheckoutSummary(Guid id)
         {
@@ -427,9 +374,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer (Own Booking) / Staff / Admin] Export checkout invoice/printable receipt (for thermal receipt printing or e-invoice viewing)
-        /// </summary>
         [HttpGet("{id:guid}/receipt")]
         public async Task<IActionResult> GetBookingReceipt(Guid id)
         {
@@ -438,9 +382,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Staff / Admin ONLY] Perform check-out & payment (cash / bank transfer), create PaymentTransaction, update status to Completed, and automatically release room
-        /// </summary>
         [Authorize(Roles = "Admin,Receptionist")]
         [HttpPost("{id:guid}/checkout")]
         public async Task<IActionResult> CheckoutBooking(Guid id, [FromBody] CheckoutBookingCommand command)
@@ -450,10 +391,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-
-        /// <summary>
-        /// [Customer / Staff / Admin] View payment and deposit transaction history of a booking
-        /// </summary>
         [HttpGet("{id:guid}/payments")]
         public async Task<IActionResult> GetBookingPayments(Guid id)
         {
@@ -462,9 +399,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// [Customer / Staff / Admin] Generate online VNPay payment URL (used when customer wants to pay online after booking creation)
-        /// </summary>
         [HttpPost("{id:guid}/create-vnpay-url")]
         public async Task<IActionResult> CreateVnPayUrl(
             Guid id,

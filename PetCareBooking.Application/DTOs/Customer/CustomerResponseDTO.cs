@@ -11,11 +11,7 @@ namespace PetCareBooking.Application.DTOs.Customer
         public string? Address { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
-
-        // List of customer's pets
         public List<PetSummaryDTO> Pets { get; set; } = new List<PetSummaryDTO>();
-
-        // List of customer's recent booking history
         public List<BookingListResponseDTO> Bookings { get; set; } = new List<BookingListResponseDTO>();
     }
 }

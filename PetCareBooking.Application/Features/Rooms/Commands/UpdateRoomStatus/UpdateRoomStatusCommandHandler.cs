@@ -31,7 +31,6 @@ namespace PetCareBooking.Application.Features.Rooms.Commands.UpdateRoomStatus
                 };
             }
 
-            // If new status matches current status, no update is needed
             if (room.Status == request.Status)
             {
                 return new ApiResponse<Guid>

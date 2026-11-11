@@ -84,7 +84,6 @@ namespace PetCareBooking.Infrastructure.Services
                 return _cachedRealtimePermissions.Contains(permissionCode);
             }
 
-            // Fallback to JWT claims
             return User.HasClaim("permission", permissionCode);
         }
 
@@ -95,7 +94,6 @@ namespace PetCareBooking.Infrastructure.Services
 
             try
             {
-                // Query real-time permissions directly from Database via Staff repository
                 using var scope = _serviceProvider.CreateScope();
                 var staffRepo = scope.ServiceProvider.GetService<IGenericRepository<Staff>>();
                 if (staffRepo != null)
@@ -121,10 +119,8 @@ namespace PetCareBooking.Infrastructure.Services
             }
             catch
             {
-                // In case DB query fails, fallback to JWT claims
             }
 
-            // Fallback to JWT token claims
             _cachedRealtimePermissions = User?.FindAll("permission")
                 .Select(c => c.Value)
                 .ToHashSet() ?? new HashSet<string>();

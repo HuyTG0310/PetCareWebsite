@@ -23,9 +23,6 @@ namespace PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeAvail
 
         public async Task<ApiResponse<List<RoomTypeAvailabilityResponseDTO>>> Handle(GetRoomTypeAvailabilityQuery request, CancellationToken cancellationToken)
         {
-            // 1. Find rooms (RoomId) occupied within [request.From, request.To]
-            // Overlap condition between two date intervals:
-            // Booking.Start < Request.To && Booking.End > Request.From
             var occupiedRoomIds = await _bookingItemRepository.GetQueryable()
                 .Where(bi => bi.RoomId.HasValue &&
                              bi.Status != BookingItemStatus.Cancelled &&
@@ -36,16 +33,11 @@ namespace PetCareBooking.Application.Features.RoomTypes.Queries.GetRoomTypeAvail
                 .Distinct()
                 .ToListAsync(cancellationToken);
 
-            // 2. Retrieve Room Types along with physical rooms under each type
             var roomTypes = await _roomTypeRepository.GetQueryable()
                 .Include(rt => rt.Rooms)
                 .OrderBy(rt => rt.Name)
                 .ToListAsync(cancellationToken);
 
-            // 3. Calculate available room count for each room type
-            // Available room criteria:
-            // - Physical status is not under maintenance (Status == Available)
-            // - Not in the list of overlapping occupied rooms (occupiedRoomIds)
             var response = roomTypes.Select(rt =>
             {
                 var totalRooms = rt.Rooms.Count;

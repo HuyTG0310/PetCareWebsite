@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Features.Auth.Commands.ForgotPassword;
@@ -110,9 +109,6 @@ namespace PetCareBooking.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        /// <summary>
-        /// 8. Get the actual real-time permissions list of the current user
-        /// </summary>
         [Authorize]
         [HttpGet("my-permissions")]
         public IActionResult GetMyPermissions()

@@ -17,39 +17,30 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.SearchCustomerBoo
 
         public async Task<ApiResponse<PagedResult<BookingListResponseDTO>>> Handle(SearchCustomerBookingsQuery request, CancellationToken cancellationToken)
         {
-            // Validate pagination parameters
             if (request.PageNumber < 1) request.PageNumber = 1;
             if (request.PageSize < 1) request.PageSize = 10;
             if (request.PageSize > 100) request.PageSize = 100;
 
-            // Search customer's bookings only (LIMITED TO CUSTOMER)
             var bookings = await _bookingRepository.FindAsync(b =>
-                // 1. CRITICAL: Only return bookings for this specific customer
                 b.CustomerId == request.CustomerId &&
 
-                // 2. Filter by booking status
                 (!request.Status.HasValue || b.Status == request.Status.Value) &&
 
-                // 3. Filter by keyword (search in service names within booking items)
                 (string.IsNullOrEmpty(request.Keyword) ||
                  b.BookingItems.Any(bi => 
                     bi.Service.Name.ToLower().Contains(request.Keyword.ToLower()) ||
                     (bi.Pet.Name.ToLower().Contains(request.Keyword.ToLower())))),
 
-                // Include related data
                 "BookingItems.Service", "BookingItems.Pet", "Customer");
 
-            // Calculate total count before pagination
             int totalCount = bookings.Count();
 
-            // Apply pagination (newest first)
             var paginatedBookings = bookings
                 .OrderByDescending(b => b.CreatedAt)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToList();
 
-            // Map to DTO
             var bookingDTOs = paginatedBookings.Select(b => new BookingListResponseDTO
             {
                 Id = b.Id,

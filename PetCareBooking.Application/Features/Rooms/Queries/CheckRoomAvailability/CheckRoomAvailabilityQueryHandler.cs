@@ -29,7 +29,6 @@ namespace PetCareBooking.Application.Features.Rooms.Queries.CheckRoomAvailabilit
 
         public async Task<ApiResponse<RoomAvailabilityCalendarResponseDTO>> Handle(CheckRoomAvailabilityQuery request, CancellationToken cancellationToken)
         {
-            // 1. Determine RoomTypeId from ServiceId or RoomTypeId
             Guid targetRoomTypeId;
             string? serviceName = null;
             string roomTypeName;
@@ -94,7 +93,6 @@ namespace PetCareBooking.Application.Features.Rooms.Queries.CheckRoomAvailabilit
                 };
             }
 
-            // 2. Determine date range to check [fromDate, toDate]
             DateTime fromDate;
             DateTime toDate;
 
@@ -144,13 +142,11 @@ namespace PetCareBooking.Application.Features.Rooms.Queries.CheckRoomAvailabilit
                 toDate = new DateTime(now.Year, now.Month, daysInMonth, 23, 59, 59, DateTimeKind.Utc);
             }
 
-            // 3. Retrieve physical rooms of this RoomType (Status == Available, not under maintenance)
             var rooms = await _roomRepository.FindAsync(r => r.RoomTypeId == targetRoomTypeId && r.Status == RoomStatus.Available);
             var roomList = rooms.ToList();
             int totalRooms = roomList.Count;
             var roomIds = roomList.Select(r => r.Id).ToList();
 
-            // 4. Retrieve all BookingItems occupying these rooms within [fromDate, toDate]
             var occupiedBookings = await _bookingItemRepository.GetQueryable()
                 .Where(bi => bi.RoomId.HasValue &&
                              roomIds.Contains(bi.RoomId.Value) &&
@@ -166,7 +162,6 @@ namespace PetCareBooking.Application.Features.Rooms.Queries.CheckRoomAvailabilit
                 })
                 .ToListAsync(cancellationToken);
 
-            // 5. Calculate available rooms count for each day
             var dailyAvailabilities = new List<DailyRoomAvailabilityDTO>();
             for (var day = fromDate.Date; day <= toDate.Date; day = day.AddDays(1))
             {
@@ -189,7 +184,6 @@ namespace PetCareBooking.Application.Features.Rooms.Queries.CheckRoomAvailabilit
                 });
             }
 
-            // 6. Verify if the entire date range has available rooms
             bool? isFullRangeAvailable = null;
             int? minAvailableRoomsInRange = null;
 
