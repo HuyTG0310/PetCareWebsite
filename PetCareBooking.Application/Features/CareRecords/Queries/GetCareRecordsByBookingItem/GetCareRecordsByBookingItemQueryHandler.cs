@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.DTOs.CareRecord;
@@ -25,7 +25,6 @@ namespace PetCareBooking.Application.Features.CareRecords.Queries.GetCareRecords
 
         public async Task<ApiResponse<List<CareRecordResponseDTO>>> Handle(GetCareRecordsByBookingItemQuery request, CancellationToken cancellationToken)
         {
-            // 1. Fetch BookingItem with parent booking to check authorization
             var bookingItems = await _bookingItemRepository.FindAsync(
                 bi => bi.Id == request.BookingItemId,
                 "Booking", "Pet"
@@ -58,7 +57,6 @@ namespace PetCareBooking.Application.Features.CareRecords.Queries.GetCareRecords
                 }
             }
 
-            // 3. Fetch Care Records for this booking item
             var records = await _careRecordRepository.FindAsync(
                 cr => cr.BookingItemId == request.BookingItemId,
                 "Staff", "BookingItem.Pet"

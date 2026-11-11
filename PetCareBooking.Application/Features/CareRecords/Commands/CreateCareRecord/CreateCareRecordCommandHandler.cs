@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
@@ -86,7 +86,7 @@ namespace PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRec
                 {
                     IsSuccess = false,
                     StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Không thể ghi nhật ký chăm sóc cho dịch vụ lưu trú đã hoàn thành hoặc đã hủy.",
+                    Message = "Care logs cannot be recorded for a boarding service that has been completed or cancelled.",
                     Result = Guid.Empty
                 };
             }
