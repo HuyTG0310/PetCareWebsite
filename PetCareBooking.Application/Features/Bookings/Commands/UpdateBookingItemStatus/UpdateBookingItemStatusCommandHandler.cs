@@ -89,10 +89,10 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 };
             }
 
-            // Quy tắc nghiệp vụ: Dịch vụ Diet là option đi kèm với dịch vụ Boarding, không gán phòng riêng
+            // Business rule: Diet service is an add-on option to Boarding service, do not assign separate room
             if (bookingItem.Service != null && bookingItem.Service.ServiceType == ServiceType.Diet)
             {
-                request.RoomId = null; // Diet không được gán phòng riêng
+                request.RoomId = null; // Diet cannot be assigned a separate room
             }
 
             // 3. IDOR and Role Permission Check:
@@ -137,7 +137,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
             // 4. Validate status transition is allowed (if status specified)
             var targetStatus = request.Status ?? bookingItem.Status;
 
-            // Chặn check-in hoặc thực hiện dịch vụ nếu booking chưa Confirmed
+            // Prevent check-in or service execution if booking is not Confirmed
             if ((targetStatus == BookingItemStatus.Checked_In || targetStatus == BookingItemStatus.In_Progress) && booking.Status != BookingStatus.Confirmed)
             {
                 return new ApiResponse<Guid>
@@ -149,7 +149,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 };
             }
 
-            // Bắt buộc phải có nhân viên phụ trách khi Checked_In hoặc In_Progress
+            // Staff assignment is required when status is Checked_In or In_Progress
             if ((targetStatus == BookingItemStatus.Checked_In || targetStatus == BookingItemStatus.In_Progress) &&
                 !bookingItem.StaffId.HasValue && !request.StaffId.HasValue)
             {
@@ -173,7 +173,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 };
             }
 
-            // Phân quyền: Cập nhật trạng thái dịch vụ yêu cầu quyền BOOKING_UPDATE_STATUS (đối với Admin/Lễ tân)
+            // Authorization: Updating service status requires BOOKING_UPDATE_STATUS permission (for Admin/Receptionist)
             if (request.Status.HasValue && isAdminOrReceptionist && !_currentUserService.HasPermission("BOOKING_UPDATE_STATUS"))
             {
                 return new ApiResponse<Guid>
@@ -185,7 +185,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                 };
             }
 
-            // Phân quyền: Phân công nhân viên hoặc xếp phòng yêu cầu quyền BOOKING_ASSIGN_STAFF
+            // Authorization: Assigning staff or rooms requires BOOKING_ASSIGN_STAFF permission
             if ((request.StaffId.HasValue || request.RoomId.HasValue) && isAdminOrReceptionist && !_currentUserService.HasPermission("BOOKING_ASSIGN_STAFF"))
             {
                 return new ApiResponse<Guid>
@@ -299,7 +299,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
 
             _bookingItemRepository.Update(bookingItem);
 
-            // Tự động đồng bộ sang dịch vụ Diet đi kèm nếu đây là dịch vụ Boarding
+            // Automatically synchronize to accompanying Diet service if this is a Boarding service
             if (bookingItem.Service != null && bookingItem.Service.ServiceType == ServiceType.Boarding)
             {
                 var accompanyingDietItem = booking.BookingItems.FirstOrDefault(bi =>
@@ -334,7 +334,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
 
         private bool IsValidStatusTransition(BookingItemStatus from, BookingItemStatus to)
         {
-            if (from == to) return true; // Giữ nguyên trạng thái (khi Lễ tân gán nhân viên, xếp phòng...)
+            if (from == to) return true; // Keep state unchanged (when Receptionist assigns staff, assigns room...)
             var validTransitions = new Dictionary<BookingItemStatus, List<BookingItemStatus>>
             {
                 { BookingItemStatus.Pending, new List<BookingItemStatus> { BookingItemStatus.Confirmed, BookingItemStatus.Cancelled, BookingItemStatus.No_Show } },
@@ -353,7 +353,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
         {
             var itemStatuses = booking.BookingItems.Select(bi => bi.Status).ToList();
 
-            // Nếu toàn bộ dịch vụ là No-Show -> Đơn chuyển sang No_Show
+            // If all items are No-Show -> Booking transitions to No_Show
             if (itemStatuses.All(s => s == BookingItemStatus.No_Show))
             {
                 booking.Status = BookingStatus.No_Show;
@@ -362,12 +362,12 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.UpdateBookingIte
                     booking.CancellationReason = "Khách không đến theo lịch hẹn (No-Show)";
                 }
             }
-            // Nếu toàn bộ dịch vụ bị hủy hoặc kết hợp hủy/no-show -> Đơn bị Hủy
+            // If all items are cancelled or a combination of cancelled/no-show -> Booking is Cancelled
             else if (itemStatuses.All(s => s == BookingItemStatus.Cancelled || s == BookingItemStatus.No_Show))
             {
                 booking.Status = BookingStatus.Cancelled;
             }
-            // Đơn luôn giữ trạng thái Confirmed (đang hoạt động) nếu đã Confirmed để chờ Lễ tân kiểm tra và bấm Checkout bàn giao pet
+            // Booking remains in Confirmed (active) status once confirmed, waiting for receptionist checkout and pet handover
             else if (booking.Status == BookingStatus.Confirmed && itemStatuses.Any(s => s == BookingItemStatus.Confirmed || s == BookingItemStatus.Checked_In || s == BookingItemStatus.In_Progress || s == BookingItemStatus.Completed))
             {
                 booking.Status = BookingStatus.Confirmed;

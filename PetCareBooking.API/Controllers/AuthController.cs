@@ -111,7 +111,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// 8. Lấy danh sách quyền hạn thực tế theo thời gian thực của người dùng hiện tại
+        /// 8. Get the actual real-time permissions list of the current user
         /// </summary>
         [Authorize]
         [HttpGet("my-permissions")]

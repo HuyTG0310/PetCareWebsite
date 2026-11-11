@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
@@ -31,6 +31,7 @@ namespace PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRec
 
         public async Task<ApiResponse<Guid>> Handle(CreateCareRecordCommand request, CancellationToken cancellationToken)
         {
+            // 1. IDOR Prevention: Automatically assign StaffId from Token for Boarding Staff
             Guid effectiveStaffId;
             bool isBoardingStaff = _currentUserService.IsInRole("Boarding Staff");
 
@@ -64,6 +65,7 @@ namespace PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRec
                 };
             }
 
+            // 2. Check if BookingItem exists
             var bookingItem = await _bookingItemRepository.GetByIdAsync(request.BookingItemId);
             if (bookingItem == null)
             {
@@ -88,6 +90,8 @@ namespace PetCareBooking.Application.Features.CareRecords.Commands.CreateCareRec
                     Result = Guid.Empty
                 };
             }
+
+            // 3. Check if Staff exists
             var staff = await _staffRepository.GetByIdAsync(effectiveStaffId);
             if (staff == null)
             {

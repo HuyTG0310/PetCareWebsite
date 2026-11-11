@@ -19,7 +19,7 @@ namespace PetCareBooking.Application.Common.Helpers
         {
             var result = new LateFeeCalculationResult();
 
-            // Chỉ tính phụ phí cho đơn chưa hoàn tất (đang diễn ra hoặc đang chờ check-out)
+            // Only calculate surcharges for uncompleted bookings (ongoing or awaiting check-out)
             if (booking.Status == BookingStatus.Completed ||
                 booking.Status == BookingStatus.Cancelled ||
                 booking.Status == BookingStatus.No_Show)
@@ -48,14 +48,14 @@ namespace PetCareBooking.Application.Common.Helpers
                         result.MaxLateHours = lateHours;
                     }
 
-                    // 1. Ân hạn: Trễ <= 60 phút: Miễn phụ phí
+                    // 1. Grace period: Late <= 60 minutes: Free of surcharge
                     if (lateSpan.TotalMinutes <= GracePeriodMinutes)
                     {
                         var graceReason = $"Đón trễ {Math.Ceiling(lateSpan.TotalMinutes)} phút (trong thời gian đệm 60 phút miễn phí)";
                         result.ItemFees[item.Id] = (0, graceReason);
                         reasons.Add($"{item.Pet?.Name ?? "Thú cưng"}: {graceReason}");
                     }
-                    // 2. Trễ từ > 1h đến <= 6h: Phụ phí 50% đơn giá ngày của phòng
+                    // 2. Late between > 1h and <= 6h: Surcharge of 50% daily room price
                     else if (lateHours <= 6)
                     {
                         var itemFee = Math.Round(item.UnitPrice * 0.5m, 0);
@@ -64,7 +64,7 @@ namespace PetCareBooking.Application.Common.Helpers
                         result.ItemFees[item.Id] = (itemFee, reason);
                         reasons.Add($"{item.Pet?.Name ?? "Thú cưng"}: {reason}");
                     }
-                    // 3. Trễ > 6h (sau 18h hoặc qua các ngày tiếp theo): Phụ phí 100% đơn giá ngày mỗi ngày trễ
+                    // 3. Late > 6h (after 18:00 or into following days): Surcharge of 100% daily room price per delayed day
                     else
                     {
                         var extraDays = (int)Math.Ceiling(lateHours / 24.0);

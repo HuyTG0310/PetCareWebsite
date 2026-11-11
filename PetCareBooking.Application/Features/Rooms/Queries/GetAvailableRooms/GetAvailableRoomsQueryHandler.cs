@@ -23,7 +23,7 @@ namespace PetCareBooking.Application.Features.Rooms.Queries.GetAvailableRooms
 
         public async Task<ApiResponse<List<AvailableRoomResponseDTO>>> Handle(GetAvailableRoomsQuery request, CancellationToken cancellationToken)
         {
-            // 1. Quét bảng BookingItem để tìm danh sách các phòng đang có khách ở trong khoảng thời gian [request.From, request.To]
+            // 1. Scan BookingItem table to find rooms occupied within [request.From, request.To]
             var occupiedRoomIds = await _bookingItemRepository.GetQueryable()
                 .Where(bi => bi.RoomId.HasValue &&
                              bi.Status != BookingItemStatus.Cancelled &&
@@ -34,10 +34,10 @@ namespace PetCareBooking.Application.Features.Rooms.Queries.GetAvailableRooms
                 .Distinct()
                 .ToListAsync(cancellationToken);
 
-            // 2. Query bảng Room để tìm các phòng thực sự rảnh:
-            // - Trạng thái vật lý không bị bảo trì (Status == Available)
-            // - Không nằm trong danh sách các phòng đang bận (occupiedRoomIds)
-            // - Lọc theo Loại phòng (RoomTypeId) nếu người dùng có chỉ định
+            // 2. Query Room table to find rooms that are truly available:
+            // - Physical status is not under maintenance (Status == Available)
+            // - Not in the list of currently occupied rooms (occupiedRoomIds)
+            // - Filter by RoomTypeId if specified by user
             var query = _roomRepository.GetQueryable()
                 .Include(r => r.RoomType)
                 .Where(r => r.Status == RoomStatus.Available && !occupiedRoomIds.Contains(r.Id));

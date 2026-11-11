@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PetCareBooking.Application.Common.Models;
@@ -26,7 +26,7 @@ namespace PetCareBooking.Application.Features.Pets.Queries.GetPetsByCustomerId
 
         public async Task<ApiResponse<List<PetResponseDTO>>> Handle(GetPetsByCustomerIdQuery request, CancellationToken cancellationToken)
         {
-         
+            // Check permission: Customer can only view their own pets, Admin/Staff can view anyone's
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || request.CustomerId != _currentUserService.UserId.Value)

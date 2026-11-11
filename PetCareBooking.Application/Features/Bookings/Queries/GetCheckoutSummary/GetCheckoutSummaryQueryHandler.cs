@@ -69,7 +69,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetCheckoutSummar
 
             var totalPaid = successfulTransactions.Sum(t => t.Amount);
 
-            // Tự động tính phụ phí đón trễ (Late Checkout Surcharge)
+            // Automatically calculate Late Checkout Surcharge
             var now = DateTime.UtcNow.AddHours(7); // Vietnam local time
             var lateFeeResult = BookingPricingHelper.CalculateLateFees(booking, now);
 

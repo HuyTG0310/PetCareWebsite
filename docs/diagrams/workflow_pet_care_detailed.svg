@@ -1,0 +1,252 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="#FFFFFF"/>
+  
+  <!-- Corner Design: Bottom-Left Wedge -->
+  <polygon points="0,620 0,1080 230,1080" fill="#4874DC"/>
+  
+  <!-- Corner Design: Top-Right Diagonal Banner -->
+  <polygon points="1710,0 1785,0 1920,290 1920,400" fill="#4874DC"/>
+
+  <!-- Top Left Header -->
+  <text x="80" y="95" font-family="'Segoe UI', Arial, sans-serif" font-size="52" font-weight="900" fill="#000000" letter-spacing="1.5">WORKFLOW</text>
+  <text x="80" y="130" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="700" fill="#666666" letter-spacing="0.5">WORKFLOW 3 – PET CARE &amp; BOARDING OPERATION</text>
+
+  <!-- Top Right FPT Logo -->
+  <image href="data:image/png;base64,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" x="1520" y="32" width="240" height="85" preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Centered Subtitle -->
+  <text x="960" y="195" font-family="'Segoe UI', Arial, sans-serif" font-size="40" font-weight="800" fill="#0067B3" text-anchor="middle">Pet care &amp; boarding operation workflow</text>
+  <line x1="860" y1="215" x2="1060" y2="215" stroke="#0067B3" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- ======================== STEP 1 ======================== -->
+  <g transform="translate(235, 360)">
+    
+<g id="icon-checkin" transform="translate(-70, -70)">
+  <!-- Clipboard board -->
+  <rect x="25" y="24" width="76" height="96" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="7" stroke-linejoin="round"/>
+  <!-- Top clip -->
+  <rect x="43" y="16" width="40" height="16" rx="4" fill="#FFFFFF" stroke="#111111" stroke-width="6"/>
+  <circle cx="63" cy="24" r="3.5" fill="#111111"/>
+  
+  <!-- Checkmark items on board -->
+  <path d="M 36 50 L 42 56 L 54 44" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="62" y1="50" x2="86" y2="50" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+  
+  <path d="M 36 68 L 42 74 L 54 62" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="62" y1="68" x2="86" y2="68" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Pet Paw Stamp Badge in bottom right -->
+  <g transform="translate(88, 86)">
+    <circle cx="16" cy="16" r="24" fill="#FFFFFF" stroke="#111111" stroke-width="6"/>
+    <!-- Central pad -->
+    <path d="M 10 22 C 10 17 22 17 22 22 C 22 26 10 26 10 22 Z" fill="#111111"/>
+    <!-- 4 toe beans -->
+    <circle cx="8" cy="14" r="3" fill="#111111"/>
+    <circle cx="13" cy="10" r="3.2" fill="#111111"/>
+    <circle cx="19" cy="10" r="3.2" fill="#111111"/>
+    <circle cx="24" cy="14" r="3" fill="#111111"/>
+  </g>
+</g>
+
+    <text x="0" y="105" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="800" fill="#0067B3" text-anchor="middle">Check-in Pet</text>
+  </g>
+  <!-- Card 1 -->
+  <g transform="translate(70, 500)">
+    <rect width="330" height="380" rx="16" fill="#F4F8FD" stroke="#D0E3F7" stroke-width="2"/>
+    <rect x="25" y="24" width="70" height="28" rx="14" fill="#0067B3"/>
+    <text x="60" y="43" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="900" fill="#FFFFFF" text-anchor="middle">STEP 01</text>
+    
+    <text x="25" y="85" font-family="'Segoe UI', Arial, sans-serif" font-size="18" font-weight="800" fill="#111111">Tiếp Nhận &amp; Bàn Giao Pet</text>
+    
+    <!-- Bullet 1 -->
+    <circle cx="35" cy="125" r="4" fill="#0067B3"/>
+    <text x="48" y="130" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#333333">Nghiệp vụ Lễ tân:</text>
+    <text x="48" y="152" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#555555">• Đối soát mã đặt lịch của khách</text>
+    <text x="48" y="172" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#555555">• Kiểm tra thể trạng ban đầu của pet</text>
+    <text x="48" y="192" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#555555">• Xác nhận bàn giao vào hệ thống</text>
+
+    <!-- Bullet 2 -->
+    <circle cx="35" cy="235" r="4" fill="#0067B3"/>
+    <text x="48" y="240" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#333333">Kích hoạt điều phối công việc:</text>
+    <rect x="48" y="255" width="220" height="26" rx="6" fill="#E1F5E8"/>
+    <text x="158" y="272" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="#1E7E34" text-anchor="middle">⚡ Trigger Task Board nhân viên</text>
+
+    <text x="25" y="335" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-style="italic" fill="#777777">Tự động phân bổ đầu việc tới người phụ trách</text>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  
+    <g transform="translate(365, 360)">
+      <line x1="0" y1="0" x2="194" y2="0" stroke="#0067B3" stroke-width="10" stroke-linecap="round"/>
+      <polygon points="186,-15 210,0 186,15" fill="#0067B3"/>
+    </g>
+    
+
+  <!-- ======================== STEP 2 ======================== -->
+  <g transform="translate(720, 360)">
+    
+<g id="icon-perform" transform="translate(-70, -70)">
+  <!-- Bathtub / Spa Basin -->
+  <path d="M 22 55 L 118 55 L 118 78 C 118 95 102 105 70 105 C 38 105 22 95 22 78 Z" fill="#FFFFFF" stroke="#111111" stroke-width="7" stroke-linejoin="round"/>
+  <line x1="16" y1="55" x2="124" y2="55" stroke="#111111" stroke-width="7" stroke-linecap="round"/>
+  <!-- Tub feet -->
+  <path d="M 36 103 L 32 116 M 104 103 L 108 116" stroke="#111111" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Shower / Water Spray -->
+  <path d="M 28 55 L 28 26 C 28 20 34 16 42 16 L 46 16" fill="none" stroke="#111111" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 44 14 L 54 24" stroke="#111111" stroke-width="7" stroke-linecap="round"/>
+  <!-- Bubbles -->
+  <circle cx="48" cy="42" r="5" fill="none" stroke="#111111" stroke-width="4"/>
+  <circle cx="62" cy="36" r="7" fill="none" stroke="#111111" stroke-width="4"/>
+  <circle cx="80" cy="40" r="6" fill="none" stroke="#111111" stroke-width="4"/>
+  
+  <!-- Scissors overlay on right -->
+  <circle cx="98" cy="28" r="8" fill="#FFFFFF" stroke="#111111" stroke-width="5"/>
+  <circle cx="114" cy="28" r="8" fill="#FFFFFF" stroke="#111111" stroke-width="5"/>
+  <line x1="102" y1="34" x2="118" y2="54" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+  <line x1="110" y1="34" x2="94" y2="54" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+</g>
+
+    <text x="0" y="105" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="800" fill="#0067B3" text-anchor="middle">Perform Services / Stay</text>
+  </g>
+  <!-- Card 2 -->
+  <g transform="translate(555, 500)">
+    <rect width="330" height="380" rx="16" fill="#F4F8FD" stroke="#D0E3F7" stroke-width="2"/>
+    <rect x="25" y="24" width="70" height="28" rx="14" fill="#0067B3"/>
+    <text x="60" y="43" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="900" fill="#FFFFFF" text-anchor="middle">STEP 02</text>
+    
+    <text x="25" y="85" font-family="'Segoe UI', Arial, sans-serif" font-size="18" font-weight="800" fill="#111111">Thực Hiện Dịch Vụ &amp; Lưu Trú</text>
+    
+    <!-- Bullet 1 -->
+    <circle cx="35" cy="125" r="4" fill="#0067B3"/>
+    <text x="48" y="130" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#333333">Dịch vụ Spa &amp; Grooming:</text>
+    <text x="48" y="152" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#555555">• Groomer tiến hành cắt tỉa theo yêu cầu</text>
+    <text x="48" y="172" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#555555">• Tắm sấy, vệ sinh móng, tai &amp; dưỡng lông</text>
+
+    <!-- Bullet 2 -->
+    <circle cx="35" cy="215" r="4" fill="#0067B3"/>
+    <text x="48" y="220" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#333333">Lưu trú Khách sạn (Boarding):</text>
+    <text x="48" y="242" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#555555">• Xếp pet vào phòng theo lịch (VIP/Deluxe)</text>
+    <rect x="48" y="255" width="115" height="24" rx="6" fill="#E8F0FE"/>
+    <text x="105" y="271" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="700" fill="#1A73E8" text-anchor="middle">Room Assigned</text>
+
+    <text x="25" y="335" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-style="italic" fill="#777777">Chăm sóc theo đúng quy trình và lịch trình</text>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  
+    <g transform="translate(850, 360)">
+      <line x1="0" y1="0" x2="194" y2="0" stroke="#0067B3" stroke-width="10" stroke-linecap="round"/>
+      <polygon points="186,-15 210,0 186,15" fill="#0067B3"/>
+    </g>
+    
+
+  <!-- ======================== STEP 3 ======================== -->
+  <g transform="translate(1205, 360)">
+    
+<g id="icon-diary" transform="translate(-70, -70)">
+  <!-- Tablet / Diary Book -->
+  <rect x="22" y="20" width="76" height="98" rx="7" fill="#FFFFFF" stroke="#111111" stroke-width="7" stroke-linejoin="round"/>
+  
+  <!-- Camera lens taking photo of pet meal -->
+  <rect x="36" y="34" width="48" height="34" rx="5" fill="#FFFFFF" stroke="#111111" stroke-width="5"/>
+  <circle cx="60" cy="51" r="10" fill="#FFFFFF" stroke="#111111" stroke-width="4.5"/>
+  <circle cx="74" cy="40" r="2.5" fill="#111111"/>
+  
+  <!-- Health ECG / Pulse Line & Pet Heart -->
+  <path d="M 34 88 L 44 88 L 48 80 L 53 96 L 58 84 L 62 88 L 74 88" fill="none" stroke="#111111" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Pen writing notes on the side -->
+  <g transform="translate(86, 68) rotate(35)">
+    <rect x="0" y="0" width="14" height="42" rx="3" fill="#FFFFFF" stroke="#111111" stroke-width="5"/>
+    <path d="M 0 42 L 7 54 L 14 42 Z" fill="#111111"/>
+  </g>
+</g>
+
+    <text x="0" y="105" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="800" fill="#0067B3" text-anchor="middle">Write Daily Care Diary</text>
+  </g>
+  <!-- Card 3 -->
+  <g transform="translate(1040, 500)">
+    <rect width="330" height="380" rx="16" fill="#F4F8FD" stroke="#D0E3F7" stroke-width="2"/>
+    <rect x="25" y="24" width="70" height="28" rx="14" fill="#0067B3"/>
+    <text x="60" y="43" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="900" fill="#FFFFFF" text-anchor="middle">STEP 03</text>
+    
+    <text x="25" y="85" font-family="'Segoe UI', Arial, sans-serif" font-size="18" font-weight="800" fill="#111111">Cập Nhật Nhật Ký Chăm Sóc</text>
+    
+    <!-- Bullet 1 -->
+    <circle cx="35" cy="125" r="4" fill="#0067B3"/>
+    <text x="48" y="130" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#333333">Ghi nhận minh bạch hằng ngày:</text>
+    <text x="48" y="152" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#555555">• Chụp ảnh bữa ăn &amp; khẩu phần ăn</text>
+    <text x="48" y="172" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#555555">• Ghi nhận tình trạng vệ sinh &amp; vận động</text>
+    <text x="48" y="192" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#555555">• Cập nhật trạng thái sức khỏe, tinh thần</text>
+
+    <!-- Bullet 2 -->
+    <circle cx="35" cy="235" r="4" fill="#0067B3"/>
+    <text x="48" y="240" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#333333">Giao tiếp với chủ nuôi (Pet Owner):</text>
+    <rect x="48" y="255" width="220" height="26" rx="6" fill="#FEF3D6"/>
+    <text x="158" y="272" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="700" fill="#8F5B00" text-anchor="middle">📲 Realtime Diary Sync</text>
+
+    <text x="25" y="335" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-style="italic" fill="#777777">Chủ nuôi theo dõi trực tiếp từ ứng dụng</text>
+  </g>
+
+  <!-- Arrow 3 -> 4 -->
+  
+    <g transform="translate(1335, 360)">
+      <line x1="0" y1="0" x2="194" y2="0" stroke="#0067B3" stroke-width="10" stroke-linecap="round"/>
+      <polygon points="186,-15 210,0 186,15" fill="#0067B3"/>
+    </g>
+    
+
+  <!-- ======================== STEP 4 ======================== -->
+  <g transform="translate(1690, 360)">
+    
+<g id="icon-lock" transform="translate(-70, -70)">
+  <!-- Document in background -->
+  <path d="M 26 22 L 78 22 L 96 40 L 96 112 C 96 116 92 120 86 120 L 26 120 C 20 120 16 116 16 112 L 16 32 C 16 26 20 22 26 22 Z" fill="#FFFFFF" stroke="#111111" stroke-width="7" stroke-linejoin="round"/>
+  <!-- Folded corner -->
+  <path d="M 78 22 L 78 40 L 96 40" fill="none" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
+  <!-- Checkmark on document -->
+  <path d="M 30 52 L 40 62 L 64 38" fill="none" stroke="#111111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="30" y1="74" x2="65" y2="74" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+  <line x1="30" y1="88" x2="55" y2="88" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Big Security Padlock Overlay -->
+  <g transform="translate(68, 62)">
+    <!-- Shackle -->
+    <path d="M 18 24 L 18 14 C 18 4 38 4 38 14 L 38 24" fill="none" stroke="#111111" stroke-width="6.5" stroke-linecap="round"/>
+    <!-- Lock body -->
+    <rect x="8" y="24" width="40" height="34" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="6.5"/>
+    <!-- Keyhole -->
+    <circle cx="28" cy="38" r="4" fill="#111111"/>
+    <path d="M 26 38 L 26 47 L 30 47 L 30 38 Z" fill="#111111"/>
+  </g>
+</g>
+
+    <text x="0" y="105" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="800" fill="#0067B3" text-anchor="middle">Complete &amp; Lock Diary</text>
+  </g>
+  <!-- Card 4 -->
+  <g transform="translate(1525, 500)">
+    <rect width="330" height="380" rx="16" fill="#F4F8FD" stroke="#D0E3F7" stroke-width="2"/>
+    <rect x="25" y="24" width="70" height="28" rx="14" fill="#0067B3"/>
+    <text x="60" y="43" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="900" fill="#FFFFFF" text-anchor="middle">STEP 04</text>
+    
+    <text x="25" y="85" font-family="'Segoe UI', Arial, sans-serif" font-size="18" font-weight="800" fill="#111111">Hoàn Thành &amp; Khóa Nhật Ký</text>
+    
+    <!-- Bullet 1 -->
+    <circle cx="35" cy="125" r="4" fill="#0067B3"/>
+    <text x="48" y="130" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#333333">Kết thúc đợt lưu trú / dịch vụ:</text>
+    <text x="48" y="152" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#555555">• Đánh dấu dịch vụ hoàn tất (Completed)</text>
+    <text x="48" y="172" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#555555">• Bàn giao thú cưng lại cho chủ nuôi</text>
+
+    <!-- Bullet 2 -->
+    <circle cx="35" cy="215" r="4" fill="#0067B3"/>
+    <text x="48" y="220" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#333333">Bảo đảm toàn vẹn dữ liệu:</text>
+    <rect x="48" y="235" width="220" height="26" rx="6" fill="#FDE8E8"/>
+    <text x="158" y="252" font-family="'Consolas', monospace" font-size="12" font-weight="700" fill="#C82333" text-anchor="middle">🔒 AUTO-LOCK DIARY (Readonly)</text>
+    <text x="48" y="280" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#555555">• Ngăn ngừa sửa đổi sau dịch vụ</text>
+    <text x="48" y="298" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#555555">• Làm bằng chứng đối soát &amp; đánh giá</text>
+
+    <text x="25" y="335" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-style="italic" fill="#777777">Đảm bảo tính pháp lý và tin cậy tuyệt đối</text>
+  </g>
+</svg>

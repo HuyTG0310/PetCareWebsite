@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using PetCareBooking.Application.Common.Models;
 using PetCareBooking.Application.Interfaces;
@@ -28,8 +28,11 @@ namespace PetCareBooking.Application.Features.Pets.Commands.CreatePet
         public async Task<ApiResponse<Guid>> Handle(CreatePetCommand request, CancellationToken cancellationToken)
         {
             Guid targetCustomerId = request.CustomerId;
+
+            // Pet creation authorization:
             if (!_currentUserService.IsAdminOrStaff)
             {
+                // Regular Customer: CustomerId must be taken from login Token (preventing IDOR)
                 if (!_currentUserService.UserId.HasValue)
                 {
                     return new ApiResponse<Guid>
@@ -55,6 +58,8 @@ namespace PetCareBooking.Application.Features.Pets.Commands.CreatePet
                         Result = Guid.Empty
                     };
                 }
+
+                // Staff/Admin creating on behalf at counter: Must specify a valid CustomerId
                 if (targetCustomerId == Guid.Empty)
                 {
                     return new ApiResponse<Guid>

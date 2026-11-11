@@ -39,7 +39,7 @@ namespace PetCareBooking.API.Controllers
         }
 
         /// <summary>
-        /// Webhook / Callback endpoint tiếp nhận kết quả trả về từ cổng thanh toán VNPay
+        /// Webhook / Callback endpoint receiving payment results from the VNPay payment gateway
         /// </summary>
         [HttpGet("vnpay-return")]
         [AllowAnonymous]

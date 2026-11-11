@@ -1,0 +1,122 @@
+<mxfile host="app.diagrams.net" version="24.0.0" type="device">
+  <diagram id="manage-room" name="Manage Room">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="720" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="room_frame" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=none;" vertex="1" parent="1">
+      <mxGeometry x="50" y="65" width="800" height="615" as="geometry" />
+    </mxCell>
+<mxCell id="room_h1" value="&lt;b&gt;&lt;font color=&quot;#990000&quot; style=&quot;font-size: 15px;&quot;&gt;IV. Design specification&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="50" y="8" width="250" height="20" as="geometry" />
+    </mxCell>
+<mxCell id="room_h2" value="&lt;b&gt;&lt;font style=&quot;font-size: 13px;&quot;&gt;IV.1 Integrated Communication Diagrams&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="50" y="28" width="300" height="20" as="geometry" />
+    </mxCell>
+<mxCell id="room_h3" value="&lt;b&gt;&lt;i&gt;&lt;font style=&quot;font-size: 13px;&quot;&gt;Manage Room&lt;/font&gt;&lt;/i&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="50" y="46" width="250" height="20" as="geometry" />
+    </mxCell>
+<mxCell id="room_actor" value="Admin / Staff" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;strokeColor=#000000;strokeWidth=1.5;fillColor=#ffffff;fontStyle=1;fontSize=11;fontFamily=Arial;" vertex="1" parent="1">
+      <mxGeometry x="200" y="125" width="30" height="60" as="geometry" />
+    </mxCell>
+<mxCell id="room_dash" value=":AdminDashboardView" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="360" y="175" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="room_manage" value=":ManageRoomView" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="360" y="355" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="room_add" value=":AddRoomView" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="610" y="235" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="room_edit" value=":EditRoomView" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="155" y="485" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="room_ctrl" value=":RoomController" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="610" y="455" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="room_s1" value=":RoomTypeService" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="360" y="595" width="130" height="40" as="geometry" />
+        </mxCell>
+<mxCell id="room_s2" value=":RoomService" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1.5;fillColor=#70C5FF;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#000000;" vertex="1" parent="1">
+      <mxGeometry x="610" y="595" width="130" height="40" as="geometry" />
+    </mxCell>
+<mxCell id="room_e1" value="Select manage room function" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;verticalAlign=bottom;labelBackgroundColor=none;" edge="1" parent="1" source="room_actor" target="room_dash">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="room_e2" value="Show" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;verticalAlign=middle;align=right;labelBackgroundColor=none;" edge="1" parent="1" source="room_dash" target="room_manage">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="room_e3" value="Show" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;verticalAlign=bottom;align=center;labelBackgroundColor=none;" edge="1" parent="1" source="room_dash" target="room_add">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="room_e4" value="fill room information&#xa;submit add room" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=center;verticalAlign=bottom;labelBackgroundColor=none;" edge="1" parent="1" source="room_actor" target="room_add">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="215" y="90" />
+          <mxPoint x="675" y="90" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+<mxCell id="room_e5" value="Select Add Room function&#xa;Select Delete Room function&#xa;Select Update Room function&#xa;confirm to delete&#xa;cancel to delete" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=left;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="room_actor" target="room_manage">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="room_e6" value="edit room information&#xa;submit edit room" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=center;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="room_actor" target="room_edit">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="215" y="440" />
+          <mxPoint x="215" y="440" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+<mxCell id="room_e7" value="Show" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=right;verticalAlign=bottom;labelBackgroundColor=none;" edge="1" parent="1" source="room_manage" target="room_edit">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="room_e8" value="verify room info" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=left;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="room_add" target="room_add">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="740" y="245" />
+          <mxPoint x="775" y="245" />
+          <mxPoint x="775" y="265" />
+          <mxPoint x="740" y="265" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+<mxCell id="room_e9" value="getRoomTypes&#xa;addRoom" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=left;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="room_add" target="room_ctrl">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="room_e10" value="deleteRoom&#xa;getRooms" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=center;verticalAlign=bottom;labelBackgroundColor=none;" edge="1" parent="1" source="room_manage" target="room_ctrl">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="room_e11" value="verify room info" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=center;verticalAlign=top;labelBackgroundColor=none;" edge="1" parent="1" source="room_edit" target="room_edit">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="180" y="525" />
+          <mxPoint x="180" y="555" />
+          <mxPoint x="220" y="555" />
+          <mxPoint x="220" y="525" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+<mxCell id="room_e12" value="updateRoom&#xa;getRoomTypes" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=center;verticalAlign=top;labelBackgroundColor=none;" edge="1" parent="1" source="room_edit" target="room_ctrl">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+<mxCell id="room_e13" value="verify permission" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=left;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="room_ctrl" target="room_ctrl">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="740" y="465" />
+          <mxPoint x="775" y="465" />
+          <mxPoint x="775" y="485" />
+          <mxPoint x="740" y="485" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+<mxCell id="room_e14" value="getRoomTypes" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=right;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="room_ctrl" target="room_s1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+<mxCell id="room_e15" value="getRooms&#xa;addRoom&#xa;updateRoom&#xa;deleteRoom" style="edgeStyle=none;html=1;strokeColor=#000000;strokeWidth=1.2;endArrow=classic;endFill=1;fontSize=10;fontFamily=Arial;align=left;verticalAlign=middle;labelBackgroundColor=none;" edge="1" parent="1" source="room_ctrl" target="room_s2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -45,7 +45,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                 };
             }
 
-            // Phân quyền: Customer chỉ được hủy booking của chính mình
+            // Authorization: Customer can only cancel their own booking
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || booking.CustomerId != _currentUserService.UserId.Value)
@@ -86,7 +86,7 @@ namespace PetCareBooking.Application.Features.Bookings.Commands.CancelBooking
                 };
             }
 
-            // Customer rule: Customer is ONLY allowed to cancel when status is Pending (Chưa xác nhận/chưa thanh toán)
+            // Customer rule: Customer is ONLY allowed to cancel when status is Pending (Unconfirmed/unpaid)
             // Once Confirmed (Paid via VNPay or confirmed by receptionist), salon enforces No-Refund policy and blocks online cancellation
             if (!_currentUserService.IsAdminOrStaff)
             {

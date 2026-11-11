@@ -38,7 +38,7 @@ namespace PetCareBooking.Application.Features.Bookings.Queries.GetBookingById
                 };
             }
 
-            // Phân quyền: Customer chỉ được xem booking của chính mình
+            // Authorization: Customer can only view their own booking
             if (!_currentUserService.IsAdminOrStaff)
             {
                 if (!_currentUserService.UserId.HasValue || booking.CustomerId != _currentUserService.UserId.Value)
